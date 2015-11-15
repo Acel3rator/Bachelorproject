@@ -124,7 +124,7 @@ public class Test
         		for(int j = 0; j < L; ++j){
         			levels[j] = gamesPath + games[i] + "_lvl" + j +".txt";
         			if(saveActions) for(int k = 0; k < M; ++k)
-        				actionFiles[actionIdx++] = bots[b].substring(0, bots[b].length()-6) + "_game_" + i + "_level_" + j + "_" + k + ".txt";
+        				actionFiles[actionIdx++] = "records/" + bots[b].substring(0, bots[b].length()-6) + "_game_" + i + "_level_" + j + "_" + k + ".txt";
             	}
             	ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
         	}

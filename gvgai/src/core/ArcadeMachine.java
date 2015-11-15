@@ -10,6 +10,7 @@ import tools.StatSummary;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -231,6 +232,9 @@ public class ArcadeMachine
                     score = toPlay.runGame(player, randomSeed);
                 }
 
+                // CUSTOMIZED: LOGGING WINNER
+                player.logWinner(score, toPlay);
+                
                 scores.add(score);
 
                 //Finally, when the game is over, we need to tear the player down.

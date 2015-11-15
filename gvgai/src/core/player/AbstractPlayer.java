@@ -1,5 +1,6 @@
 package core.player;
 
+import core.game.Game;
 import core.game.StateObservation;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
@@ -65,7 +66,7 @@ public abstract class AbstractPlayer {
             if(this.actionFile!=null && SHOULD_LOG)
             {
                 writer = new BufferedWriter(new FileWriter(new File(this.actionFile)));
-                writer.write(randomSeed + "\n");
+                writer.write(randomSeed + "\r\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,8 +127,25 @@ public abstract class AbstractPlayer {
 	public void logStuff(Types.ACTIONS action, StateObservation observation) {
         if(writer!=null && SHOULD_LOG) {
             try {
-                writer.write(observation.getGameTick() + ",\"" + observation.getGameScore() 
-                + "\"," + action.toString() /*+ "," + observation.getGameWinner()*/ + "\r\n");
+                writer.write(observation.getGameTick() + "," + observation.getGameScore() 
+                + "," + action.toString() + "\r\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+		
+	}
+	
+	public void logWinner(double score, Game game) {
+        if(writer!=null && SHOULD_LOG) {
+            try {
+                writer.write("finalScore: " + score + "\r\n");
+                writer.write("didWin: ");
+                if(game.getWinner() == Types.WINNER.PLAYER_WINS) {
+                	writer.write(1 + "\r\n");
+                } else {
+                	writer.write(0 + "\r\n");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
