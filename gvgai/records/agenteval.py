@@ -46,11 +46,13 @@ class AgentEval:
         i = 0
         for bot in self.data:
             j = 0
-            for game in bot:
+            for game in self.data[bot]:
                 k = 0
-                for level in game:
+                for level in self.data[bot][game]:
                     l = 0
-                    for repetition in level:
+                    # change to aggregation function, for several
+                    # repetitions
+                    for repetition in self.data[bot][game][level]: 
                         # bot i, game j, level k, rep l, scores
                         scores = self.data[self.bots[i]][j][k][l][1]
                         with PdfPages('./plots/' + self.bots[i] + '_' + str(j) + '_' + 
@@ -58,6 +60,7 @@ class AgentEval:
                             plt.figure(figsize=(4,4))
                             plt.plot(range(len(scores)), scores)
                             pdf.savefig()
+                            plt.close()
                            # plt.show()
                         l += 1
                     k+=1
