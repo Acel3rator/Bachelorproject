@@ -28,8 +28,11 @@ class AgentEval:
                     # find best run
                     maximum = -10000
                     for run in self.data[bot][game][level]:
-                        if self.data[bot][game][level][run][2] > maximum:
-                            maximum = self.data[bot][game][level][run][2]
+                        try:
+                            if self.data[bot][game][level][run][2] > maximum:
+                                maximum = self.data[bot][game][level][run][2]
+                        except:
+                            pass
                     # if best run is better than any other bots...
                     print(game,level)
                     if maximum > games[game][level][1]:
@@ -54,14 +57,17 @@ class AgentEval:
                     # repetitions
                     for repetition in self.data[bot][game][level]: 
                         # bot i, game j, level k, rep l, scores
-                        scores = self.data[self.bots[i]][j][k][l][1]
-                        with PdfPages('./plots/' + self.bots[i] + '_' + str(j) + '_' + 
-                                str(k) + '_' + str(l) + '.pdf') as pdf:
-                            plt.figure(figsize=(4,4))
-                            plt.plot(range(len(scores)), scores)
-                            pdf.savefig()
-                            plt.close()
-                           # plt.show()
+                        try:
+                            scores = self.data[self.bots[i]][j][k][l][1]
+                            with PdfPages('./plots/' + self.bots[i] + '_' + str(j) + '_' + 
+                                    str(k) + '_' + str(l) + '.pdf') as pdf:
+                                plt.figure(figsize=(4,4))
+                                plt.plot(range(len(scores)), scores)
+                                pdf.savefig()
+                                plt.close()
+                              # plt.show()
+                        except:
+                            pass
                         l += 1
                     k+=1
                 j+=1
