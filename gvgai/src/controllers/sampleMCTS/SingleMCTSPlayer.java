@@ -60,5 +60,4 @@ public class SingleMCTSPlayer
         //int action = m_root.bestAction();
         return action;
     }
-
 }

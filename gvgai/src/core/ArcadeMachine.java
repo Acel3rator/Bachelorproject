@@ -191,7 +191,7 @@ public class ArcadeMachine
         }
 
         boolean evaluate = true;  // customized to record stats
-        
+
         StatSummary scores = new StatSummary();
 
         Game toPlay = new VGDLParser().parseGame(game_file);
@@ -229,7 +229,7 @@ public class ArcadeMachine
                 }else{
 
                     //Then, play the game.
-                    score = toPlay.runGame(player, randomSeed);
+                    score = toPlay.playGame(player, randomSeed);
                 }
 
                 // CUSTOMIZED: LOGGING WINNER
@@ -270,6 +270,7 @@ public class ArcadeMachine
             player = createController(playerName, so);
             if(player != null)
                 player.setup(actionFile, randomSeed);
+            	player.logLevel(so);
 
         }catch (Exception e)
         {

@@ -1,6 +1,7 @@
 package core.player;
 
 import core.game.Game;
+import core.game.Observation;
 import core.game.StateObservation;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
@@ -65,8 +66,10 @@ public abstract class AbstractPlayer {
         try {
             if(this.actionFile!=null && SHOULD_LOG)
             {
+            	boolean evaluate = true;
                 writer = new BufferedWriter(new FileWriter(new File(this.actionFile)));
                 writer.write(randomSeed + "\r\n");
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -135,7 +138,7 @@ public abstract class AbstractPlayer {
         }
 		
 	}
-	
+
 	public void logWinner(double score, Game game) {
         if(writer!=null && SHOULD_LOG) {
             try {
@@ -150,8 +153,34 @@ public abstract class AbstractPlayer {
                 e.printStackTrace();
             }
         }
-		
 	}
-
-
+	
+	public void logLevel(StateObservation so) {
+        if(writer!=null && SHOULD_LOG) {
+            try {
+            	writer.write("NPC:(");
+            	if (so.getNPCPositions() != null) {
+            	  ArrayList<Observation>[] list = so.getNPCPositions();
+            	  for (int i=0; i<list.length; i++) {
+            		  for (int j=0; j<list[i].size(); j++) {
+            			  if (list[i] != null) {
+            				  writer.write("(" + list[i].get(j).itype + ",");
+            				  writer.write(list[i].get(j).position.toString()+")");
+            			  }
+            		  }
+            	  }
+            	}
+            	writer.write(")");
+            	/*
+            	writer.write(so.getNPCPositions() + "\r\n");
+            	writer.write(so.getImmovablePositions() + "\r\n");
+            	writer.write(so.getMovablePositions() + "\r\n");
+            	writer.write(so.getResourcesPositions() + "\r\n");
+            	writer.write(so.getPortalsPositions() + "\r\n");*/
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+	}
+	
 }

@@ -44,7 +44,7 @@ public class Test
 
         //Training Set 2 (2015; Validation CIG 2014)
         //games = new String[]{"camelRace", "digdug", "firestorms", "infection", "firecaster",
-        //      "overload", "pacman", "seaquest", "whackamole", "eggomania"};
+          //    "overload", "pacman", "seaquest", "whackamole", "eggomania"};
 
         //Training Set 3 (2015)
         //games = new String[]{"bait", "boloadventures", "brainman", "chipschallenge",  "modality",
@@ -52,15 +52,15 @@ public class Test
 
         //Training Set 4 (Validation GECCO 2015, Test CIG 2014)
         //games = new String[]{"roguelike", "surround", "catapults", "plants", "plaqueattack",
-        //        "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
+          //      "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
-        //String games[] = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-        //                               "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
+        games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
+                                       "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
 
         //Training Set 6 (Validation CEEC 2015)
-        games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-                "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+        //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
+          //      "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 
 
         //Other settings
@@ -109,8 +109,8 @@ public class Test
         
         //6. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
         String[] bots = new String[]{
-        		YOLOBOT, YBCriber, TUDarmstadtTeam2, thorbjrn, SJA862,
-        		Return42, psuko, NovTea, MH2015, alxio};
+        		YOLOBOT/*, YBCriber, TUDarmstadtTeam2, thorbjrn, 	 SJA862/*,
+        		Return42, psuko, NovTea, MH2015, alxio*/};
         for (int b = 0; b < bots.length; b++) {
         	int N = 10, L = 1, M = 1;
         	//int N = 1, L = 1, M = 1;
@@ -126,8 +126,12 @@ public class Test
         			if(saveActions) for(int k = 0; k < M; ++k)
         				actionFiles[actionIdx++] = "records/" + bots[b].substring(0, bots[b].length()-6) + "_game_" + i + "_level_" + j + "_" + k + ".txt";
             	}
-            	ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
-        	}
+        		/*for(int j = 0; j < L; ++j){
+                  ArcadeMachine.playOneGame(game, levels[j], recordActionsFile, seed);
+        		}*/
+        		//ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
+        		ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
+            }
         }
     }
 }
