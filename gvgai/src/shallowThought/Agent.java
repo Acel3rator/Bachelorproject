@@ -1,7 +1,15 @@
-package pRobot;
+package shallowThought;
+
+import shallowThought.olmcts.*;
+import shallowThought.ga.*;
 
 import ontology.Types;
 import tools.ElapsedCpuTimer;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,7 +35,29 @@ public class Agent extends AbstractPlayer {
      */
     protected int block_size;
 
+    /**
+     * File for record
+     */
+    protected File recordFile;
+    
+    /**
+     * Writer for the actions file.
+     */
+    private BufferedWriter writer;
 
+    /**
+     * Set this variable to FALSE to avoid logging the actions to a file.
+     */
+    private static final boolean SHOULD_LOG = true;
+    private static final boolean LEARNING = true;
+    
+    /**
+     * Different agents
+     */
+    protected OLMCTSAgent olmcts;
+    protected GAAgent ga;
+    
+    
     /**
      * Public constructor with state observation and time due.
      * @param so state observation of the current game.
@@ -38,6 +68,15 @@ public class Agent extends AbstractPlayer {
         randomGenerator = new Random();
         grid = so.getObservationGrid();
         block_size = so.getBlockSize();
+        // Initialize agents:
+        olmcts = new OLMCTSAgent(so, elapsedTimer);
+        ga = new GAAgent(so, elapsedTimer);
+        // Record-File-Writer:
+        this.recordFile = new File("./src/shallowThought/records/test.txt");
+        if (LEARNING)
+        {
+            writeLevelToFile(so);
+        }
     }
 
 
@@ -57,13 +96,14 @@ public class Agent extends AbstractPlayer {
         ArrayList<Observation>[] portalPositions = stateObs.getPortalsPositions();
         grid = stateObs.getObservationGrid();
 
-        /*printDêebug(npcPositions,"npc");
+        /*printDebug(npcPositions,"npc");
         printDebug(fixedPositions,"fix");
         printDebug(movingPositions,"mov");
         printDebug(resourcesPositions,"res");
         printDebug(portalPositions,"por");
         System.out.println();               */
 
+        
         // Check for a record that matches this category
         
         
@@ -74,21 +114,17 @@ public class Agent extends AbstractPlayer {
         double acumTimeTaken = 0;
         long remaining = elapsedTimer.remainingTimeMillis();
         int numIters = 0;
-
+        
         int remainingLimit = 5;
         while(remaining > 2*avgTimeTaken && remaining > remainingLimit)
         {
             ElapsedCpuTimer elapsedTimerIteration = new ElapsedCpuTimer();
             ArrayList<Types.ACTIONS> actions = stateObs.getAvailableActions();
-            int index = randomGenerator.nextInt(actions.size());
-            action = actions.get(index);
-
-            stCopy.advance(action);
-            if(stCopy.isGameOver())
-            {
-                stCopy = stateObs.copy();
-            }
-
+            
+            action = olmcts.act(stateObs, elapsedTimer);
+            //action = ga.act(stateObs, elapsedTimer);
+            
+            
             numIters++;
             acumTimeTaken += (elapsedTimerIteration.elapsedMillis()) ;
             //System.out.println(elapsedTimerIteration.elapsedMillis() + " --> " + acumTimeTaken + " (" + remaining + ")");
@@ -98,49 +134,119 @@ public class Agent extends AbstractPlayer {
 
         return action;
     }
+    
+    void writeToFile(String string) {
+    	try {
+        	if(SHOULD_LOG) {
+        		if(!this.recordFile.exists())
+        		{
+        			this.recordFile.createNewFile();
+        		}
+        		// create an APPENDING writer
+        		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
+        		// delete last line:
+        		long length = recordFile.length() - 1;
+        		do {                     
+        		  length -= 1;
+        		  recordFile.seek(length);
+        		  byte b = recordFile.readByte();
+        		} while(b != 10);
+        		f.setLength(length+1);
+        		f.close();
+        		
+        		writer.write(string);
+        		writer.close();
+        	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	void writeLevelToFile(StateObservation so) {
+    	try {
+        	if(SHOULD_LOG) {
+        		if(!this.recordFile.exists())
+        		{
+        			this.recordFile.createNewFile();
+        		}
+        		// create an APPENDING writer
+        		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
+        		// write npcs:
+        		writer.write("NPC:(");
+            	if (so.getNPCPositions() != null) {
+            	  ArrayList<Observation>[] list = so.getNPCPositions();
+            	  for (int i=0; i<list.length; i++) {
+            		  for (int j=0; j<list[i].size(); j++) {
+            			  if (list[i] != null) {
+            				  writer.write("(" + list[i].get(j).itype + ",");
+            				  writer.write(list[i].get(j).position.toString()+")");
+            			  }
+            		  }
+            	  }
+            	}
+            	writer.write("),");
+            	// write immovables
+            	writer.write("Immovable:(");
+            	if (so.getImmovablePositions() != null) {
+            	  ArrayList<Observation>[] list = so.getImmovablePositions();
+            	  for (int i=0; i<list.length; i++) {
+            		  for (int j=0; j<list[i].size(); j++) {
+            			  if (list[i] != null) {
+            				  writer.write("(" + list[i].get(j).itype + ",");
+            				  writer.write(list[i].get(j).position.toString()+")");
+            			  }
+            		  }
+            	  }
+            	}
+            	writer.write("),");
+            	// write movables
+            	writer.write("Movable:(");
+            	if (so.getMovablePositions() != null) {
+            	  ArrayList<Observation>[] list = so.getMovablePositions();
+            	  for (int i=0; i<list.length; i++) {
+            		  for (int j=0; j<list[i].size(); j++) {
+            			  if (list[i] != null) {
+            				  writer.write("(" + list[i].get(j).itype + ",");
+            				  writer.write(list[i].get(j).position.toString()+")");
+            			  }
+            		  }
+            	  }
+            	}
+            	writer.write("),");
+            	// write resources
+            	writer.write("Resources:(");
+            	if (so.getResourcesPositions() != null) {
+            	  ArrayList<Observation>[] list = so.getResourcesPositions();
+            	  for (int i=0; i<list.length; i++) {
+            		  for (int j=0; j<list[i].size(); j++) {
+            			  if (list[i] != null) {
+            				  writer.write("(" + list[i].get(j).itype + ",");
+            				  writer.write(list[i].get(j).position.toString()+")");
+            			  }
+            		  }
+            	  }
+            	}
+            	writer.write("),");
+            	// write portals
+            	writer.write("Portals:(");
+            	if (so.getPortalsPositions() != null) {
+            	  ArrayList<Observation>[] list = so.getPortalsPositions();
+            	  for (int i=0; i<list.length; i++) {
+            		  for (int j=0; j<list[i].size(); j++) {
+            			  if (list[i] != null) {
+            				  writer.write("(" + list[i].get(j).itype + ",");
+            				  writer.write(list[i].get(j).position.toString()+")");
+            			  }
+            		  }
+            	  }
+            	}
+            	writer.write(")\r\n");
+            	// close writer to write from buffer to file
+            	writer.close();
+        	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		
+	}
+	
 }
-/*  psuko    
-	@Override
-	public ACTIONS act(StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
-
-		aiAgent.reportUpdatedState(new GVGAdaptedState(stateObs, null));
-		
-		//
-//    	int adv = StateObservation.advanceCount;
-//    	int cpy = StateObservation.copyCount;
-		//
-		
-		long remaining = elapsedTimer.remainingTimeMillis();
-		int numIters = 0;
-
-		long remainingTimeAtLoopStart;
-		long remainingTimeAtLoopEnd = remaining;
-		long timeDiffAcc = 0;
-		double averageTimeDiff = 0;
-
-		int remainingLimit = 2;
-		
-		while (remainingTimeAtLoopEnd > averageTimeDiff + remainingLimit) {
-//		while (numIters < 25) {
-			
-			remainingTimeAtLoopStart = elapsedTimer.remainingTimeMillis();
-
-			aiAgent.doComputeStep();
-			
-			numIters++;
-
-			remainingTimeAtLoopEnd = elapsedTimer.remainingTimeMillis();
-			timeDiffAcc += remainingTimeAtLoopStart - remainingTimeAtLoopEnd;
-
-			averageTimeDiff = (double) timeDiffAcc / numIters;
-
-		}
-		
-//		System.out.println("iterations: " + numIters + " - " + 
-//				((double)(StateObservation.advanceCount - adv) / numIters) + " - " + 
-//				((double)(StateObservation.copyCount - cpy) / numIters));
-		
-//		ScenarioRunner.getInstance().getCurrentGameStatistics().addScore(stateObs.getGameScore());
-		
-		return aiAgent.getNextAction();
-	}*/
