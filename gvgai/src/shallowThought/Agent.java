@@ -10,7 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,6 +54,8 @@ public class Agent extends AbstractPlayer {
     /**
      * Different agents
      */
+    protected AbstractPlayer[] subAgents;
+    protected AbstractPlayer chosenAgent;
     protected OLMCTSAgent olmcts;
     protected GAAgent ga;
     
@@ -71,11 +73,19 @@ public class Agent extends AbstractPlayer {
         // Initialize agents:
         olmcts = new OLMCTSAgent(so, elapsedTimer);
         ga = new GAAgent(so, elapsedTimer);
+        // list with choosable subagents
+        subAgents = new AbstractPlayer[] {
+            olmcts, ga
+        };
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
         if (LEARNING)
         {
+        	// Choose random agent, document choice and level
+        	chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
             writeLevelToFile(so);
+            writeToFileAppend("Chose "+chosenAgent.getClass().getName());
+            writeToFileAppend("Dummy");  // because score-writing always replaces last line
         }
     }
 
@@ -105,11 +115,11 @@ public class Agent extends AbstractPlayer {
 
         
         // Check for a record that matches this category
-        
+        writeToFileReplaceLastLine(Double.toString(stateObs.getGameScore()));
         
         Types.ACTIONS action = null;
         StateObservation stCopy = stateObs.copy();
-
+        
         double avgTimeTaken = 0;
         double acumTimeTaken = 0;
         long remaining = elapsedTimer.remainingTimeMillis();
@@ -135,7 +145,25 @@ public class Agent extends AbstractPlayer {
         return action;
     }
     
-    void writeToFile(String string) {
+    void writeToFileAppend(String string) {
+    	try {
+        	if(SHOULD_LOG) {
+        		if(!this.recordFile.exists())
+        		{
+        			this.recordFile.createNewFile();
+        		}
+        		// create an APPENDING writer
+        		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
+        		// write string
+        		writer.write(string+"\r\n");
+        		writer.close();
+        	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void writeToFileReplaceLastLine(String string) {
     	try {
         	if(SHOULD_LOG) {
         		if(!this.recordFile.exists())
@@ -145,16 +173,19 @@ public class Agent extends AbstractPlayer {
         		// create an APPENDING writer
         		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
         		// delete last line:
-        		long length = recordFile.length() - 1;
+        		RandomAccessFile f = new RandomAccessFile(recordFile.getPath(), "rw");
+        		long length = f.length() - 1;
+        		f.seek(length);
+      		    byte b = f.readByte();
         		do {                     
         		  length -= 1;
-        		  recordFile.seek(length);
-        		  byte b = recordFile.readByte();
-        		} while(b != 10);
+        		  f.seek(length);
+        		  b = f.readByte();
+        		} while(b != 10 && length>0);
         		f.setLength(length+1);
         		f.close();
-        		
-        		writer.write(string);
+        		// write string
+        		writer.write(string+"\r\n");
         		writer.close();
         	}
         } catch (IOException e) {
@@ -162,16 +193,20 @@ public class Agent extends AbstractPlayer {
         }
     }
 
+    
 	void writeLevelToFile(StateObservation so) {
     	try {
         	if(SHOULD_LOG) {
+        		// parameters:
+        		boolean logEverything = true;
         		if(!this.recordFile.exists())
         		{
         			this.recordFile.createNewFile();
         		}
         		// create an APPENDING writer
         		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
-        		// write npcs:
+        		if (logEverything) {
+        			// write npcs:
         		writer.write("NPC:(");
             	if (so.getNPCPositions() != null) {
             	  ArrayList<Observation>[] list = so.getNPCPositions();
@@ -241,6 +276,10 @@ public class Agent extends AbstractPlayer {
             	  }
             	}
             	writer.write(")\r\n");
+        		} else {
+        			// log only counts of thing (simple)
+        			writer.write("NPC: ");
+        		}
             	// close writer to write from buffer to file
             	writer.close();
         	}
