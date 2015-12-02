@@ -32,6 +32,8 @@ public class Test
         String MH2015= "MH2015.Agent";
         String alxio = "alxio.Agent";
         
+        String shallowThought = "shallowThought.Agent";
+        
         String tester = "controllers.Tester.Agent";
 
         //Available games:
@@ -109,7 +111,7 @@ public class Test
         
         //6. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
         String[] bots = new String[]{
-        		YOLOBOT/*, YBCriber, TUDarmstadtTeam2, thorbjrn, 	 SJA862/*,
+        		shallowThought/*, YBCriber, TUDarmstadtTeam2, thorbjrn, 	 SJA862/*,
         		Return42, psuko, NovTea, MH2015, alxio*/};
         for (int b = 0; b < bots.length; b++) {
         	int N = 10, L = 1, M = 1;
