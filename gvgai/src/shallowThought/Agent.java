@@ -2,6 +2,7 @@ package shallowThought;
 
 import shallowThought.olmcts.*;
 import shallowThought.ga.*;
+import shallowThought.osla.*;
 
 import ontology.Types;
 import tools.ElapsedCpuTimer;
@@ -20,44 +21,31 @@ import core.player.AbstractPlayer;
 
 public class Agent extends AbstractPlayer {
 
-    /**
-     * Random generator for the agent.
-     */
+    // Random generator for the agent.
     protected Random randomGenerator;
 
-    /**
-     * Observation grid.
-     */
+    // Observation grid.
     protected ArrayList<Observation> grid[][];
 
-    /**
-     * block size
-     */
+    // block size
     protected int block_size;
 
-    /**
-     * File for record
-     */
+    // File for record
     protected File recordFile;
     
-    /**
-     * Writer for the actions file.
-     */
+    // Writer for the actions file.
     private BufferedWriter writer;
 
-    /**
-     * Set this variable to FALSE to avoid logging the actions to a file.
-     */
+     // Set this variable to FALSE to avoid logging the actions to a file.
     private static final boolean SHOULD_LOG = true;
     private static final boolean LEARNING = true;
     
-    /**
-     * Different agents
-     */
+    // Different agents
     protected AbstractPlayer[] subAgents;
     protected AbstractPlayer chosenAgent;
     protected OLMCTSAgent olmcts;
     protected GAAgent ga;
+    protected OSLAAgent osla;
     
     
     /**
@@ -73,9 +61,10 @@ public class Agent extends AbstractPlayer {
         // Initialize agents:
         olmcts = new OLMCTSAgent(so, elapsedTimer);
         ga = new GAAgent(so, elapsedTimer);
+        osla = new OSLAAgent(so, elapsedTimer);
         // list with choosable subagents
         subAgents = new AbstractPlayer[] {
-            olmcts, ga
+            olmcts, ga, osla
         };
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
@@ -83,6 +72,7 @@ public class Agent extends AbstractPlayer {
         {
         	// Choose random agent, document choice and level
         	chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
+        	System.out.println("chose: " +chosenAgent.getClass().getName());
             writeLevelToFile(so);
             writeToFileAppend("Chose "+chosenAgent.getClass().getName());
             writeToFileAppend("Dummy");  // because score-writing always replaces last line
@@ -131,7 +121,7 @@ public class Agent extends AbstractPlayer {
             ElapsedCpuTimer elapsedTimerIteration = new ElapsedCpuTimer();
             ArrayList<Types.ACTIONS> actions = stateObs.getAvailableActions();
             
-            action = olmcts.act(stateObs, elapsedTimer);
+            action = chosenAgent.act(stateObs, elapsedTimer);
             //action = ga.act(stateObs, elapsedTimer);
             
             
