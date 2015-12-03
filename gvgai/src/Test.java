@@ -32,6 +32,8 @@ public class Test
         String MH2015= "MH2015.Agent";
         String alxio = "alxio.Agent";
         
+        String shallowThought = "shallowThought.Agent";
+        
         String tester = "controllers.Tester.Agent";
 
         //Available games:
@@ -44,7 +46,7 @@ public class Test
 
         //Training Set 2 (2015; Validation CIG 2014)
         //games = new String[]{"camelRace", "digdug", "firestorms", "infection", "firecaster",
-          //    "overload", "pacman", "seaquest", "whackamole", "eggomania"};
+        //      "overload", "pacman", "seaquest", "whackamole", "eggomania"};
 
         //Training Set 3 (2015)
         //games = new String[]{"bait", "boloadventures", "brainman", "chipschallenge",  "modality",
@@ -55,12 +57,12 @@ public class Test
           //      "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
-        games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-                                       "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
+        //games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
+        //                               "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
 
         //Training Set 6 (Validation CEEC 2015)
-        //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-          //      "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+        games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
+                "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 
 
         //Other settings
@@ -109,7 +111,7 @@ public class Test
         
         //6. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
         String[] bots = new String[]{
-        		YOLOBOT/*, YBCriber, TUDarmstadtTeam2, thorbjrn, 	 SJA862/*,
+        		shallowThought/*YOLOBOT/*, YBCriber, TUDarmstadtTeam2, thorbjrn, 	 SJA862/*,
         		Return42, psuko, NovTea, MH2015, alxio*/};
         for (int b = 0; b < bots.length; b++) {
         	int N = 10, L = 1, M = 1;
