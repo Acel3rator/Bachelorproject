@@ -1,30 +1,36 @@
 package shallowThought.olmcts;
 
+import shallowThought.AbstractSubAgent;
 import core.game.StateObservation;
-import core.player.AbstractPlayer;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
 
+import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class OLMCTSAgent extends AbstractPlayer {
+public class OLMCTSAgent extends AbstractSubAgent {
 
+	// Dictionaries with the parameters of different types
+	private static Hashtable<String, Integer> intParameters = new Hashtable<String, Integer>();  
+	private static Hashtable<String, Double> doubleParameters = new Hashtable<String, Double>();
+	// List of all parameters
+	private static String [] parameterList;
+	
 	// Parameters:
 	public static int MCTS_ITERATIONS = 100;
     public static int ROLLOUT_DEPTH = 10;
     public static double K = Math.sqrt(2);
     public static double REWARD_DISCOUNT = 1.00;
+    public static int NUM_TURNS = 3; // how many turns the mcts should run
 
     // Actions:
     public static int NUM_ACTIONS;
     public static Types.ACTIONS[] actions;
-
-    public static int NUM_TURNS = 3; // how many turns the mcts should run
     
     protected SingleMCTSPlayer mctsPlayer;
+    public int turnCount = NUM_TURNS;
 
-    
     
     /**
      * Public constructor with state observation and time due.
@@ -43,9 +49,26 @@ public class OLMCTSAgent extends AbstractPlayer {
         NUM_ACTIONS = actions.length;
 
         //Create the player.
-
         mctsPlayer = getPlayer(so, elapsedTimer);
+
+        parameterList = new String[]{"MCTS_ITERATIONS", ",ROLLOUT_DEPTH", "K", "REWARD_DISCOUNT", "NUM_TURNS"};
+        addParameters();
     }
+    
+    /* Add parameters to the hashtables, semi-hardcoded :| 
+     * Fomrat: key - "<parameter name>", value - "<value>" 
+     * Datatype: Int, Double
+     */
+    private void addParameters() {
+    	intParameters.put("ROLLOUT_DEPTH", ROLLOUT_DEPTH);
+    	intParameters.put("MCTS_ITERATIONS", MCTS_ITERATIONS);
+    	intParameters.put("NUM_TURNS", NUM_TURNS);
+    	
+    	doubleParameters.put("K", K);
+    	doubleParameters.put("REWARD_DISCOUNT", REWARD_DISCOUNT);
+    }
+    
+    
 
     public SingleMCTSPlayer getPlayer(StateObservation so, ElapsedCpuTimer elapsedTimer) {
         return new SingleMCTSPlayer(new Random());
@@ -63,16 +86,39 @@ public class OLMCTSAgent extends AbstractPlayer {
 
         //Set the state observation object as the new root of the tree.
     	if (turnCount == NUM_TURNS) {
-    		
     		mctsPlayer.init(stateObs);
     	}
-    	else { Types.ACTIONS action = Types.ACTIONS.ACTION_NIL; }
-    		
-        //Determine the action using MCTS...
+    	    	
+    	//Determine the action using MCTS...
         int action = mctsPlayer.run(elapsedTimer);
 
+        if (turnCount != NUM_TURNS) {
+        	turnCount++;
+        	return Types.ACTIONS.ACTION_NIL;
+        }
         //... and return it.
+        turnCount = 0;
         return actions[action];
     }
-
+    
+    
+    public String[] getParameterList() {
+    	return parameterList;
+    }
+    
+    public Integer getIntParameter(String name) {
+    	return intParameters.get(name);
+    }
+    
+    public Double getDoubleParameter(String name) {
+    	return doubleParameters.get(name);
+    }
+    
+    public void setIntParameter(String name, Integer value) {
+    	intParameters.put(name, value);
+    }
+    
+    public void setDoubleParameter(String name, Double value) {
+    	doubleParameters.put(name, value);
+    }
 }

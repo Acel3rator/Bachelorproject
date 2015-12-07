@@ -71,8 +71,7 @@ public class Agent extends AbstractPlayer {
         if (LEARNING)
         {
         	// Choose random agent, document choice and level
-        	//chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
-        	chosenAgent = olmcts;
+        	chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
         	System.out.println("chose: " +chosenAgent.getClass().getName());
             writeLevelToFile(so);
             writeToFileAppend("Chose "+chosenAgent.getClass().getName());
@@ -103,7 +102,6 @@ public class Agent extends AbstractPlayer {
         printDebug(resourcesPositions,"res");
         printDebug(portalPositions,"por");
         System.out.println();               */
-
         
         // Check for a record that matches this category
         writeToFileReplaceLastLine(Double.toString(stateObs.getGameScore()));
@@ -111,12 +109,9 @@ public class Agent extends AbstractPlayer {
         Types.ACTIONS action = null;
         StateObservation stCopy = stateObs.copy();
 
-        //ElapsedCpuTimer elapsedTimerIteration = new ElapsedCpuTimer();
         ArrayList<Types.ACTIONS> actions = stateObs.getAvailableActions();
-           
         action = chosenAgent.act(stateObs, elapsedTimer);
-        //action = ga.act(stateObs, elapsedTimer);
-        
+                
         return action;
     }
     
