@@ -109,29 +109,13 @@ public class Agent extends AbstractPlayer {
         
         Types.ACTIONS action = null;
         StateObservation stCopy = stateObs.copy();
-        
-        double avgTimeTaken = 0;
-        double acumTimeTaken = 0;
-        long remaining = elapsedTimer.remainingTimeMillis();
-        int numIters = 0;
-        
-        int remainingLimit = 5;
-        while(remaining > 2*avgTimeTaken && remaining > remainingLimit)
-        {
-            ElapsedCpuTimer elapsedTimerIteration = new ElapsedCpuTimer();
-            ArrayList<Types.ACTIONS> actions = stateObs.getAvailableActions();
-            
-            action = chosenAgent.act(stateObs, elapsedTimer);
-            //action = ga.act(stateObs, elapsedTimer);
-            
-            
-            numIters++;
-            acumTimeTaken += (elapsedTimerIteration.elapsedMillis()) ;
-            //System.out.println(elapsedTimerIteration.elapsedMillis() + " --> " + acumTimeTaken + " (" + remaining + ")");
-            avgTimeTaken  = acumTimeTaken/numIters;
-            remaining = elapsedTimer.remainingTimeMillis();
-        }
 
+        //ElapsedCpuTimer elapsedTimerIteration = new ElapsedCpuTimer();
+        ArrayList<Types.ACTIONS> actions = stateObs.getAvailableActions();
+           
+        action = chosenAgent.act(stateObs, elapsedTimer);
+        //action = ga.act(stateObs, elapsedTimer);
+        
         return action;
     }
     

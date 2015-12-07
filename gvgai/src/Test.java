@@ -53,16 +53,16 @@ public class Test
         //                              "painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle"};
 
         //Training Set 4 (Validation GECCO 2015, Test CIG 2014)
-        //games = new String[]{"roguelike", "surround", "catapults", "plants", "plaqueattack",
-          //      "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
+        games = new String[]{"roguelike", "surround", "catapults", "plants", "plaqueattack",
+              "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
         //games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
         //                               "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
 
         //Training Set 6 (Validation CEEC 2015)
-        games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-                "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+        //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
+         //       "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 
 
         //Other settings

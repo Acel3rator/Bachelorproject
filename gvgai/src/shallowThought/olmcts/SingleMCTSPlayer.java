@@ -31,6 +31,7 @@ public class SingleMCTSPlayer
         m_rnd = a_rnd;
     }
 
+    
     /**
      * Inits the tree with the new observation state in the root.
      * @param a_gameState current state of the game.

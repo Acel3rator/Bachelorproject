@@ -1,8 +1,8 @@
 package shallowThought.ga;
 
 
-import controllers.Heuristics.StateHeuristic;
-import controllers.Heuristics.WinScoreHeuristic;
+import shallowThought.Heuristics.StateHeuristic;
+import shallowThought.Heuristics.WinScoreHeuristic;
 import core.game.StateObservation;
 import core.player.AbstractPlayer;
 import ontology.Types;
@@ -62,8 +62,6 @@ public class GAAgent extends AbstractPlayer {
 
         N_ACTIONS = stateObs.getAvailableActions().size();
         initGenome(stateObs);
-
-
     }
 
 
