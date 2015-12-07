@@ -91,8 +91,10 @@ public class SingleTreeNode
         int bestAction = 0;
         double bestValue = -1;
 
+        // Choose an action to expand
         for (int i = 0; i < children.length; i++) {
             double x = m_rnd.nextDouble();
+            // TODO: What happens there? ^^
             if (x > bestValue && children[i] == null) {
                 bestAction = i;
                 bestValue = x;

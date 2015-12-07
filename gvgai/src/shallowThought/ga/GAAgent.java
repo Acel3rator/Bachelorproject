@@ -40,6 +40,7 @@ public class GAAgent extends AbstractPlayer {
     protected Random randomGenerator;
 
     private int numSimulations;
+    
 
     /**
      * Public constructor with state observation and time due.
