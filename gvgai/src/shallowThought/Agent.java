@@ -71,7 +71,8 @@ public class Agent extends AbstractPlayer {
         if (LEARNING)
         {
         	// Choose random agent, document choice and level
-        	chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
+        	//chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
+        	chosenAgent = olmcts;
         	System.out.println("chose: " +chosenAgent.getClass().getName());
             writeLevelToFile(so);
             writeToFileAppend("Chose "+chosenAgent.getClass().getName());

@@ -57,17 +57,17 @@ public class Test
               "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
-        //games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-        //                               "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
+        games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
+                                       "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
 
         //Training Set 6 (Validation CEEC 2015)
         //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-         //       "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+        //        "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 
 
         //Other settings
         boolean visuals = true;
-        String recordActionsFile = "test.txt"; //where to record the actions executed. null if not to save.
+        String recordActionsFile = null; //where to record the actions executed. null if not to save.
         int seed = new Random().nextInt();
 
         //Game and level to play

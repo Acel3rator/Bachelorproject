@@ -8,20 +8,16 @@ import tools.ElapsedCpuTimer;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ssamot
- * Date: 14/11/13
- * Time: 21:45
- * This is a Java port from Tom Schaul's VGDL - https://github.com/schaul/py-vgdl
- */
 public class OLMCTSAgent extends AbstractPlayer {
 
-    public static int NUM_ACTIONS;
-    public static int MCTS_ITERATIONS = 100;
+	// Parameters:
+	public static int MCTS_ITERATIONS = 100;
     public static int ROLLOUT_DEPTH = 10;
     public static double K = Math.sqrt(2);
     public static double REWARD_DISCOUNT = 1.00;
+
+    // Actions:
+    public static int NUM_ACTIONS;
     public static Types.ACTIONS[] actions;
 
     public static int NUM_TURNS = 3; // how many turns the mcts should run
