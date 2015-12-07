@@ -15,12 +15,14 @@ public class OLMCTSAgent extends AbstractPlayer {
     public static int ROLLOUT_DEPTH = 10;
     public static double K = Math.sqrt(2);
     public static double REWARD_DISCOUNT = 1.00;
-
+    public static int NUM_TURNS = 3; // how many turns the mcts should run
+    
     // Actions:
     public static int NUM_ACTIONS;
     public static Types.ACTIONS[] actions;
+    
+    int turnCount = NUM_TURNS;
 
-    public static int NUM_TURNS = 3; // how many turns the mcts should run
     
     protected SingleMCTSPlayer mctsPlayer;
 
@@ -62,16 +64,20 @@ public class OLMCTSAgent extends AbstractPlayer {
     public Types.ACTIONS act(StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
 
         //Set the state observation object as the new root of the tree.
-    	if (turnCount == NUM_TURNS) {
-    		
+    	if (turnCount == NUM_TURNS) {	
     		mctsPlayer.init(stateObs);
     	}
-    	else { Types.ACTIONS action = Types.ACTIONS.ACTION_NIL; }
     		
         //Determine the action using MCTS...
         int action = mctsPlayer.run(elapsedTimer);
-
+        
+        if (turnCount != NUM_TURNS) {
+        	turnCount++;
+        	return Types.ACTIONS.ACTION_NIL;
+        }
+        
         //... and return it.
+		turnCount = 0;
         return actions[action];
     }
 

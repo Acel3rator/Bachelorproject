@@ -261,7 +261,7 @@ public class ArcadeMachine
      * @param randomSeed Seed for the sampleRandom generator of the game to be played.
      * @return the player, created and initialized, ready to start playing the game.
      */
-    private static AbstractPlayer createPlayer(String playerName, String actionFile, StateObservation so, int randomSeed)
+    protected static AbstractPlayer createPlayer(String playerName, String actionFile, StateObservation so, int randomSeed)
     {
         AbstractPlayer player = null;
 
@@ -362,7 +362,7 @@ public class ArcadeMachine
      * @param toPlay game to be warmed up.
      * @param howLong for how long the warming up process must last (in milliseconds).
      */
-    private static void warmUp(Game toPlay, long howLong)
+    public static void warmUp(Game toPlay, long howLong)
     {
         StateObservation stateObs = toPlay.getObservation();
         ElapsedCpuTimer ect = new ElapsedCpuTimer(CompetitionParameters.TIMER_TYPE);
@@ -436,7 +436,7 @@ public class ArcadeMachine
      * It should be called when the game played is over.
      * @param player player to be closed.
      */
-    private static void tearPlayerDown(AbstractPlayer player)
+    protected static void tearPlayerDown(AbstractPlayer player)
     {
         player.teardown();
     }

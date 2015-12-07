@@ -1,5 +1,12 @@
 import core.ArcadeMachine;
 
+import shallowThought.Secretary;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Random;
 
 /**
@@ -53,8 +60,8 @@ public class Test
         //                              "painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle"};
 
         //Training Set 4 (Validation GECCO 2015, Test CIG 2014)
-        games = new String[]{"roguelike", "surround", "catapults", "plants", "plaqueattack",
-              "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
+        //games = new String[]{"roguelike", "surround", "catapults", "plants", "plaqueattack",
+        //      "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
         games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
@@ -109,10 +116,10 @@ public class Test
             ArcadeMachine.runGames(game, levels, M, sampleMCTSController, saveActions? actionFiles:null);
         }*/
         
-        //6. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
-        String[] bots = new String[]{
-        		shallowThought/*YOLOBOT/*, YBCriber, TUDarmstadtTeam2, thorbjrn, SJA862/*,
-        		Return42, psuko, NovTea, MH2015, alxio*/};
+      //6. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
+        /*String[] bots = new String[]{
+        		shallowThought, YOLOBOT, YBCriber, TUDarmstadtTeam2, thorbjrn, SJA862,
+        		Return42, psuko, NovTea, MH2015, alxio};
         for (int b = 0; b < bots.length; b++) {
         	int N = 10, L = 1, M = 1;
         	//int N = 1, L = 1, M = 1;
@@ -128,12 +135,26 @@ public class Test
         			if(saveActions) for(int k = 0; k < M; ++k)
         				actionFiles[actionIdx++] = "records/" + bots[b].substring(0, bots[b].length()-6) + "_game_" + i + "_level_" + j + "_" + k + ".txt";
             	}
-        		/*for(int j = 0; j < L; ++j){
-                  ArcadeMachine.playOneGame(game, levels[j], recordActionsFile, seed);
-        		}*/
+        		//for(int j = 0; j < L; ++j){
+                //  ArcadeMachine.playOneGame(game, levels[j], recordActionsFile, seed);
+        		//}
         		//ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
         		ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
             }
+        }*/
+        
+      //7. Exercise! Executes game as often as is stated in the "exercises"
+        // Set up exercise-session
+        Secretary secretary = new Secretary();
+        File file = new File("./src/shallowThought/learning/exercises.txt");  // exercises to do
+        String[] ex = secretary.readExercise(file);
+        game = gamesPath + ex[1];
+        levelIdx = Integer.parseInt(ex[2]);
+        String level = game + "_lvl" + levelIdx + ".txt";
+        int timesToPlay = Integer.parseInt(ex[3]);
+        while (timesToPlay > 0) {
+        	ArcadeMachine.runGames(game, new String[] {level}, 1, shallowThought, null);
         }
+        secretary.deleteFirstLine(file);
     }
 }

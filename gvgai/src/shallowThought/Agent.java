@@ -1,5 +1,6 @@
 package shallowThought;
 
+
 import shallowThought.olmcts.*;
 import shallowThought.ga.*;
 import shallowThought.osla.*;
@@ -8,13 +9,19 @@ import ontology.Types;
 import tools.ElapsedCpuTimer;
 
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Random;
 
+import core.ArcadeMachine;
 import core.game.Observation;
 import core.game.StateObservation;
 import core.player.AbstractPlayer;
@@ -30,8 +37,14 @@ public class Agent extends AbstractPlayer {
     // block size
     protected int block_size;
 
+    // Secretary for logging and reading
+    protected Secretary glados = new Secretary();
+    
     // File for record
     protected File recordFile;
+    protected File exercises = new File("./src/shallowThought/learning/exercises.txt");;  // exercises to do
+    protected File solutions = new File("./src/shallowThought/learning/solutions.txt");;  // write solutions (= best configs) here
+    protected File learning = new File("./src/shallowThought/learning/learning.txt");;  // this is the temporary learning-file, save all necessary information for optimization here
     
     // Writer for the actions file.
     private BufferedWriter writer;
@@ -68,15 +81,35 @@ public class Agent extends AbstractPlayer {
         };
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
+        
         if (LEARNING)
         {
         	// Choose random agent, document choice and level
         	//chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
-        	chosenAgent = olmcts;
-        	System.out.println("chose: " +chosenAgent.getClass().getName());
+        	//chosenAgent = olmcts;
+        	
+        	// Configure agent according to exercise:
+        	String[] ex = glados.readExercise(this.exercises);
+        	// Create sub-controller
+        	noPlayerSpecified: {
+        		for(AbstractPlayer player : subAgents)
+        		{
+        			if (player.getClass().getName() == ex[0]) {
+        				chosenAgent = player;
+        				break noPlayerSpecified;
+        			}
+        		}
+        		// TODO: Exception: player in exercises.txt does not exist
+        	}
+        	// TODO: set fixed parameters
+        	// TODO: find setting to be tried for exercise next
+        	
+        	glados.writeToFileAppend(learning, ex[0]+"-"+ex[1]+"-"+ex[2]+"-"+ex[3]+"-"+ex[4]+"-"+ex[5]);
+        	
+        	System.out.println("chose: "+chosenAgent.getClass().getName());
             writeLevelToFile(so);
-            writeToFileAppend("Chose "+chosenAgent.getClass().getName());
-            writeToFileAppend("Dummy");  // because score-writing always replaces last line
+            glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
+            glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
         }
     }
 
@@ -96,17 +129,13 @@ public class Agent extends AbstractPlayer {
         ArrayList<Observation>[] resourcesPositions = stateObs.getResourcesPositions();
         ArrayList<Observation>[] portalPositions = stateObs.getPortalsPositions();
         grid = stateObs.getObservationGrid();
-
-        /*printDebug(npcPositions,"npc");
-        printDebug(fixedPositions,"fix");
-        printDebug(movingPositions,"mov");
-        printDebug(resourcesPositions,"res");
-        printDebug(portalPositions,"por");
-        System.out.println();               */
-
         
-        // Check for a record that matches this category
-        writeToFileReplaceLastLine(Double.toString(stateObs.getGameScore()));
+        // TODO: Check for a record that matches this category
+        if (LEARNING) {
+        	// glados.writeToFileReplaceLastLine(this.recordFile, Double.toString(stateObs.getGameScore()));
+        	glados.writeToFileReplaceLastLine(this.learning, Double.toString(stateObs.getGameScore()));
+        	
+        }
         
         Types.ACTIONS action = null;
         StateObservation stCopy = stateObs.copy();
@@ -119,55 +148,6 @@ public class Agent extends AbstractPlayer {
         
         return action;
     }
-    
-    void writeToFileAppend(String string) {
-    	try {
-        	if(SHOULD_LOG) {
-        		if(!this.recordFile.exists())
-        		{
-        			this.recordFile.createNewFile();
-        		}
-        		// create an APPENDING writer
-        		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
-        		// write string
-        		writer.write(string+"\r\n");
-        		writer.close();
-        	}
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void writeToFileReplaceLastLine(String string) {
-    	try {
-        	if(SHOULD_LOG) {
-        		if(!this.recordFile.exists())
-        		{
-        			this.recordFile.createNewFile();
-        		}
-        		// create an APPENDING writer
-        		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
-        		// delete last line:
-        		RandomAccessFile f = new RandomAccessFile(recordFile.getPath(), "rw");
-        		long length = f.length() - 1;
-        		f.seek(length);
-      		    byte b = f.readByte();
-        		do {                     
-        		  length -= 1;
-        		  f.seek(length);
-        		  b = f.readByte();
-        		} while(b != 10 && length>0);
-        		f.setLength(length+1);
-        		f.close();
-        		// write string
-        		writer.write(string+"\r\n");
-        		writer.close();
-        	}
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     
 	void writeLevelToFile(StateObservation so) {
     	try {
@@ -260,7 +240,6 @@ public class Agent extends AbstractPlayer {
         	}
         } catch (IOException e) {
             e.printStackTrace();
-        }		
+        }
 	}
-	
 }
