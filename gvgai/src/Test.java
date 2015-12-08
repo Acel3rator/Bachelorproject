@@ -48,8 +48,8 @@ public class Test
         String games[] = new String[]{};
 
         //Training Set 1 (2015; CIG 2014)
-        //games = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
-        //        "missilecommand", "portals", "sokoban", "survivezombies", "zelda"};
+        games = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
+                "missilecommand", "portals", "sokoban", "survivezombies", "zelda"};
 
         //Training Set 2 (2015; Validation CIG 2014)
         //games = new String[]{"camelRace", "digdug", "firestorms", "infection", "firecaster",
@@ -64,8 +64,8 @@ public class Test
         //      "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
-        games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-                                       "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
+        //games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
+          //                             "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
 
         //Training Set 6 (Validation CEEC 2015)
         //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
@@ -143,18 +143,20 @@ public class Test
             }
         }*/
         
-      //7. Exercise! Executes game as often as is stated in the "exercises"
+        //7. Exercise! Executes game as often as is stated in the "exercises"
         // Set up exercise-session
         Secretary secretary = new Secretary();
         File file = new File("./src/shallowThought/learning/exercises.txt");  // exercises to do
         String[] ex = secretary.readExercise(file);
-        game = gamesPath + ex[1];
+        game = gamesPath + ex[1] + ".txt";
         levelIdx = Integer.parseInt(ex[2]);
-        String level = game + "_lvl" + levelIdx + ".txt";
-        int timesToPlay = Integer.parseInt(ex[3]);
+        String level = gamesPath + ex[1] + "_lvl" + levelIdx + ".txt";
+        int timesToPlay = Integer.parseInt(ex[3].split("/",0)[0]);
         while (timesToPlay > 0) {
         	ArcadeMachine.runGames(game, new String[] {level}, 1, shallowThought, null);
+        	timesToPlay --;
         }
-        secretary.deleteFirstLine(file);
+        secretary.solve(new File("./src/shallowThought/learning/learning.txt"), new File("./src/shallowThought/learning/solutions.txt"));
+        //secretary.deleteFirstLine(file);
     }
 }

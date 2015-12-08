@@ -4,13 +4,14 @@ package shallowThought.ga;
 import shallowThought.Heuristics.StateHeuristic;
 import shallowThought.Heuristics.WinScoreHeuristic;
 import core.game.StateObservation;
-import core.player.AbstractPlayer;
+import shallowThought.AbstractSubAgent;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
 import tools.Utils;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
@@ -21,17 +22,25 @@ import java.util.concurrent.TimeoutException;
  * Time: 15:17
  * This is a Java port from Tom Schaul's VGDL - https://github.com/schaul/py-vgdl
  */
-public class GAAgent extends AbstractPlayer {
+public class GAAgent extends AbstractSubAgent {
 
+	// Dictionaries with the parameters of different types
+	private static Hashtable<String, Integer> intParameters = new Hashtable<String, Integer>();  
+	private static Hashtable<String, Double> doubleParameters = new Hashtable<String, Double>();
+	private static Hashtable<String, Long> longParameters = new Hashtable<String, Long>();
+	// List of all parameters
+	private static String [] parameterList;
+	
+	// parameters:
     private static double GAMMA = 0.90;
-    private static long BREAK_MS = 35;
     private static int SIMULATION_DEPTH = 7;
     private static int POPULATION_SIZE = 5;
-
     private static double RECPROB = 0.1;
     private double MUT = (1.0 / SIMULATION_DEPTH);
     private final int N_ACTIONS;
-
+    private static long BREAK_MS = 35;
+    
+    
     private ElapsedCpuTimer timer;
 
     private int genome[][][];
@@ -60,9 +69,29 @@ public class GAAgent extends AbstractPlayer {
             r_action_mapping.put(action, i);
             i++;
         }
-
+        
+        parameterList = new String[]{"GAMMA", "SIMULATION_DEPTH", "POPULATION_SIZE", "RECPROB", "MUT", "N_ACTIONS", "BREAK_MS"};
+        addParameters();
         N_ACTIONS = stateObs.getAvailableActions().size();
         initGenome(stateObs);
+        
+    }
+    
+    
+    /* Add parameters to the hashtable, hardcoded :( 
+     * Fomrat: key - "<parameter name>", value - "<value> - <Datatype>" 
+     * Datatype: Int, Double, Long
+     */
+    private void addParameters() {
+    	intParameters.put("SIMULATION_DEPTH", SIMULATION_DEPTH);
+    	intParameters.put("POPULATION_SIZE", POPULATION_SIZE);
+    	intParameters.put("N_ACTIONS", N_ACTIONS);
+    	    	
+    	doubleParameters.put("GAMMA", GAMMA);
+    	doubleParameters.put("RECPROB", RECPROB);
+    	doubleParameters.put("MUT", MUT);
+    	
+    	longParameters.put("BREAK_MS", BREAK_MS);
     }
 
 
@@ -208,6 +237,41 @@ public class GAAgent extends AbstractPlayer {
         return lastGoodAction;
     }
 
+    
+    public String[] getParameterList() {
+    	return parameterList;
+    }
+    
+    public void setParameter(String name, String value) {
+    }
+
+    public Number getParameter(String name) {
+    	return null;
+    }
+    
+    public Integer getIntParameter(String name) {
+    	return intParameters.get(name);
+    }
+    
+    public Double getDoubleParameter(String name) {
+    	return doubleParameters.get(name);
+    }
+    
+    public Long getLongParameter(String name) {
+    	return longParameters.get(name);
+    }
+    
+    public void setIntParameter(String name, Integer value) {
+    	intParameters.put(name, value);
+    }
+    
+    public void setDoubleParameter(String name, Double value) {
+    	doubleParameters.put(name, value);
+    }
+    
+    public void setLongParameter(String name, Long value) {
+    	longParameters.put(name, value);
+    }
 
     @Override
     public void draw(Graphics2D g)

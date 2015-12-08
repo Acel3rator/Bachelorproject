@@ -9,6 +9,7 @@ import ontology.Types;
 import tools.ElapsedCpuTimer;
 
 import java.io.BufferedWriter;
+import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -54,8 +55,8 @@ public class Agent extends AbstractPlayer {
     private static final boolean LEARNING = true;
     
     // Different agents
-    protected AbstractPlayer[] subAgents;
-    protected AbstractPlayer chosenAgent;
+    protected AbstractSubAgent[] subAgents;
+    protected AbstractSubAgent chosenAgent;
     protected OLMCTSAgent olmcts;
     protected GAAgent ga;
     protected OSLAAgent osla;
@@ -76,38 +77,84 @@ public class Agent extends AbstractPlayer {
         ga = new GAAgent(so, elapsedTimer);
         osla = new OSLAAgent(so, elapsedTimer);
         // list with choosable subagents
-        subAgents = new AbstractPlayer[] {
+        subAgents = new AbstractSubAgent[] {
             olmcts, ga, osla
         };
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
-        
+
+        chosenAgent = olmcts;
         if (LEARNING)
         {
         	// Choose random agent, document choice and level
         	//chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
-        	//chosenAgent = olmcts;
         	
         	// Configure agent according to exercise:
-        	String[] ex = glados.readExercise(this.exercises);
+        	String[] ex = glados.readExercise(this.exercises);  // read file
+        	
+        	String controller = ex[0];
+        	String game = ex[1];
+        	String level = ex[2];
+        	String[] runs = ex[3].split("/", 0);  // i.e. ["10", "15"] -> already executed "10/15" runs
+        	String fixedUncut = ex[4];  // i.e. "MCTS_ITERATIONS=100&NUM_TURNS=20"
+        	String[] fixedCut = fixedUncut.split("&", 0); // i.e. ["MCTS_ITERATIONS=100", "NUM_TURNS=20"]
+        	String optiUncut = ex[5];  // i.e. "MCTS_ITERATIONS=1to100&NUM_TURNS=2to20"
+        	String[] optiCut = ex[5].split("&", 0);  // i.e. ["MCTS_ITERATIONS=1to100", "NUM_TURNS=2to20"]
+        	
+        	// new exercise session -> clear learning file
+        	if (Integer.parseInt(runs[0]) == Integer.parseInt(runs[1])) {
+        		System.out.println("Test");
+        		glados.clear(learning);
+        	}
+        	
         	// Create sub-controller
         	noPlayerSpecified: {
-        		for(AbstractPlayer player : subAgents)
+        		for(AbstractSubAgent player : subAgents)
         		{
-        			if (player.getClass().getName() == ex[0]) {
+        			if (player.getClass().getName() == controller) {
         				chosenAgent = player;
         				break noPlayerSpecified;
         			}
         		}
         		// TODO: Exception: player in exercises.txt does not exist
         	}
-        	// TODO: set fixed parameters
-        	// TODO: find setting to be tried for exercise next
         	
-        	glados.writeToFileAppend(learning, ex[0]+"-"+ex[1]+"-"+ex[2]+"-"+ex[3]+"-"+ex[4]+"-"+ex[5]);
+        	// set fixed parameters
+        	for(String config : fixedCut)
+    		{
+        		String[] para = config.split("=", 0);         	
+        		chosenAgent.setParameter(para[0], para[1]);
+    		}
+
+        	// set unfixed parameters
+        	String chosenPara = "";  // for ease of logging
+        	String[] guess = guessX(optiCut, runs[0], runs[1]);  // determine next value to be tried for each parameter
+    		for(int i = 0; i < optiCut.length; i++)
+    		{
+    			// this loop assigns each parameter to be optimized the corresponding value of the guess-array
+        		String[] para = optiCut[i].split("=", 0);  // i.e. ["NUM_TURNS", "5to20"]         	
+        		chosenAgent.setParameter(para[0], guess[i]);  // REMEMBER: guess[i] is a String(Double)
+        		chosenPara = chosenPara + para[0] + "=" + guess[i]+ "&";  // for ease of logging  
+    		}
+    		// cut last "&" (also just ease of logging)
+    	    if (chosenPara.length() > 0 && chosenPara.charAt(chosenPara.length()-1)=='&') {
+    	        chosenPara = chosenPara.substring(0, chosenPara.length()-1);
+    	    }
+    		
+    		// document choice of parameters and append it to "learning.txt"
+    	    glados.writeToFileAppend(learning, controller+":"+game+":"+level+":"
+					+(Integer.parseInt(runs[0])-1)+"/" + runs[1] + ":"  // counting executed exercises down one
+					+fixedUncut+":"  // fixed parameters
+					+chosenPara);  // new parameter choice
+    	    glados.writeToFileAppend(learning, "Dummy");  // because score-writing always replaces last line
+    	    // count down exercises
+    	    glados.writeToFileReplaceFirstLine(exercises, controller+":"+game+":"+level+":"
+					+(Integer.parseInt(runs[0])-1)+"/" + runs[1] + ":"  // counting executed exercises down one
+					+fixedUncut+":"+optiUncut);
         	
         	System.out.println("chose: "+chosenAgent.getClass().getName());
-            writeLevelToFile(so);
+
+            glados.writeLevelToFile(recordFile, so);
             glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
             glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
         }
@@ -129,7 +176,7 @@ public class Agent extends AbstractPlayer {
         ArrayList<Observation>[] resourcesPositions = stateObs.getResourcesPositions();
         ArrayList<Observation>[] portalPositions = stateObs.getPortalsPositions();
         grid = stateObs.getObservationGrid();
-        
+
         // TODO: Check for a record that matches this category
         if (LEARNING) {
         	// glados.writeToFileReplaceLastLine(this.recordFile, Double.toString(stateObs.getGameScore()));
@@ -140,106 +187,71 @@ public class Agent extends AbstractPlayer {
         Types.ACTIONS action = null;
         StateObservation stCopy = stateObs.copy();
 
-        //ElapsedCpuTimer elapsedTimerIteration = new ElapsedCpuTimer();
         ArrayList<Types.ACTIONS> actions = stateObs.getAvailableActions();
-           
         action = chosenAgent.act(stateObs, elapsedTimer);
-        //action = ga.act(stateObs, elapsedTimer);
-        
+                
         return action;
     }
     
-	void writeLevelToFile(StateObservation so) {
-    	try {
-        	if(SHOULD_LOG) {
-        		// parameters:
-        		boolean logEverything = true;
-        		if(!this.recordFile.exists())
-        		{
-        			this.recordFile.createNewFile();
-        		}
-        		// create an APPENDING writer
-        		writer = new BufferedWriter(new FileWriter(this.recordFile, true));
-        		if (logEverything) {
-        			// write npcs:
-        		writer.write("NPC:(");
-            	if (so.getNPCPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getNPCPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write immovables
-            	writer.write("Immovable:(");
-            	if (so.getImmovablePositions() != null) {
-            	  ArrayList<Observation>[] list = so.getImmovablePositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write movables
-            	writer.write("Movable:(");
-            	if (so.getMovablePositions() != null) {
-            	  ArrayList<Observation>[] list = so.getMovablePositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write resources
-            	writer.write("Resources:(");
-            	if (so.getResourcesPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getResourcesPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write portals
-            	writer.write("Portals:(");
-            	if (so.getPortalsPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getPortalsPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write(")\r\n");
-        		} else {
-        			// log only counts of thing (simple)
-        			writer.write("NPC: ");
-        		}
-            	// close writer to write from buffer to file
-            	writer.close();
-        	}
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
+    /**
+     * This is where the optimizing-magic is supposed to happen. Right now it just splits the range in which to 
+     * optimize on to the whole range of numbers we play. This is fair, considering every parameter is equally important
+     * Returns a String[] exactly as long as there are elements
+     * @param parameters parameters to be optimized
+     * @param progress how many rounds of exercise are done yet
+     * @param numbersToPlay how many rounds of exercise are there in total
+     * @return Parameter settings for each parameter in parameters.
+     */
+    String[] guessX(String[] parameters, String progress, String numbersToPlay) {
+    	int numOfPara = parameters.length;  // number of parameters to be optimized
+    	int k = Integer.parseInt(progress);  // what step we're at with the exercise
+    	String[] result = new String[numOfPara];
+    	double divideRangeBy = Math.pow(Integer.parseInt(numbersToPlay), 1 / numOfPara);  // this is the different configs we can try for each para
+    	for (int i = 0; i<numOfPara; i++) {
+    		// assign each parameter a value on it's scale
+    		String[] para = parameters[i].split("=", 0);
+    		String[] range = para[1].split("to", 0);
+    		// TODO: only works for doubles right now.
+    		double a = Double.parseDouble(range[0]);
+    		double b = Double.parseDouble(range[1]);
+    		
+    		int n = Integer.parseInt(numbersToPlay);
+    		result[i] = Double.toString(
+    				a + ( (b-a) / n) * k);
+    		//result[i] = Double.toString(
+    		//		a + ( (b-a) / divideRangeBy ) * 
+    		//		Math.floor( (k %(n/ Math.pow(numOfPara, i))) / (n/ Math.pow(numOfPara, i+1))));
+    	}
+    	return result;
+    }
+	
+    /**
+     * Gets the player the control to draw something on the screen.
+     * It can be used for debug purposes.
+     * @param g Graphics device to draw to.
+     */
+    public void draw(Graphics2D g)
+    {
+    	g.drawString("chose: "+chosenAgent.getClass().getName(), 20,20);
+    	String[] parameters = chosenAgent.getParameterList();
+    	for(int i = 0; i < parameters.length; i++)
+		{
+    		String para = parameters[i];
+    		g.drawString(para + "=" + chosenAgent.getParameter(para), 20, 20* (i+2));
+		}
+        /*int half_block = (int) (block_size*0.5);
+        for(int j = 0; j < grid[0].length; ++j)
+        {
+            for(int i = 0; i < grid.length; ++i)
+            {
+                if(grid[i][j].size() > 0)
+                {
+                    Observation firstObs = grid[i][j].get(0); //grid[i][j].size()-1
+                    //Three interesting options:
+                    int print = firstObs.category; //firstObs.itype; //firstObs.obsID;
+                    g.drawString(print + "", i*block_size+half_block,j*block_size+half_block);
+                }
+            }
+        }*/
+    }
 }
