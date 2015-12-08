@@ -37,13 +37,12 @@ public class GAAgent extends AbstractSubAgent {
     private static int POPULATION_SIZE = 5;
     private static double RECPROB = 0.1;
     private double MUT = (1.0 / SIMULATION_DEPTH);
-    private final int N_ACTIONS;
     private static long BREAK_MS = 35;
-    
     
     private ElapsedCpuTimer timer;
 
     private int genome[][][];
+    private final int N_ACTIONS;
     private final HashMap<Integer, Types.ACTIONS> action_mapping;
     private final HashMap<Types.ACTIONS, Integer> r_action_mapping;
     protected Random randomGenerator;
@@ -70,7 +69,7 @@ public class GAAgent extends AbstractSubAgent {
             i++;
         }
         
-        parameterList = new String[]{"GAMMA", "SIMULATION_DEPTH", "POPULATION_SIZE", "RECPROB", "MUT", "N_ACTIONS", "BREAK_MS"};
+        parameterList = new String[]{"GAMMA", "SIMULATION_DEPTH", "POPULATION_SIZE", "RECPROB", "MUT", "BREAK_MS"};
         addParameters();
         N_ACTIONS = stateObs.getAvailableActions().size();
         initGenome(stateObs);
@@ -85,7 +84,6 @@ public class GAAgent extends AbstractSubAgent {
     private void addParameters() {
     	intParameters.put("SIMULATION_DEPTH", SIMULATION_DEPTH);
     	intParameters.put("POPULATION_SIZE", POPULATION_SIZE);
-    	intParameters.put("N_ACTIONS", N_ACTIONS);
     	    	
     	doubleParameters.put("GAMMA", GAMMA);
     	doubleParameters.put("RECPROB", RECPROB);
@@ -242,11 +240,55 @@ public class GAAgent extends AbstractSubAgent {
     	return parameterList;
     }
     
+    /**
+     * Setter for parameters, parses input values that are strings to the value types     * 
+     * @param name: name of parameter to set
+     * @param value: value of parameter as string 
+     */
     public void setParameter(String name, String value) {
+      	switch (name) {
+       	case "SIMULATION_DEPTH":
+       		SIMULATION_DEPTH = new Double(Double.parseDouble(value)).intValue();
+       		break;
+       	case "POPULATION_SIZE":
+       		POPULATION_SIZE = new Double(Double.parseDouble(value)).intValue();
+       		break;
+       	case "GAMMA":
+       		GAMMA = Double.parseDouble(value);
+       		break;
+       	case "RECPROB":
+       		RECPROB = Double.parseDouble(value);
+       		break;
+       	case "MUT":
+       		MUT = Double.parseDouble(value);
+       		break;
+       	case "BREAK_MS":
+       		BREAK_MS = Long.parseLong(value);
+       		break;
+      	}
     }
-
+    
+    /**
+     * Getter for parameters
+     * @param
+     * @return parameter value as number
+     */
     public Number getParameter(String name) {
-    	return null;
+      	switch (name) {
+       	case "SIMULATION_DEPTH":
+       		return SIMULATION_DEPTH;
+       	case "POPULATION_SIZE":
+       		return POPULATION_SIZE;
+       	case "GAMMA":
+       		return GAMMA;
+       	case "RECPROB":
+       		return RECPROB;
+       	case "MUT":
+       		return MUT;
+       	case "BREAK_MS":
+       		return BREAK_MS;
+    	}
+      	return null;
     }
     
     public Integer getIntParameter(String name) {

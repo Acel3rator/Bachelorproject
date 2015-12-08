@@ -27,16 +27,10 @@ public class OSLAAgent extends AbstractSubAgent {
 	private static String [] parameterList;
 	
 	// Parameters:
-	public static int MCTS_ITERATIONS = 100;
-    public static int ROLLOUT_DEPTH = 10;
-    public static double K = Math.sqrt(2);
-    public static double REWARD_DISCOUNT = 1.00;
-    public static int NUM_TURNS = 3; // how many turns the mcts should run
-
+	// none
 	
     public OSLAAgent(StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
-
-    	
+   	
     }
 
     /**
