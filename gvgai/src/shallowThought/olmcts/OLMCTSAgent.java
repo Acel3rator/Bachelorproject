@@ -127,7 +127,6 @@ public class OLMCTSAgent extends AbstractSubAgent {
     		turnCount = NUM_TURNS;
     		break;
     	}
-    		
     }
 
     public Number getParameter(String name) {

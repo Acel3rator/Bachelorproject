@@ -283,8 +283,12 @@ public class Secretary {
     	    while ((line1 = reader.readLine()) != null && (line2 = reader.readLine()) != null) {
     	    	parameterAndScore[0] = line1;
     			parameterAndScore[1] = line2;
+    			System.out.println(line1+line2);
     			if (Double.parseDouble(parameterAndScore[1]) > Double.parseDouble(bestParaAndScore[1])) {
-    				bestParaAndScore = parameterAndScore;
+    				System.out.println(parameterAndScore[1]+bestParaAndScore[1]);
+
+    				bestParaAndScore[0] = parameterAndScore[0];
+    				bestParaAndScore[1] = parameterAndScore[1];
     			}
     	    }
     	    reader.close();

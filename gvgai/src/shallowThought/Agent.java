@@ -43,6 +43,7 @@ public class Agent extends AbstractPlayer {
     
     // File for record
     protected File recordFile;
+    protected File learningRecordFile;
     protected File exercises = new File("./src/shallowThought/learning/exercises.txt");;  // exercises to do
     protected File solutions = new File("./src/shallowThought/learning/solutions.txt");;  // write solutions (= best configs) here
     protected File learning = new File("./src/shallowThought/learning/learning.txt");;  // this is the temporary learning-file, save all necessary information for optimization here
@@ -100,6 +101,9 @@ public class Agent extends AbstractPlayer {
         	String[] fixedCut = fixedUncut.split("&", 0); // i.e. ["MCTS_ITERATIONS=100", "NUM_TURNS=20"]
         	String optiUncut = ex[5];  // i.e. "MCTS_ITERATIONS=1to100&NUM_TURNS=2to20"
         	String[] optiCut = ex[5].split("&", 0);  // i.e. ["MCTS_ITERATIONS=1to100", "NUM_TURNS=2to20"]
+        	
+        	// Also: record file in specific log file
+        	learningRecordFile = new File("./src/shallowThought/learning/" + "record_"+runs[0]+".txt");
         	
         	// new exercise session -> clear learning file
         	if (Integer.parseInt(runs[0]) == Integer.parseInt(runs[1])) {
@@ -203,10 +207,12 @@ public class Agent extends AbstractPlayer {
      * @return Parameter settings for each parameter in parameters.
      */
     String[] guessX(String[] parameters, String progress, String numbersToPlay) {
-    	int numOfPara = parameters.length;  // number of parameters to be optimized
-    	int k = Integer.parseInt(progress);  // what step we're at with the exercise
-    	String[] result = new String[numOfPara];
-    	double divideRangeBy = Math.pow(Integer.parseInt(numbersToPlay), 1 / numOfPara);  // this is the different configs we can try for each para
+    	double numOfPara = parameters.length;  // number of parameters to be optimized
+    	double k = Double.parseDouble(progress);  // what step we're at with the exercise
+    	double n = Double.parseDouble(numbersToPlay);
+    	String[] result = new String[new Double(numOfPara).intValue()];
+    	System.out.println(progress);
+    	double divideRangeBy = Math.pow(n, 1 / numOfPara);  // this is the different configs we can try for each para
     	for (int i = 0; i<numOfPara; i++) {
     		// assign each parameter a value on it's scale
     		String[] para = parameters[i].split("=", 0);
@@ -215,12 +221,14 @@ public class Agent extends AbstractPlayer {
     		double a = Double.parseDouble(range[0]);
     		double b = Double.parseDouble(range[1]);
     		
-    		int n = Integer.parseInt(numbersToPlay);
-    		result[i] = Double.toString(
-    				a + ( (b-a) / n) * k);
     		//result[i] = Double.toString(
-    		//		a + ( (b-a) / divideRangeBy ) * 
-    		//		Math.floor( (k %(n/ Math.pow(numOfPara, i))) / (n/ Math.pow(numOfPara, i+1))));
+    		//		a + ( (b-a) / n) * k);
+    		result[i] = Double.toString(
+    				a + 
+    				( (b-a) / divideRangeBy ) * 
+    				Math.floor(
+    						(k %(n/ Math.pow(divideRangeBy, i))) /
+    						(n/ Math.pow(divideRangeBy, i+1))));
     	}
     	return result;
     }
@@ -239,7 +247,7 @@ public class Agent extends AbstractPlayer {
     		String para = parameters[i];
     		g.drawString(para + "=" + chosenAgent.getParameter(para), 20, 20* (i+2));
 		}
-        /*int half_block = (int) (block_size*0.5);
+        int half_block = (int) (block_size*0.5);
         for(int j = 0; j < grid[0].length; ++j)
         {
             for(int i = 0; i < grid.length; ++i)
@@ -252,6 +260,6 @@ public class Agent extends AbstractPlayer {
                     g.drawString(print + "", i*block_size+half_block,j*block_size+half_block);
                 }
             }
-        }*/
+        }
     }
 }

@@ -71,6 +71,7 @@ public class Test
         //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
         //        "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 
+        
 
         //Other settings
         boolean visuals = true;
@@ -147,13 +148,15 @@ public class Test
         // Set up exercise-session
         Secretary secretary = new Secretary();
         File file = new File("./src/shallowThought/learning/exercises.txt");  // exercises to do
+        String[] actionLog;
         String[] ex = secretary.readExercise(file);
         game = gamesPath + ex[1] + ".txt";
         levelIdx = Integer.parseInt(ex[2]);
         String level = gamesPath + ex[1] + "_lvl" + levelIdx + ".txt";
         int timesToPlay = Integer.parseInt(ex[3].split("/",0)[0]);
         while (timesToPlay > 0) {
-        	ArcadeMachine.runGames(game, new String[] {level}, 1, shallowThought, null);
+        	actionLog = new String[] {"./src/shallowThought/learning/record_"+timesToPlay+".txt"};
+        	ArcadeMachine.runGames(game, new String[] {level}, 1, shallowThought, actionLog);
         	timesToPlay --;
         }
         secretary.solve(new File("./src/shallowThought/learning/learning.txt"), new File("./src/shallowThought/learning/solutions.txt"));
