@@ -1,4 +1,4 @@
-package fr.inria.optimization.cmaes.fitness;
+package shallowThought.cma.src.fr.inria.optimization.cmaes.fitness;
 
 
 /** extending from this abstract class implements a generic isFeasible method and adds the  

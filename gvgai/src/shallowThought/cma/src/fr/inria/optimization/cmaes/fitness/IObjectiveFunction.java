@@ -1,4 +1,4 @@
-package fr.inria.optimization.cmaes.fitness;
+package shallowThought.cma.src.fr.inria.optimization.cmaes.fitness;
 
 /** Minimalistic interface of a single-objective function (fitness function) to be minimized. 
 */

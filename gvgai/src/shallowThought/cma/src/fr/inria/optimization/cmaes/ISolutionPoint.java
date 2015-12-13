@@ -1,4 +1,4 @@
-package fr.inria.optimization.cmaes;
+package shallowThought.cma.src.fr.inria.optimization.cmaes;
 
     /** solution point in search space, single-objective case
      *  

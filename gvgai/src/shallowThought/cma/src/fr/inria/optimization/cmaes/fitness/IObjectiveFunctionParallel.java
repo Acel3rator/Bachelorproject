@@ -1,4 +1,4 @@
-package fr.inria.optimization.cmaes.fitness;
+package shallowThought.cma.src.fr.inria.optimization.cmaes.fitness;
 
 /** Interface to a single-objective function to be minimized, 
  * that accepts an array

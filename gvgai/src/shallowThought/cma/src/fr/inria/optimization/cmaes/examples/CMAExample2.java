@@ -1,13 +1,13 @@
-package fr.inria.optimization.cmaes.examples;
+package shallowThought.cma.src.fr.inria.optimization.cmaes.examples;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import fr.inria.optimization.cmaes.CMAEvolutionStrategy;
-import fr.inria.optimization.cmaes.CMAOptions;
-import fr.inria.optimization.cmaes.CMASolution;
-import fr.inria.optimization.cmaes.fitness.FunctionCollector;
-import fr.inria.optimization.cmaes.fitness.IObjectiveFunction;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.CMAEvolutionStrategy;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.CMAOptions;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.CMASolution;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.fitness.FunctionCollector;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.fitness.IObjectiveFunction;
 
 /**  
  * Example of how to use the class CMAEvolutionStrategy including restarts with increasing 

@@ -1,5 +1,5 @@
-package fr.inria.optimization.cmaes;
-import fr.inria.optimization.cmaes.ISolutionPoint;
+package shallowThought.cma.src.fr.inria.optimization.cmaes;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.ISolutionPoint;
 
 /** solution point in search space. Rather plain implementation of the interface ISolutionPoint. 
  * 
