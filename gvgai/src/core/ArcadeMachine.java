@@ -270,7 +270,6 @@ public class ArcadeMachine
             player = createController(playerName, so);
             if(player != null)
                 player.setup(actionFile, randomSeed);
-            	player.logLevel(so);
 
         }catch (Exception e)
         {
