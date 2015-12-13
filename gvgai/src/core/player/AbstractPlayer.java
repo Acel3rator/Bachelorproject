@@ -126,7 +126,6 @@ public abstract class AbstractPlayer {
         //This method should be left empty in this class.
     }
 
-
 	public void logStuff(Types.ACTIONS action, StateObservation observation) {
         if(writer!=null && SHOULD_LOG) {
             try {
@@ -153,34 +152,5 @@ public abstract class AbstractPlayer {
                 e.printStackTrace();
             }
         }
-	}
-	
-	public void logLevel(StateObservation so) {
-        if(writer!=null && SHOULD_LOG) {
-            try {
-            	writer.write("NPC:(");
-            	if (so.getNPCPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getNPCPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write(")");
-            	/*
-            	writer.write(so.getNPCPositions() + "\r\n");
-            	writer.write(so.getImmovablePositions() + "\r\n");
-            	writer.write(so.getMovablePositions() + "\r\n");
-            	writer.write(so.getResourcesPositions() + "\r\n");
-            	writer.write(so.getPortalsPositions() + "\r\n");*/
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-	}
-	
+	}	
 }

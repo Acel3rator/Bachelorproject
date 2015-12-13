@@ -89,7 +89,7 @@ public class Agent extends AbstractPlayer {
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
 
-        chosenAgent = breadthFS;
+        chosenAgent = olmcts;
         if (LEARNING)
         {
         	// Choose random agent, document choice and level

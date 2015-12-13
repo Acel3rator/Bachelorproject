@@ -101,15 +101,15 @@ public class Test
         String readActionsFile = "actionsFile_aliens_lvl0.txt";  // Path to file to be replayed
         
         // This plays N games, in the first L levels, M times each.
-        int N = 10, L = 5, M = 1;
+        int N = 1, L = 5, M = 1;
         
-        // mode 5 and 6:
+        // mode 5:
         boolean saveActions = true;
         String[] levels = new String[L];  // if multiple levels are being played
         String[] actionFiles = new String[L*M];
     	
         
-        int mode = 4;
+        int mode = 5;
         
         switch (mode) {
         case 1:
@@ -130,24 +130,10 @@ public class Test
         	for(int j = 0; j < L; ++j){
         		levels[j] = gamesPath + games[gameIdx] + "_lvl" + j +".txt";
         	}
-            ArcadeMachine.runGames(game, levels, M, psuko, null);
+            ArcadeMachine.runGames(game, levels, M, shallowThought, null);
     		break;
         case 5:
-        	//5. This plays N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
-            for(int i = 0; i < N; ++i)
-            {
-                int actionIdx = 0;
-                game = gamesPath + games[i] + ".txt";
-                for(int j = 0; j < L; ++j){
-                    levels[j] = gamesPath + games[i] + "_lvl" + j +".txt";
-                    if(saveActions) for(int k = 0; k < M; ++k)
-                        actionFiles[actionIdx++] = "actions_game_" + i + "_level_" + j + "_" + k + ".txt";
-                }
-                ArcadeMachine.runGames(game, levels, M, sampleMCTSController, saveActions? actionFiles:null);
-            }
-    		break;
-        case 6:
-        	//6. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
+        	//5. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
             String[] bots = new String[]{
             		shallowThought, YOLOBOT, YBCriber, TUDarmstadtTeam2, thorbjrn, SJA862,
             		Return42, psuko, NovTea, MH2015, alxio};
@@ -159,18 +145,16 @@ public class Test
             		for(int j = 0; j < L; ++j){
             			levels[j] = gamesPath + games[i] + "_lvl" + j +".txt";
             			if(saveActions) for(int k = 0; k < M; ++k)
-            				actionFiles[actionIdx++] = "records/" + bots[b].substring(0, bots[b].length()-6) + "_game_" + i + "_level_" + j + "_" + k + ".txt";
+            				actionFiles[actionIdx++] = "records/raw_data/" 
+            											+ bots[b].substring(0, bots[b].length()-6) 
+            											+ "_game_" + i + "_level_" + j + "_" + k + ".txt";
                 	}
-            		//for(int j = 0; j < L; ++j){
-                    //  ArcadeMachine.playOneGame(game, levels[j], recordActionsFile, seed);
-            		//}
-            		//ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
             		ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
                 }
             }
             break;
-        case 7:
-        	//7. Exercise! Executes game as often as is stated in the "exercises"
+        case 6:
+        	//6. Exercise! Executes game as often as is stated in the "exercises"
             // Set up exercise-session
             Secretary secretary = new Secretary();
             File file = new File("./src/shallowThought/learning/exercises.txt");  // exercises to do
