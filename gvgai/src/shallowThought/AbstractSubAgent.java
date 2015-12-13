@@ -16,7 +16,7 @@ public abstract class AbstractSubAgent extends AbstractPlayer {
 	
     public abstract void setParameter(String name, String value);
     public abstract Number getParameter(String name);
-    
+    /*
 	// getters for parameter values
     public abstract Integer getIntParameter(String name);
     public abstract Double getDoubleParameter(String name);
@@ -24,5 +24,5 @@ public abstract class AbstractSubAgent extends AbstractPlayer {
     // setters for parameter values
     public abstract void setIntParameter(String name, Integer value);
     public abstract void setDoubleParameter(String name, Double value);
-    
+    */
 }

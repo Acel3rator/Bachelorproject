@@ -2,6 +2,7 @@ package shallowThought;
 
 
 import shallowThought.olmcts.*;
+import shallowThought.breadthFS.BreadthFS;
 import shallowThought.ga.*;
 import shallowThought.osla.*;
 
@@ -53,7 +54,9 @@ public class Agent extends AbstractPlayer {
 
      // Set this variable to FALSE to avoid logging the actions to a file.
     private static final boolean SHOULD_LOG = true;
-    private static final boolean LEARNING = true;
+    private static final boolean LEARNING = false;
+
+	private static final boolean DEBUG = true;
     
     // Different agents
     protected AbstractSubAgent[] subAgents;
@@ -61,6 +64,7 @@ public class Agent extends AbstractPlayer {
     protected OLMCTSAgent olmcts;
     protected GAAgent ga;
     protected OSLAAgent osla;
+    protected BreadthFS breadthFS;
     
     
     /**
@@ -77,14 +81,15 @@ public class Agent extends AbstractPlayer {
         olmcts = new OLMCTSAgent(so, elapsedTimer);
         ga = new GAAgent(so, elapsedTimer);
         osla = new OSLAAgent(so, elapsedTimer);
+        breadthFS = new BreadthFS(so, elapsedTimer);
         // list with choosable subagents
         subAgents = new AbstractSubAgent[] {
-            olmcts, ga, osla
+            olmcts, ga, osla, breadthFS
         };
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
 
-        chosenAgent = olmcts;
+        chosenAgent = breadthFS;
         if (LEARNING)
         {
         	// Choose random agent, document choice and level
@@ -240,6 +245,8 @@ public class Agent extends AbstractPlayer {
      */
     public void draw(Graphics2D g)
     {
+    	int half_block = (int) (block_size*0.5);
+    	// print chosen agent and parameters
     	g.drawString("chose: "+chosenAgent.getClass().getName(), 20,20);
     	String[] parameters = chosenAgent.getParameterList();
     	for(int i = 0; i < parameters.length; i++)
@@ -247,7 +254,21 @@ public class Agent extends AbstractPlayer {
     		String para = parameters[i];
     		g.drawString(para + "=" + chosenAgent.getParameter(para), 20, 20* (i+2));
 		}
-        int half_block = (int) (block_size*0.5);
+    	// if chosen agent = breadthFS, paint all fields that have been visited
+    	if (DEBUG && chosenAgent == breadthFS) {
+    		for(int j = 0; j < grid[0].length; ++j)
+            {
+                for(int i = 0; i < grid.length; ++i)
+                {
+                    if(breadthFS.debug_visited[j][i])
+                    {
+                        g.drawString("V", i*block_size+half_block,j*block_size+half_block);
+                    }
+                }
+            }
+    	}
+    	
+    	// print sprite id
         for(int j = 0; j < grid[0].length; ++j)
         {
             for(int i = 0; i < grid.length; ++i)
