@@ -45,7 +45,6 @@ public class Secretary {
     	if (line == null) {return null;}
     	// Use regex to split exercise in its components
     	String[] exercise = line.split(":", 0);
-    	// TODO: if this is the last repetition, delete entry (maybe somehwere else...
     	return exercise;
     }
     
