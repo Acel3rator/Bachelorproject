@@ -1,4 +1,0 @@
-1671363370
-NPC:()0,0.0,ACTION_NIL
-finalScore: -1000.0
-didWin: 0

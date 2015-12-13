@@ -8,6 +8,7 @@ class AgentEval:
     
     def __init__(self):
         self.data = dict()
+        self.norm_data = dict()
         self.bots = ["YOLOBOT", "YBCriber", "TUDarmstadtTeam2", "thorbjrn", "SJA862",
         		"Return42", "psuko", "NovTea", "MH2015", "alxio"]
 
@@ -34,18 +35,18 @@ class AgentEval:
                         except:
                             pass
                     # if best run is better than any other bots...
-                    print(game,level)
                     if maximum > games[game][level][1]:
                         games[game][level][0] = bot
                         games[game][level][1] = maximum
+        print("\x1b[1m Best controllers for rum games: \x1b[0m")
         for n in games:
             print(games[n])
 		
 	
     # plot the results
-    def plotResults(self):
-        if not os.path.exists('./plots'):
-            os.makedirs('./plots')
+    def plotBotScore(self, mode='score'):
+        if not os.path.exists('./plots/scores'):
+            os.makedirs('./plots/scores')
         i = 0
         for bot in self.data:
             j = 0
@@ -59,7 +60,7 @@ class AgentEval:
                         # bot i, game j, level k, rep l, scores
                         try:
                             scores = self.data[self.bots[i]][j][k][l][1]
-                            with PdfPages('./plots/' + self.bots[i] + '_' + str(j) + '_' + 
+                            with PdfPages('./plots/scores' + self.bots[i] + '_' + str(j) + '_' + 
                                     str(k) + '_' + str(l) + '.pdf') as pdf:
                                 plt.figure(figsize=(4,4))
                                 plt.plot(range(len(scores)), scores)
@@ -73,15 +74,55 @@ class AgentEval:
                 j+=1
             i+=1
 
+    
+    def plotBotRanking(self):
+        """
+        1) normalize scores / times
+        2) take every game/level performance of all bots recorded and plot their
+        rank at the current point of time in comparison to all the other agents
+        """
+        print("normalizing Scores")
+        normalize()
+        if not os.path.exists('./plots/ranks'):
+            os.makedirs('./plots/ranks')
+        
+
+    def normalize(self):
+        """
+        'normalize' the scores. I.e. extend score records for all bot scores to 2000, so that
+        we can compare the scores in a unified way.
+        Also add a score of 1000 as soon as the bot hat won to distinguish
+        between won and ongoing/lost
+        """ 
+        for bot in self.norm_data:
+            for game in self.norm_data[bot]:
+                for level in self.normdata[bot][game]:
+                    for run in self.norm_data[bot][game][level]:
+                        scores = self.norm_data[bot][game][level][run]
+                        # if not 2000 records, append by value 1000 if won, 
+                        # or 0 if lost
+                        if len(scores[1]) < 2000:
+                             scores[1].append(int(re.sub('didWin: ', '', ry[0])) * 1000) 
+                             # and append to longest number of timesteps of any
+                             # bot for now (2000):
+                             if len(scores[1]) < 2000:
+                                 scores[1].extend([scores[1][-1]] * 2000 -
+                                         len(scores[1]))
+                        # else add 1000 to last score if won at this exact point
+                        else:
+                            scores[1][-1] += int(re.sub('didWin: ', '', ry[0])) * 1000
+
+
 
     def readData(self):
         """regExBots = "(?:" + ")|(?:".join(bots) + ")"
-        regExFull = re.compile(regExBots + '_game_%d_level_%d_%d.txt')"""
+        regExFull = re.compile(regExBots + '_game_%d_level_%d_%d.txt')
+        """
         # Check for available files
         filenames = []
-        for file in os.listdir(os.getcwd()+"/."):
-            if file.endswith(".txt"):
-                filenames.append(file)
+        for  log in os.listdir(os.getcwd()+"/raw_data"):
+            if log.endswith(".txt"):
+                filenames.append(log)
         
         # create data structure
         #{bot: {game: {level: {#ofRepitition: [win, [score], finalScore]}}}}
@@ -101,24 +142,28 @@ class AgentEval:
             if rx[5] not in self.data[rx[0]][rx[2]][rx[4]]:
                 self.data[rx[0]][rx[2]][rx[4]][rx[5]] = [None, [], None] #[win, [score], final]
             # save stuff
-            f = open(name, 'r')
+            f = open("./raw_data/" + name, 'r')
             for line in f:
                 line = re.sub('\\n', '', line)
                 ry = re.split(',', line)
+                scores = self.data[rx[0]][rx[2]][rx[4]][rx[5]]
                 if len(ry) == 3:
                     # write score
-                    self.data[rx[0]][rx[2]][rx[4]][rx[5]][1].append(float(ry[1]))
+                    scores[1].append(float(ry[1]))
                 if len(ry) == 1 and re.match('didWin: .*', ry[0]):
-                    self.data[rx[0]][rx[2]][rx[4]][rx[5]][0] = int(re.sub('didWin: ', '', ry[0]))
+                    scores[0] = int(re.sub('didWin: ', '', ry[0]))
                 if (len(ry) == 1) and (re.match('finalScore: .*', ry[0])):
-                    self.data[rx[0]][rx[2]][rx[4]][rx[5]][2] = float(re.sub('finalScore: ', '', ry[0]))
-#	return self.data
+                    scores[2] = float(re.sub('finalScore: ', '', ry[0]))
+        self.norm_data = self.data
 
-
-
+# TODO: Add info, after which step the bot has won
+# TODO: take several runs of 1 bot into account
 
 if __name__ == "__main__":
     ae = AgentEval()
+    print("reading Data")
     ae.readData()
     ae.evaluate()
-    ae.plotResults()
+    print("Plotting results")
+    ae.plotBotScore()
+#    ae.plotBotScore('rank')
