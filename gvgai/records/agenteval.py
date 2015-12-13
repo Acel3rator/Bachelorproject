@@ -10,41 +10,42 @@ class AgentEval:
         self.data = dict()
         self.norm_data = dict()
         self.bots = ["YOLOBOT", "YBCriber", "TUDarmstadtTeam2", "thorbjrn", "SJA862",
-        		"Return42", "psuko", "NovTea", "MH2015", "alxio"]
+        		"Return42", "psuko", "NovTea", "MH2015", "alxio",
+                        "shallowThought"]
 
 
-    def evaluate(self):
-        # for example: for each game and level find the best bot
-	#data = readData()
-	# for each game and level save the bot that performed best in games[game][level]
-        games = {}
-        for i in range(10):  # create empty dict struct 
-            games[i] = {}
-            for j in range(5):
-                games[i][j] = [None, -10000] # [bot, score]
-	# go through bots and find best run
-        for bot in self.data:
-            for game in self.data[bot]:
-                for level in self.data[bot][game]:
-                    # find best run
-                    maximum = -10000
-                    for run in self.data[bot][game][level]:
-                        try:
-                            if self.data[bot][game][level][run][2] > maximum:
-                                maximum = self.data[bot][game][level][run][2]
-                        except:
-                            pass
-                    # if best run is better than any other bots...
-                    if maximum > games[game][level][1]:
-                        games[game][level][0] = bot
-                        games[game][level][1] = maximum
-        print("\x1b[1m Best controllers for rum games: \x1b[0m")
-        for n in games:
-            print(games[n])
+#    def evaluate(self):
+#        # for example: for each game and level find the best bot
+#	#data = readData()
+#	# for each game and level save the bot that performed best in games[game][level]
+#        games = {}
+#        for i in range(10):  # create empty dict struct 
+#            games[i] = {}
+#            for j in range(5):
+#                games[i][j] = [None, -10000] # [bot, score]
+#	# go through bots and find best run
+#        for bot in self.data:
+#            for game in self.data[bot]:
+#                for level in self.data[bot][game]:
+#                    # find best run
+#                    maximum = -10000
+#                    for run in self.data[bot][game][level]:
+#                        try:
+#                            if self.data[bot][game][level][run][2] > maximum:
+#                                maximum = self.data[bot][game][level][run][2]
+#                        except:
+#                            pass
+#                    # if best run is better than any other bots...
+#                    if maximum > games[game][level][1]:
+#                        games[game][level][0] = bot
+#                        games[game][level][1] = maximum
+#        print("\x1b[1m Best controllers for rum games: \x1b[0m")
+#        for n in games:
+#            print(games[n])
 		
 	
     # plot the results
-    def plotBotScore(self, mode='score'):
+    def plotBotScore(self):
         if not os.path.exists('./plots/scores'):
             os.makedirs('./plots/scores')
         i = 0
@@ -54,20 +55,22 @@ class AgentEval:
                 k = 0
                 for level in self.data[bot][game]:
                     l = 0
-                    # change to aggregation function, for several
+                    # TODO: change to aggregation function, for several
                     # repetitions
                     for repetition in self.data[bot][game][level]: 
                         # bot i, game j, level k, rep l, scores
                         try:
-                            scores = self.data[self.bots[i]][j][k][l][1]
-                            with PdfPages('./plots/scores' + self.bots[i] + '_' + str(j) + '_' + 
-                                    str(k) + '_' + str(l) + '.pdf') as pdf:
+                            scores = self.data[i][j][self.bots[k]][l][1]
+                            with PdfPages('./plots/scores/' + self.bots[k] + '_' + str(i) + '_' + 
+                                    str(j) + '_' + str(l) + '.pdf') as pdf:
                                 plt.figure(figsize=(4,4))
                                 plt.plot(range(len(scores)), scores)
                                 pdf.savefig()
                                 plt.close()
                               # plt.show()
                         except:
+                            print("data not available for: Game: %d, Level: %d, %s, %d" % (i,
+                                j, self.bots[k], l))
                             pass
                         l += 1
                     k+=1
@@ -126,27 +129,29 @@ class AgentEval:
         
         # create data structure
         #{bot: {game: {level: {#ofRepitition: [win, [score], finalScore]}}}}
+        # !!!!!!!!!!!!!!!! CHANGE: 0 -> 2, 2 -> 4, 4 -> 0 !!!!!!!!!!!!!!!!!
+        #{game: {level: {bot: {#ofRepitition: [win, [score], finalScore]}}}}
         for name in filenames:
             rx = re.split('_|\.', name)
             # turn strings from re to int
             for d in range(len(rx)):
                 if d not in [0, 1, 3, 6]: # those actually arent numbers
                     rx[d] = int(rx[d])
-                # add bot, game, level, run. initialize all dicts:
-            if rx[0] not in self.data:
-                self.data[rx[0]] = {}
-            if rx[2] not in self.data[rx[0]]:
-                self.data[rx[0]][rx[2]] = {}
-            if rx[4] not in self.data[rx[0]][rx[2]]:
-                self.data[rx[0]][rx[2]][rx[4]] = {}
-            if rx[5] not in self.data[rx[0]][rx[2]][rx[4]]:
-                self.data[rx[0]][rx[2]][rx[4]][rx[5]] = [None, [], None] #[win, [score], final]
+            # add bot, game, level, run. initialize all dicts:
+            if rx[2] not in self.data:
+                self.data[rx[2]] = {}
+            if rx[4] not in self.data[rx[2]]:
+                self.data[rx[2]][rx[4]] = {}
+            if rx[0] not in self.data[rx[2]][rx[4]]:
+                self.data[rx[2]][rx[4]][rx[0]] = {}
+            if rx[5] not in self.data[rx[2]][rx[4]][rx[0]]:
+                self.data[rx[2]][rx[4]][rx[0]][rx[5]] = [None, [], None] #[win, [score], final]
             # save stuff
             f = open("./raw_data/" + name, 'r')
             for line in f:
                 line = re.sub('\\n', '', line)
                 ry = re.split(',', line)
-                scores = self.data[rx[0]][rx[2]][rx[4]][rx[5]]
+                scores = self.data[rx[2]][rx[4]][rx[0]][rx[5]]
                 if len(ry) == 3:
                     # write score
                     scores[1].append(float(ry[1]))
@@ -163,7 +168,7 @@ if __name__ == "__main__":
     ae = AgentEval()
     print("reading Data")
     ae.readData()
-    ae.evaluate()
+#    ae.evaluate()
     print("Plotting results")
     ae.plotBotScore()
 #    ae.plotBotScore('rank')
