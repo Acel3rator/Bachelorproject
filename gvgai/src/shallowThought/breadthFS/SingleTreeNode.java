@@ -46,6 +46,10 @@ public class SingleTreeNode
             m_depth = 0;
     }
 
+    /**
+     * returns an array with children-nodes
+     * @return
+     */
     public SingleTreeNode[] expand() {
         // Expand all children
     	if (m_depth % 10 == 0) {
@@ -61,7 +65,7 @@ public class SingleTreeNode
     }
 
     /**
-     * 
+     * computes state from action-array
      * @return state that this node should be in (not saved for memory reasons)
      */
 	public StateObservation state() {

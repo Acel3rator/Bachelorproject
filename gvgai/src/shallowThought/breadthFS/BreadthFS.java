@@ -27,7 +27,7 @@ public class BreadthFS extends AbstractSubAgent {
 	
 	// Parameters:
 	int MAX_DEPTH = 1000;
-	int BALANCE_TIME_MEMORY = 10;
+	int BALANCE_TIME_MEMORY = 10;  // state is copied every ten depths -> we cannot copy every step because of memory, but we cannot build it anew all the time either because of time limitation
 	
     // Actions:
     public static int NUM_ACTIONS;
@@ -60,7 +60,7 @@ public class BreadthFS extends AbstractSubAgent {
         }
         NUM_ACTIONS = actions.length;
 
-        parameterList = new String[]{"MAX_DEPTH"};
+        parameterList = new String[]{"MAX_DEPTH", "BALANCE_TIME_MEMORY"};
         addParameters();
         
         // debug:
@@ -129,16 +129,16 @@ public class BreadthFS extends AbstractSubAgent {
             	debug_visited[new Double(s.getAvatarPosition().y).intValue()/s.getBlockSize()][new Double(s.getAvatarPosition().x).intValue()/s.getBlockSize()] = true;
             }
 
-            if (gameOver(s)) {
+            if (gameOver(s)) {  // we lost
             	continue;
             }
 
-            if (stop(s)) {
+            if (stop(s)) {  // we won
             	returnActions = true;
             	createActionList(current);  // possible timeout?
             }
 
-            if (seen(s)) {
+            if (seen(s)) {  // this state has been seen earlier
             	continue;
             }
             
@@ -158,7 +158,10 @@ public class BreadthFS extends AbstractSubAgent {
         return Types.ACTIONS.ACTION_NIL;
     }
     
-    
+    /**
+     * called, when we are done with the search -> creates the stack "actionList" (global variable) from which we then can draw the desired path within the search.
+     * @param current
+     */
     private void createActionList(SingleTreeNode current) {
 		actionList = new Stack<Integer>();
     	while (current.childIdx != -1) {
@@ -167,6 +170,11 @@ public class BreadthFS extends AbstractSubAgent {
     	}
 	}
 
+    /**
+     * returns true if we have lost the game
+     * @param s
+     * @return
+     */
 	private boolean gameOver(StateObservation s) {
 		if (s.isGameOver() && s.getGameWinner() != Types.WINNER.PLAYER_WINS) {
 			return true;
@@ -174,6 +182,12 @@ public class BreadthFS extends AbstractSubAgent {
 		return false;
 	}
 
+	/**
+	 * returns true if we have won
+	 * TODO maybe expand on true if we reach a higher score?
+	 * @param s
+	 * @return
+	 */
 	private boolean stop(StateObservation s) {
 		if (s.isGameOver() && s.getGameWinner() == Types.WINNER.PLAYER_WINS) {
 			return true;
@@ -181,6 +195,12 @@ public class BreadthFS extends AbstractSubAgent {
 		return false;
 	}
 
+	/**
+	 * returns true if we have seen this state before somewhere in the search. ignores npcs.
+	 * also, it adds s to the seen states
+	 * @param s
+	 * @return
+	 */
 	private boolean seen(StateObservation s) {
 		//  check for equality with any of the state before
 		long hash = hash(s, true);
@@ -192,9 +212,11 @@ public class BreadthFS extends AbstractSubAgent {
 	}
 
 	/**
+	 * Maps state to long, pretty hashable
 	 * Stolen from yolobot, cause yolo! :)
 	 * @param so
-	 * @return
+	 * @param ignoreNPCs
+	 * @return hash value for a StateObservation
 	 */
 	private long hash(StateObservation so, boolean ignoreNPCs) {
 		long prime = 31;
@@ -238,14 +260,19 @@ public class BreadthFS extends AbstractSubAgent {
     	case "MAX_DEPTH":
     		MAX_DEPTH = new Double(Double.parseDouble(value)).intValue();
     		break;
+    	case "BALANCE_TIME_MEMORY":
+    		BALANCE_TIME_MEMORY = new Double(Double.parseDouble(value)).intValue();
+			break;
     	}
     }
-
+    
     public Number getParameter(String name) {
     	switch (name) {
     	case "MAX_DEPTH":
     		return MAX_DEPTH;
-    	}
+    	case "BALANCE_TIME_MEMORY":
+    		return BALANCE_TIME_MEMORY;
+		}
     	return null;
     }
     
