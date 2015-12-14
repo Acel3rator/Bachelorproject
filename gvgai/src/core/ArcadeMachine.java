@@ -229,6 +229,7 @@ public class ArcadeMachine
                 }else{
 
                     //Then, play the game.
+                	// AOFASDMFAMFPOASMFM: change from play to run for nonvisual
                     score = toPlay.playGame(player, randomSeed);
                 }
 
