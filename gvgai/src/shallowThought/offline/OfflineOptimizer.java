@@ -1,5 +1,11 @@
 package shallowThought.offline;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 import core.ArcadeMachine;
 import shallowThought.cma.src.fr.inria.optimization.cmaes.CMAEvolutionStrategy;
@@ -89,6 +95,7 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 	private String[] games;
 	private String[] levels;
 	private String subAgent;
+	private String[][] parameters;
 	String shallowThought = "shallowThought.Agent";
 	boolean visuals = true;
 	public agent(String[] gameX, String[] levelX, String subAgentX) {
@@ -97,6 +104,22 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		subAgent = subAgentX;
 	}
 	public double valueOf (double[] x) {
+		String string = "";
+		// denormalize values
+		for (int i = 0; i < x.length; i++){
+			double value = x[i] * (Double.parseDouble(parameters[i][2]) - Double.parseDouble(parameters[i][1])) + Double.parseDouble(parameters[i][1]);
+			String val = "";
+			switch (parameters[i][3]) {
+				case "int":
+					val = (Integer.valueOf((int)Math.round(value))).toString();
+					break;
+				case "double":
+					val = Double.valueOf(value).toString();
+					break;
+			}
+			string = parameters[i][0] + val;
+			writeTemp(string);
+		}
 		double res = 0;
         int seed = new Random().nextInt();
 		for (String game : games) {
@@ -108,4 +131,38 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		return res;
 	}
 	public boolean isFeasible(double[] x) {return true; } // entire R^n is feasible
+	
+	public void readAndNormalize() {
+		File config = new File("./src/shallowThought/offline/config.txt");
+    	Charset charset = Charset.forName("US-ASCII");
+    	String line = null;
+    	try (BufferedReader reader = Files.newBufferedReader(config.toPath(), charset)) {
+    	    line = reader.readLine();
+    	} catch (IOException x) {
+    	    System.err.format("IOException: %s%n", x);
+    	}
+    	if (line == null) {}
+    	// Use regex to split config in its components
+    	String[] parameters_pre = line.split(":", 0);
+    	subAgent = parameters_pre[0];
+    	parameters = new String[parameters_pre.length-1][4];
+    	for (int i = 1; i < parameters_pre.length; i++) {
+    		parameters[i] = parameters_pre[i].split(",", 0);
+    	}
+    			
+    }
+    	
+    private void writeTemp(String str) {
+    	File tmp = new File("./src/shallowThought/offline/cma_temp.txt");
+    	Charset charset = Charset.forName("US-ASCII");
+    	String line = null;
+    	try (BufferedWriter writer = Files.newBufferedWriter(tmp.toPath(), charset)) {
+    	    writer.write(str);
+    	} catch (IOException x) {
+    	    System.err.format("IOException: %s%n", x);
+    	}
+    	if (line == null) {}
+    	
+    	
+    }
 }
