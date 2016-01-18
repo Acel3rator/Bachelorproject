@@ -118,8 +118,11 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		games = gameX;
 		levels = levelX;
 		subAgent = subAgentX;
+<<<<<<< HEAD
 		readConfig();
-
+=======
+		readAndNormalize();
+>>>>>>> f3ad30588ba460532a1170d4dc80000bd1137ee4
 	}
 	
 	public double valueOf (double[] x) {

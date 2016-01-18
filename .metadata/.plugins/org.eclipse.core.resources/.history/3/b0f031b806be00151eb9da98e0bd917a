@@ -29,6 +29,7 @@ public class OfflineOptimizer {
                 /*55*/"intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 		
 		String shallowThought = "shallowThought.Agent";
+		
 
         String gamesPath = "examples/gridphysics/";
         //Game and level to play
@@ -51,7 +52,7 @@ public class OfflineOptimizer {
 		// new a CMA-ES and set some initial values
 		CMAEvolutionStrategy cma = new CMAEvolutionStrategy();
 		cma.readProperties(); // read options, see file CMAEvolutionStrategy.properties
-		cma.setDimension(5); // overwrite some loaded properties
+		cma.setDimension(10); // overwrite some loaded properties
 		cma.setInitialX(0.05); // in each dimension, also setTypicalX can be used
 		cma.setInitialStandardDeviation(0.2); // also a mandatory setting 
 		cma.options.stopFitness = 1e-14;       // optional setting
@@ -119,14 +120,13 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		levels = levelX;
 		subAgent = subAgentX;
 		readConfig();
-
 	}
 	
 	public double valueOf (double[] x) {
 		// 1) denormalize values
 		String string = "";
 		for (int i = 0; i < x.length; i++){
-			double value = (x[i] * (Double.parseDouble(parameters[i][2]) - Double.parseDouble(parameters[i][1]))) + Double.parseDouble(parameters[i][1]);
+			double value = x[i] * (Double.parseDouble(parameters[i][2]) - Double.parseDouble(parameters[i][1])) + Double.parseDouble(parameters[i][1]);
 			String val = "";
 			switch (parameters[i][3]) {
 				case "int":
@@ -136,10 +136,9 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 					val = Double.valueOf(value).toString();
 					break;
 			}
-			string += parameters[i][0] +","+ val+":";
+			string = parameters[i][0] +","+ val+":";
+			writeTemp(string);
 		}
-		string = string.substring(0, string.length()-1);
-		writeTemp(string);
 		// 2) Apply cmaes values to bot
 		double res = 0;
         int seed = new Random().nextInt();
@@ -152,11 +151,7 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		return res;
 	}
 	
-	public boolean isFeasible(double[] x) {
-		for (int i = 0; i < x.length; i++ ) {
-			if (x[i] < 0 || x[i] > 1) {return false;}
-		}
-		return true; } // entire R^n is feasible
+	public boolean isFeasible(double[] x) {return true; } // entire R^n is feasible
 	
 	/*
 	 * Read the config for cmaes parameters and split into name, lower, upper bound, value type
@@ -176,7 +171,8 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
     	subAgent = parameters_pre[0];
     	parameters = new String[parameters_pre.length-1][4];
     	for (int i = 1; i < parameters_pre.length; i++) {
-    		parameters[i-1] = parameters_pre[i].split(",", 0);
+        	System.out.println(parameters_pre.length);
+    		parameters[i] = parameters_pre[i].split(",", 0);
     	}		
     }
     	

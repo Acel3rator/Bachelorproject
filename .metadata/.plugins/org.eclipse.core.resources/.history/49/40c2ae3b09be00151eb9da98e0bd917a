@@ -120,7 +120,7 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		subAgent = subAgentX;
 		readConfig();
 
-	}
+	}c
 	
 	public double valueOf (double[] x) {
 		// 1) denormalize values
