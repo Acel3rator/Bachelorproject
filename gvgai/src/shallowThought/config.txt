@@ -1,7 +1,1 @@
-subagents:
-olmcts:
-"MCTS_ITERATIONS" [1-100] int
-"ROLLOUT_DEPTH" [1-50] int
-"K" [1-2] double
-"REWARD_DISCOUNT" [0.5-1.5] double
-"NUM_TURNS" [1-100] int
+olmcts:"MCTS_ITERATIONS" [1-100] int:"ROLLOUT_DEPTH" [1-50] int:"K" [1-2] double:"REWARD_DISCOUNT" [0.5-1.5] double:"NUM_TURNS" [1-100] int
