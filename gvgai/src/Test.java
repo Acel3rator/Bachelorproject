@@ -1,6 +1,7 @@
 import core.ArcadeMachine;
 
 import shallowThought.Secretary;
+import shallowThought.cma.src.fr.inria.optimization.cmaes.examples.CMAExample1;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -109,7 +110,7 @@ public class Test
         String[] actionFiles = new String[L*M];
     	
         
-        int mode = 5;
+        int mode = 7;
         
         switch (mode) {
         case 1:
@@ -172,7 +173,11 @@ public class Test
             secretary.solve(new File("./src/shallowThought/learning/learning.txt"), new File("./src/shallowThought/learning/solutions.txt"));
             //secretary.deleteFirstLine(file);  // enable to delete exercise after execution (and have best setting in solution
             break;
-    	}
+        case 7:
+        	// 7. CMA-ES
+        	CMAExample1.main(args);
+        	break;
+        }
         
         
     }
