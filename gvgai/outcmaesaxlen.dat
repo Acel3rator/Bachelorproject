@@ -1,4 +1,3 @@
-%# iteration evaluations sigma axisratio stddevratio sort(diag(D)) (square roots of eigenvalues of C) (randomSeed=1453130786186, Mon Jan 18 16:26:26 CET 2016)
+%# iteration evaluations sigma axisratio stddevratio sort(diag(D)) (square roots of eigenvalues of C) (randomSeed=1453134958505, Mon Jan 18 17:35:58 CET 2016)
 
 0 0 0.2 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
-1 10 0.19539819921765048 1.0 1.0391300000213557 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 

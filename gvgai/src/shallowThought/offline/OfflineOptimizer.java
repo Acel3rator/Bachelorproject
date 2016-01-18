@@ -23,7 +23,6 @@ public class OfflineOptimizer {
                 /*55*/"intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 		
 		String shallowThought = "shallowThought.Agent";
-		
 
         String gamesPath = "examples/gridphysics/";
         //Game and level to play

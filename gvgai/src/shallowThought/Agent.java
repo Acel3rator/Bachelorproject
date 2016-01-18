@@ -92,74 +92,12 @@ public class Agent extends AbstractPlayer {
         chosenAgent = olmcts;
         if (LEARNING)
         {
-        	// Choose random agent, document choice and level
-        	//chosenAgent = subAgents[randomGenerator.nextInt(subAgents.length)];
-        	
-        	// Configure agent according to exercise:
-        	String[] ex = glados.readExercise(this.exercises);  // read file
-        	
-        	String controller = ex[0];
-        	String game = ex[1];
-        	String level = ex[2];
-        	String[] runs = ex[3].split("/", 0);  // i.e. ["10", "15"] -> already executed "10/15" runs
-        	String fixedUncut = ex[4];  // i.e. "MCTS_ITERATIONS=100&NUM_TURNS=20"
-        	String[] fixedCut = fixedUncut.split("&", 0); // i.e. ["MCTS_ITERATIONS=100", "NUM_TURNS=20"]
-        	String optiUncut = ex[5];  // i.e. "MCTS_ITERATIONS=1to100&NUM_TURNS=2to20"
-        	String[] optiCut = ex[5].split("&", 0);  // i.e. ["MCTS_ITERATIONS=1to100", "NUM_TURNS=2to20"]
-        	
-        	// Also: record file in specific log file
-        	learningRecordFile = new File("./src/shallowThought/learning/" + "record_"+runs[0]+".txt");
-        	
-        	// new exercise session -> clear learning file
-        	if (Integer.parseInt(runs[0]) == Integer.parseInt(runs[1])) {
-        		System.out.println("Test");
-        		glados.clear(learning);
+        	readStuff
+        	chosenAgent = !!AgentFromFile!!;
+        	for (String para : parameters) {
+        		chosenAgent.setParameter(para.name, para.value);
         	}
         	
-        	// Create sub-controller
-        	noPlayerSpecified: {
-        		for(AbstractSubAgent player : subAgents)
-        		{
-        			if (player.getClass().getName() == controller) {
-        				chosenAgent = player;
-        				break noPlayerSpecified;
-        			}
-        		}
-        		// TODO: Exception: player in exercises.txt does not exist
-        	}
-        	
-        	// set fixed parameters
-        	for(String config : fixedCut)
-    		{
-        		String[] para = config.split("=", 0);         	
-        		chosenAgent.setParameter(para[0], para[1]);
-    		}
-
-        	// set unfixed parameters
-        	String chosenPara = "";  // for ease of logging
-        	String[] guess = guessX(optiCut, runs[0], runs[1]);  // determine next value to be tried for each parameter
-    		for(int i = 0; i < optiCut.length; i++)
-    		{
-    			// this loop assigns each parameter to be optimized the corresponding value of the guess-array
-        		String[] para = optiCut[i].split("=", 0);  // i.e. ["NUM_TURNS", "5to20"]         	
-        		chosenAgent.setParameter(para[0], guess[i]);  // REMEMBER: guess[i] is a String(Double)
-        		chosenPara = chosenPara + para[0] + "=" + guess[i]+ "&";  // for ease of logging  
-    		}
-    		// cut last "&" (also just ease of logging)
-    	    if (chosenPara.length() > 0 && chosenPara.charAt(chosenPara.length()-1)=='&') {
-    	        chosenPara = chosenPara.substring(0, chosenPara.length()-1);
-    	    }
-    		
-    		// document choice of parameters and append it to "learning.txt"
-    	    glados.writeToFileAppend(learning, controller+":"+game+":"+level+":"
-					+(Integer.parseInt(runs[0])-1)+"/" + runs[1] + ":"  // counting executed exercises down one
-					+fixedUncut+":"  // fixed parameters
-					+chosenPara);  // new parameter choice
-    	    glados.writeToFileAppend(learning, "Dummy");  // because score-writing always replaces last line
-    	    // count down exercises
-    	    glados.writeToFileReplaceFirstLine(exercises, controller+":"+game+":"+level+":"
-					+(Integer.parseInt(runs[0])-1)+"/" + runs[1] + ":"  // counting executed exercises down one
-					+fixedUncut+":"+optiUncut);
         	
         	System.out.println("chose: "+chosenAgent.getClass().getName());
 
@@ -201,43 +139,7 @@ public class Agent extends AbstractPlayer {
                 
         return action;
     }
-    
-    /**
-     * This is where the optimizing-magic is supposed to happen. Right now it just splits the range in which to 
-     * optimize on to the whole range of numbers we play. This is fair, considering every parameter is equally important
-     * Returns a String[] exactly as long as there are elements
-     * @param parameters parameters to be optimized
-     * @param progress how many rounds of exercise are done yet
-     * @param numbersToPlay how many rounds of exercise are there in total
-     * @return Parameter settings for each parameter in parameters.
-     */
-    String[] guessX(String[] parameters, String progress, String numbersToPlay) {
-    	double numOfPara = parameters.length;  // number of parameters to be optimized
-    	double k = Double.parseDouble(progress);  // what step we're at with the exercise
-    	double n = Double.parseDouble(numbersToPlay);
-    	String[] result = new String[new Double(numOfPara).intValue()];
-    	System.out.println(progress);
-    	double divideRangeBy = Math.pow(n, 1 / numOfPara);  // this is the different configs we can try for each para
-    	for (int i = 0; i<numOfPara; i++) {
-    		// assign each parameter a value on it's scale
-    		String[] para = parameters[i].split("=", 0);
-    		String[] range = para[1].split("to", 0);
-    		// TODO: only works for doubles right now.
-    		double a = Double.parseDouble(range[0]);
-    		double b = Double.parseDouble(range[1]);
-    		
-    		//result[i] = Double.toString(
-    		//		a + ( (b-a) / n) * k);
-    		result[i] = Double.toString(
-    				a + 
-    				( (b-a) / divideRangeBy ) * 
-    				Math.floor(
-    						(k %(n/ Math.pow(divideRangeBy, i))) /
-    						(n/ Math.pow(divideRangeBy, i+1))));
-    	}
-    	return result;
-    }
-	
+    	
     /**
      * Gets the player the control to draw something on the screen.
      * It can be used for debug purposes.

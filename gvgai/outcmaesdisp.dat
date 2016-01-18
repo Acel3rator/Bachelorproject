@@ -46,3 +46,5 @@ Iteration,#Fevals: rb Function Value Delta( best ,worst) |idx: Max SD idx: Min S
 Terminated due to
   Fitness: Objective function value dropped below the target function value 1.0E-14 (iter=1,eval=10)
 best function value -1000.0 at evaluation 6
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453134958505 (Mon Jan 18 17:35:58 CET 2016)
