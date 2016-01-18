@@ -2,6 +2,7 @@ import core.ArcadeMachine;
 
 import shallowThought.Secretary;
 import shallowThought.cma.src.fr.inria.optimization.cmaes.examples.CMAExample1;
+import shallowThought.offline.OfflineOptimizer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -73,18 +74,20 @@ public class Test
         //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
         //        "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 
+
         allGames = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
                 /*5*/"missilecommand", "portals", "sokoban", "survivezombies", "zelda",
                 /*10*/"camelRace", "digdug", "firestorms", "infection", "firecaster",
-                "overload", "pacman", "seaquest", "whackamole", "eggomania",
+                /*15*/"overload", "pacman", "seaquest", "whackamole", "eggomania",
         		/*20*/"bait", "boloadventures", "brainman", "chipschallenge",  "modality",
-        		"painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle",
+        		/*25*/"painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle",
         		/*30*/"roguelike", "surround", "catapults", "plants", "plaqueattack",
-        		"jaws", "labyrinth", "boulderchase", "escape", "lemmings",
+        		/*35*/"jaws", "labyrinth", "boulderchase", "escape", "lemmings",
         		/*40*/"solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-        		"sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky",
+        		/*45*/"sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky",
         		/*50*/"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-                "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+                /*55*/"intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+
 
         //Other settings
         boolean visuals = true;
@@ -175,7 +178,8 @@ public class Test
             break;
         case 7:
         	// 7. CMA-ES
-        	CMAExample1.main(args);
+        	OfflineOptimizer opti = new OfflineOptimizer();
+        	opti.main();
         	break;
         }
         

@@ -22,3 +22,27 @@ Iteration,#Fevals: rb Function Value Delta( best ,worst) |idx: Max SD idx: Min S
 Terminated due to
   Fitness: Objective function value dropped below the target function value 1.0E-14 (iter=723,eval=7230)
 best function value 3.204504193784767E-15 at evaluation 7231
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453130296499 (Mon Jan 18 16:18:16 CET 2016)
+Iteration,#Fevals: rb Function Value Delta( best ,worst) |idx: Max SD idx: Min SD  | minsigD  sigma Axisratio | time, in eig
+    1(10),     10: 3.3078303902110676e+01 (+0e+00,6e+01) |  1: 1.9e-01  5: 1.8e-01 | 1.9e-01 1.9e-01   1.00   |  0.1  0.0 
+  151(10),   1510: 6.1429303929344234e+00 (-6e-02,5e-01) |  1: 2.1e-02  5: 7.1e-03 | 5.4e-03 1.8e-02   5.85   |  0.4  0.0 
+  301(10),   3010: 1.8770101320956298e+00 (-1e-01,1e+00) |  5: 4.0e-02  0: 1.2e-02 | 6.3e-03 4.9e-02  11.39   |  0.5  0.0 
+  451(10),   4510: 1.6369550851579812e-01 (+0e+00,3e-01) |  9: 3.5e-02  0: 4.8e-03 | 2.3e-03 3.8e-02  24.39   |  0.6  0.0 
+  601(10),   6010: 2.5782999812564560e-06 (+0e+00,7e-06) |  9: 7.4e-04  2: 2.8e-05 | 1.4e-05 4.4e-04  59.34   |  0.6  0.0 
+  738(10),   7381: 9.9293998980469200e-15 (+0e+00,5e-14) |  9: 7.4e-08  2: 2.5e-09 | 1.4e-09 8.4e-08  62.67   |  0.7  0.0 
+Terminated due to
+  Fitness: Objective function value dropped below the target function value 1.0E-14 (iter=738,eval=7380)
+best function value 9.92939989804692E-15 at evaluation 7379
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453130550051 (Mon Jan 18 16:22:30 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453130760593 (Mon Jan 18 16:26:00 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453130786186 (Mon Jan 18 16:26:26 CET 2016)
+Iteration,#Fevals: rb Function Value Delta( best ,worst) |idx: Max SD idx: Min SD  | minsigD  sigma Axisratio | time, in eig
+    1(10),     10: -1.0000000000000000e+03 (+0e+00,1e+03) |  7: 2.0e-01  0: 1.9e-01 | 2.0e-01 2.0e-01   1.00   | 23.4  0.0 
+    1(10),     11: -1.0000000000000000e+03 (+0e+00,1e+03) |  7: 2.0e-01  0: 1.9e-01 | 2.0e-01 2.0e-01   1.00   | 26.2  0.0 
+Terminated due to
+  Fitness: Objective function value dropped below the target function value 1.0E-14 (iter=1,eval=10)
+best function value -1000.0 at evaluation 6
