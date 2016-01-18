@@ -46,3 +46,17 @@ Iteration,#Fevals: rb Function Value Delta( best ,worst) |idx: Max SD idx: Min S
 Terminated due to
   Fitness: Objective function value dropped below the target function value 1.0E-14 (iter=1,eval=10)
 best function value -1000.0 at evaluation 6
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453135108376 (Mon Jan 18 17:38:28 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453135571718 (Mon Jan 18 17:46:11 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(5,10)-CMA-ES(mu_eff=3.4), Ver="0.99.40", dimension=10, 0 diagonal iter., randomSeed=1453137215422 (Mon Jan 18 18:13:35 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(4,8)-CMA-ES(mu_eff=2.8), Ver="0.99.40", dimension=5, 0 diagonal iter., randomSeed=1453137346622 (Mon Jan 18 18:15:46 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(4,8)-CMA-ES(mu_eff=2.8), Ver="0.99.40", dimension=5, 0 diagonal iter., randomSeed=1453137507945 (Mon Jan 18 18:18:27 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(4,8)-CMA-ES(mu_eff=2.8), Ver="0.99.40", dimension=5, 0 diagonal iter., randomSeed=1453137848848 (Mon Jan 18 18:24:08 CET 2016)
+ CMA-ES warning: File 'CMAEvolutionStrategy.properties' not found, no options read
+(4,8)-CMA-ES(mu_eff=2.8), Ver="0.99.40", dimension=5, 0 diagonal iter., randomSeed=1453137901786 (Mon Jan 18 18:25:01 CET 2016)
