@@ -12,17 +12,32 @@ public class OfflineOptimizer {
 		String[] allGames = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
                 /*5*/"missilecommand", "portals", "sokoban", "survivezombies", "zelda",
                 /*10*/"camelRace", "digdug", "firestorms", "infection", "firecaster",
-                "overload", "pacman", "seaquest", "whackamole", "eggomania",
+                /*15*/"overload", "pacman", "seaquest", "whackamole", "eggomania",
         		/*20*/"bait", "boloadventures", "brainman", "chipschallenge",  "modality",
-        		"painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle",
+        		/*25*/"painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle",
         		/*30*/"roguelike", "surround", "catapults", "plants", "plaqueattack",
-        		"jaws", "labyrinth", "boulderchase", "escape", "lemmings",
+        		/*35*/"jaws", "labyrinth", "boulderchase", "escape", "lemmings",
         		/*40*/"solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-        		"sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky",
+        		/*45*/"sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky",
         		/*50*/"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-                "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
+                /*55*/"intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
 		
 		String shallowThought = "shallowThought.Agent";
+		
+
+        String gamesPath = "examples/gridphysics/";
+        //Game and level to play
+        int gameIdx = 44;
+        int levelIdx = 0; //level names from 0 to 4 (game_lvlN.txt).
+        String game = gamesPath + allGames[gameIdx] + ".txt";
+        String level = gamesPath + allGames[gameIdx] + "_lvl" + levelIdx +".txt";
+		
+        
+		String[] games = new String[]{game};
+		String[] levels = new String[]{level};
+		String subAgent = null;
+		
+		optimizeCMA(games, levels, subAgent);
 	}	
 
 	public static void optimizeCMA(String[] gamesX, String[] levelX, String subAgent) {
