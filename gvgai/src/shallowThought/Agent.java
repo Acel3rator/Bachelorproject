@@ -92,12 +92,38 @@ public class Agent extends AbstractPlayer {
         chosenAgent = olmcts;
         if (LEARNING)
         {
-        	readStuff
-        	chosenAgent = !!AgentFromFile!!;
-        	for (String para : parameters) {
-        		chosenAgent.setParameter(para.name, para.value);
+        	File cma_temp = new File("./src/shallowThought/offline/cma_temp.txt");
+        	Charset charset = Charset.forName("US-ASCII");
+        	String line = null;
+        	try (BufferedReader reader = Files.newBufferedReader(cma_temp.toPath(), charset)) {
+        	    line = reader.readLine();
+        	} catch (IOException x) {
+        	    System.err.format("IOException: %s%n", x);
         	}
-        	
+        	if (line == null) {}
+        	// Use regex to split config in its components
+        	String[] parameters_pre = line.split(":", 0);
+        	switch(parameters_pre[0]) {
+        	case "olmcts":
+        		chosenAgent = olmcts;
+        		break;
+        	case "ga":
+        		chosenAgent = ga;
+        		break;
+        	case "osla":
+        		chosenAgent = osla;
+        		break;
+        	case "breadthFS":
+        		chosenAgent = breadthFS;
+        		break;
+        	}
+        	String[][] parameters = new String[parameters_pre.length-1][4];
+        	for (int i = 1; i < parameters_pre.length; i++) {
+        		parameters[i] = parameters_pre[i].split(",", 0);
+        	}
+        	for (String[] para : parameters) {
+        		chosenAgent.setParameter(para[0], para[1]);
+        	}
         	
         	System.out.println("chose: "+chosenAgent.getClass().getName());
 
