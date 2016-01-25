@@ -118,9 +118,9 @@ public class Agent extends AbstractPlayer {
         		chosenAgent = breadthFS;
         		break;
         	}
-        	String[][] parameters = new String[parameters_pre.length-1][2];
+        	String[][] parameters = new String[parameters_pre.length-1][4];
         	for (int i = 1; i < parameters_pre.length; i++) {
-        		parameters[i-1] = parameters_pre[i].split(",", 0);
+        		parameters[i] = parameters_pre[i].split(",", 0);
         	}
         	for (String[] para : parameters) {
         		chosenAgent.setParameter(para[0], para[1]);
@@ -128,9 +128,9 @@ public class Agent extends AbstractPlayer {
         	
         	System.out.println("chose: "+chosenAgent.getClass().getName());
 
-          //  glados.writeLevelToFile(recordFile, so);
-            //glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
-            //glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
+            glados.writeLevelToFile(recordFile, so);
+            glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
+            glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
         }
     }
 
@@ -154,7 +154,7 @@ public class Agent extends AbstractPlayer {
         // TODO: Check for a record that matches this category
         if (LEARNING) {
         	// glados.writeToFileReplaceLastLine(this.recordFile, Double.toString(stateObs.getGameScore()));
-        	// glados.writeToFileReplaceLastLine(this.learning, Double.toString(stateObs.getGameScore()));
+        	glados.writeToFileReplaceLastLine(this.learning, Double.toString(stateObs.getGameScore()));
         	
         }
         

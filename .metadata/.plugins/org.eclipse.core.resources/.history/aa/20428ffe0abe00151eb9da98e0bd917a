@@ -33,7 +33,7 @@ public class OfflineOptimizer {
         String gamesPath = "examples/gridphysics/";
         //Game and level to play
         int gameIdx = 32;
-        int levelIdx = 1; //level names from 0 to 4 (game_lvlN.txt).
+        int levelIdx = 0; //level names from 0 to 4 (game_lvlN.txt).
         String game = gamesPath + allGames[gameIdx] + ".txt";
         String level = gamesPath + allGames[gameIdx] + "_lvl" + levelIdx +".txt";
 		

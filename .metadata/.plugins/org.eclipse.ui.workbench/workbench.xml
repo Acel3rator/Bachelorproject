@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="28" version="2.0">
+<workbench progressCount="31" version="2.0">
 <workbenchAdvisor/>
 <window height="776" maximized="true" width="1018" x="1873" y="226">
 <fastViewData fastViewLocation="1024"/>
@@ -18,7 +18,8 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="238" y="36"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.ClassFileEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -32,60 +33,40 @@
 <part id="2"/>
 <part id="0"/>
 <part id="1"/>
-<part id="5"/>
-<part id="4"/>
 <part id="3"/>
+<part id="4"/>
+<part id="5"/>
 <part id="6"/>
-<part id="7"/>
-<part id="8"/>
-<part id="9"/>
-<part id="10"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Agent.java" partName="Agent.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/Agent.java" title="Agent.java" tooltip="gvgai/src/shallowThought/Agent.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/Agent.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4667" selectionTopPixel="1989"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4485" selectionTopPixel="2040"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OLMCTSAgent.java" partName="OLMCTSAgent.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/olmcts/OLMCTSAgent.java" title="OLMCTSAgent.java" tooltip="gvgai/src/shallowThought/olmcts/OLMCTSAgent.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/olmcts/OLMCTSAgent.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="929" selectionTopPixel="1028"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" partName="Test.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/Test.java" title="Test.java" tooltip="gvgai/src/Test.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" partName="Test.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/Test.java" title="Test.java" tooltip="gvgai/src/Test.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/Test.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="59" selectionOffset="4399" selectionTopPixel="1245"/>
+<editorState selectionHorizontalPixel="0" selectionLength="21" selectionOffset="8416" selectionTopPixel="2584"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractPlayer.java" partName="AbstractPlayer.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/core/player/AbstractPlayer.java" title="AbstractPlayer.java" tooltip="gvgai/src/core/player/AbstractPlayer.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/core/player/AbstractPlayer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="871" selectionTopPixel="1176"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CMAExample1.java" partName="CMAExample1.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/examples/CMAExample1.java" title="CMAExample1.java" tooltip="gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/examples/CMAExample1.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/examples/CMAExample1.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="547" selectionTopPixel="975"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractSubAgent.java" partName="AbstractSubAgent.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/AbstractSubAgent.java" title="AbstractSubAgent.java" tooltip="gvgai/src/shallowThought/AbstractSubAgent.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/AbstractSubAgent.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="575" selectionTopPixel="0"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OfflineOptimizer.java" partName="OfflineOptimizer.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/offline/OfflineOptimizer.java" title="OfflineOptimizer.java" tooltip="gvgai/src/shallowThought/offline/OfflineOptimizer.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/offline/OfflineOptimizer.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2676" selectionTopPixel="807"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GAAgent.java" partName="GAAgent.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/ga/GAAgent.java" title="GAAgent.java" tooltip="gvgai/src/shallowThought/ga/GAAgent.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/ga/GAAgent.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8287" selectionTopPixel="4361"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Secretary.java" partName="Secretary.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/Secretary.java" title="Secretary.java" tooltip="gvgai/src/shallowThought/Secretary.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/Secretary.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="32" selectionOffset="1772" selectionTopPixel="527"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SingleMCTSPlayer.java" partName="SingleMCTSPlayer.java" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/olmcts/SingleMCTSPlayer.java" title="SingleMCTSPlayer.java" tooltip="gvgai/src/shallowThought/olmcts/SingleMCTSPlayer.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/olmcts/SingleMCTSPlayer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="657" selectionTopPixel="333"/>
-</editor>
-<editor id="org.eclipse.ui.DefaultTextEditor" name="exercises.txt" partName="exercises.txt" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/learning/exercises.txt" title="exercises.txt" tooltip="gvgai/src/shallowThought/learning/exercises.txt" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/learning/exercises.txt"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.ui.DefaultTextEditor" name="learning.txt" partName="learning.txt" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/learning/learning.txt" title="learning.txt" tooltip="gvgai/src/shallowThought/learning/learning.txt" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/learning/learning.txt"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1883" selectionTopPixel="67"/>
-</editor>
-<editor id="org.eclipse.ui.DefaultTextEditor" name="solutions.txt" partName="solutions.txt" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/learning/solutions.txt" title="solutions.txt" tooltip="gvgai/src/shallowThought/learning/solutions.txt" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/learning/solutions.txt"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1039" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.ui.DefaultTextEditor" name="README.txt" partName="README.txt" path="/home/ac3lerat0r/Bachelorproject/gvgai/src/shallowThought/learning/README.txt" title="README.txt" tooltip="gvgai/src/shallowThought/learning/README.txt" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/gvgai/src/shallowThought/learning/README.txt"/>
+<editor id="org.eclipse.jdt.ui.ClassFileEditor" name="File.class" partName="File.class" path="/tmp/File.class9042391874241779278.class" title="File.class" tooltip="java.io.File" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" org.eclipse.jdt.ui.ClassFileIdentifier="=gvgai/\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre\/lib\/rt.jar&lt;java.io(File.class"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 </editors>
@@ -175,7 +156,7 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.25940594" ratioLeft="262" ratioRight="748" relationship="2" relative="topLeft"/>
+<info part="org.eclipse.ui.editorss" ratio="0.23624934" ratioLeft="451" ratioRight="1458" relationship="2" relative="topLeft"/>
 <info folder="true" part="bottomRight" ratio="0.6592" ratioLeft="412" ratioRight="213" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
@@ -205,176 +186,165 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/ga/GAAgent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/exercises.txt"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/learning.txt"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/README.txt"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/Agent.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/offline/OfflineOptimizer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/Secretary.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/Test.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/solutions.txt"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/olmcts/OLMCTSAgent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/Agent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/osla/OSLAAgent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/olmcts/SingleMCTSPlayer.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/Agent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/olmcts/OLMCTSAgent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/exercises.txt"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/learning.txt"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/solutions.txt"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/CMAEvolutionStrategy.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/gvgai/src/shallowThought/learning/README.txt"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=gvgai/\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre\/lib\/rt.jar&lt;sun.reflect(NativeConstructorAccessorImpl.class"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/olmcts/OLMCTSAgent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/ga/GAAgent.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/Test.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/gvgai/src/shallowThought/Agent.java"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=gvgai/\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre\/lib\/rt.jar&lt;java.io(File.class"/>
 </editors>
-<item historyLabel="Agent.java" index="7">
-<position info="not_deleted" x="2486" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="OLMCTSAgent.java" index="6">
-<position info="not_deleted" x="3425" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="GAAgent.java" index="0">
-<position info="not_deleted" x="8472" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position/>
 </item>
-<item historyLabel="OLMCTSAgent.java" index="6">
-<position info="not_deleted" x="3425" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="5172" y="0"/>
 </item>
-<item historyLabel="GAAgent.java" index="0">
-<position info="not_deleted" x="8714" y="6"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="OLMCTSAgent.java" index="6">
-<position info="not_deleted" x="4059" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="5856" y="0"/>
 </item>
-<item historyLabel="GAAgent.java" index="0">
-<position info="not_deleted" x="8750" y="0"/>
+<item historyLabel="Test.java" index="3">
+<position info="not_deleted" x="1726" y="0"/>
 </item>
-<item historyLabel="OLMCTSAgent.java" index="6">
-<position info="not_deleted" x="4059" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="GAAgent.java" index="0">
-<position info="not_deleted" x="8287" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="OLMCTSAgent.java" index="6">
-<position info="not_deleted" x="4059" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="GAAgent.java" index="0">
-<position info="not_deleted" x="8287" y="0"/>
+<item historyLabel="Secretary.java" index="2">
+<position info="not_deleted" x="1402" y="0"/>
 </item>
-<item historyLabel="OSLAAgent.java" index="8">
-<position info="not_deleted" x="2628" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="6516" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="exercises.txt" index="1">
-<position info="not_deleted" x="26" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="learning.txt" index="2">
+<item historyLabel="CMAEvolutionStrategy.java" index="4">
+<position info="not_deleted" x="5632" y="10"/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="README.txt" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="SingleMCTSPlayer.java" index="9">
-<position info="not_deleted" x="657" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
 </item>
-<item historyLabel="README.txt" index="3">
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="Test.java" index="3">
+<position info="not_deleted" x="1726" y="0"/>
+</item>
+<item historyLabel="Agent.java" index="0">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="7123" y="0"/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="6440" y="0"/>
+</item>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="1825" y="0"/>
+</item>
+<item historyLabel="NativeConstructorAccessorImpl.class" index="6">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="SingleMCTSPlayer.java" index="9">
-<position info="not_deleted" x="657" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="1825" y="0"/>
 </item>
-<item historyLabel="exercises.txt" index="1">
-<position info="not_deleted" x="26" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="4056" y="60"/>
 </item>
-<item historyLabel="solutions.txt" index="5">
-<position info="not_deleted" x="88" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="3994" y="0"/>
 </item>
-<item historyLabel="exercises.txt" index="1">
-<position info="not_deleted" x="26" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="4056" y="60"/>
 </item>
-<item historyLabel="OSLAAgent.java" index="8">
-<position info="not_deleted" x="2628" y="0"/>
+<item historyLabel="OLMCTSAgent.java" index="7">
+<position info="not_deleted" x="929" y="0"/>
 </item>
-<item historyLabel="exercises.txt" index="1">
-<position info="not_deleted" x="86" y="0"/>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="5931" y="0"/>
 </item>
-<item historyLabel="SingleMCTSPlayer.java" index="9">
-<position info="not_deleted" x="657" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="4080" y="0"/>
 </item>
-<item historyLabel="exercises.txt" index="1">
+<item historyLabel="Test.java" index="3">
+<position info="not_deleted" x="8416" y="21"/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="2059" y="39"/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="3891" y="79"/>
+</item>
+<item historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="6150" y="86"/>
+</item>
+<item historyLabel="Secretary.java" index="2">
+<position info="not_deleted" x="2553" y="25"/>
+</item>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="5652" y="0"/>
+</item>
+<item historyLabel="File.class" index="8">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
+<item historyLabel="Secretary.java" index="2">
+<position info="not_deleted" x="1772" y="32"/>
 </item>
-<item historyLabel="Agent.java" index="7">
-<position info="not_deleted" x="2486" y="0"/>
+<item historyLabel="Agent.java" index="0">
+<position info="not_deleted" x="4485" y="0"/>
 </item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
-</item>
-<item historyLabel="Agent.java" index="10">
-<position info="not_deleted" x="2486" y="0"/>
-</item>
-<item historyLabel="OLMCTSAgent.java" index="11">
-<position info="not_deleted" x="4059" y="0"/>
-</item>
-<item historyLabel="exercises.txt" index="12">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="learning.txt" index="13">
-<position info="not_deleted" x="1883" y="0"/>
-</item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
-</item>
-<item historyLabel="learning.txt" index="13">
-<position info="not_deleted" x="1883" y="0"/>
-</item>
-<item historyLabel="solutions.txt" index="14">
-<position info="not_deleted" x="1039" y="0"/>
-</item>
-<item historyLabel="solutions.txt" index="14">
-<position info="not_deleted" x="1039" y="0"/>
-</item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
-</item>
-<item historyLabel="solutions.txt" index="14">
-<position info="not_deleted" x="1039" y="0"/>
-</item>
-<item historyLabel="README.txt" index="15">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Agent.java" index="10">
-<position info="not_deleted" x="2486" y="0"/>
-</item>
-<item historyLabel="exercises.txt" index="12">
-<position info="not_deleted" x="25" y="0"/>
-</item>
-<item historyLabel="Test.java" index="4">
-<position info="not_deleted" x="5713" y="0"/>
-</item>
-<item historyLabel="exercises.txt" index="12">
-<position info="not_deleted" x="25" y="0"/>
-</item>
-<item historyLabel="OLMCTSAgent.java" index="16">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="exercises.txt" index="12">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="GAAgent.java" index="17">
-<position info="not_deleted" x="8287" y="0"/>
-</item>
-<item historyLabel="Test.java" index="18">
-<position info="not_deleted" x="4329" y="0"/>
-</item>
-<item active="true" historyLabel="Agent.java" index="19">
-<position info="not_deleted" x="4667" y="0"/>
+<item active="true" historyLabel="OfflineOptimizer.java" index="1">
+<position info="not_deleted" x="6150" y="86"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -394,6 +364,24 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="File.class" tooltip="java.io.File">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=gvgai/\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre\/lib\/rt.jar&lt;java.io(File.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Secretary.java" tooltip="gvgai/src/shallowThought/Secretary.java">
+<persistable path="/gvgai/src/shallowThought/Secretary.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="NativeConstructorAccessorImpl.class" tooltip="sun.reflect.NativeConstructorAccessorImpl">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=gvgai/\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre\/lib\/rt.jar&lt;sun.reflect(NativeConstructorAccessorImpl.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OfflineOptimizer.java" tooltip="gvgai/src/shallowThought/offline/OfflineOptimizer.java">
+<persistable path="/gvgai/src/shallowThought/offline/OfflineOptimizer.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CMAEvolutionStrategy.java" tooltip="gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/CMAEvolutionStrategy.java">
+<persistable path="/gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/CMAEvolutionStrategy.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CMAExample1.java" tooltip="gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/examples/CMAExample1.java">
+<persistable path="/gvgai/src/shallowThought/cma/src/fr/inria/optimization/cmaes/examples/CMAExample1.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="README.txt" tooltip="gvgai/src/shallowThought/learning/README.txt">
 <persistable path="/gvgai/src/shallowThought/learning/README.txt"/>
 </file>
@@ -420,24 +408,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractPlayer.java" tooltip="gvgai/src/core/player/AbstractPlayer.java">
 <persistable path="/gvgai/src/core/player/AbstractPlayer.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AllDataTypes.java" tooltip="gvgai/src/shallowThought/olmcts/AllDataTypes.java">
-<persistable path="/gvgai/src/shallowThought/olmcts/AllDataTypes.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SingleTreeNode.java" tooltip="gvgai/src/shallowThought/olmcts/SingleTreeNode.java">
-<persistable path="/gvgai/src/shallowThought/olmcts/SingleTreeNode.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WinScoreHeuristic.java" tooltip="gvgai/src/shallowThought/Heuristics/WinScoreHeuristic.java">
-<persistable path="/gvgai/src/shallowThought/Heuristics/WinScoreHeuristic.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StateHeuristic.java" tooltip="gvgai/src/shallowThought/Heuristics/StateHeuristic.java">
-<persistable path="/gvgai/src/shallowThought/Heuristics/StateHeuristic.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SimpleStateHeuristic.java" tooltip="gvgai/src/shallowThought/Heuristics/SimpleStateHeuristic.java">
-<persistable path="/gvgai/src/shallowThought/Heuristics/SimpleStateHeuristic.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Agent.java" tooltip="gvgai/src/controllers/sampleonesteplookahead/Agent.java">
-<persistable path="/gvgai/src/controllers/sampleonesteplookahead/Agent.java"/>
 </file>
 </mruList>
 </workbench>

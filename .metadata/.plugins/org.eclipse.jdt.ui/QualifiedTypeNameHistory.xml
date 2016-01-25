@@ -2,4 +2,5 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="ontology.Types.ACTIONS"/>
 <fullyQualifiedTypeName name="shallowThought.AbstractSubAgent"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
 </qualifiedTypeNameHistroy>
