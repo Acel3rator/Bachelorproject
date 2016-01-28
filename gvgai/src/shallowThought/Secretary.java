@@ -11,6 +11,7 @@ import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import core.game.Observation;
@@ -27,12 +28,63 @@ public class Secretary {
     // Set this variable to FALSE to avoid logging the actions to a file.
     private static final boolean SHOULD_LOG = true;
     private static final boolean LEARNING = true;
+
+    /*
+     * Reads all lines from file and returns them as String-Array String[]
+     */
+    public String[] readAllLines(File file) {
+    	Charset charset = Charset.forName("US-ASCII");
+    	List<String> lines = new ArrayList<String>();
+    	String line = null;
+    	// read all lines:
+    	try (BufferedReader reader = Files.newBufferedReader(file.toPath(), charset)) {
+    	    while ((line = reader.readLine()) != null) {
+    	    	lines.add(line);
+    	    }
+    	} catch (IOException x) {
+    	    System.err.format("IOException: %s%n", x);
+    	}
+    	// turn list to array:
+    	return lines.toArray(new String[lines.size()]);
+    }
+
+    /*
+     * Gets parameters[][], including ranges and value types, from config file for cmaes
+     * Currently from "./src/shallowThought/offline/config.txt"
+     * Parameter ranges etc. have to be added MANUALLY
+     * Returns parameters as a String[][], WITHOUT subAgent-name
+     */
+    public String[][] getParametersFromConfig(String subAgent) {
+    	File config = new File("./src/shallowThought/offline/config.txt");
+    	String[] allLines = readAllLines(config);
+    	String[][] parameters = null;
+		// search file for correct subAgent
+    	for (String oneLine : allLines) {
+    		String[] parameters_pre = oneLine.split(":", 0);  // splits subagentname:param1:param2:...
+    		if (subAgent == parameters_pre[0]) {  // right one found
+    			parameters = new String[parameters_pre.length-1][4];
+    	    	for (int i = 1; i < parameters_pre.length; i++) {
+    	    		parameters[i-1] = parameters_pre[i].split(",", 0); // splits for param: paramName,min,max,type
+    	    	}
+    	    	return parameters;
+    		}
+    	}
+    	// TODO raise error "no parameters specified"
+    	return parameters;
+    }
     
-	
+    /*
+     * Gets number of parameters to be optimized from config file as dimension for cmaes
+     */
+    public int getDim(String subAgent) {
+    	return getParametersFromConfig(subAgent).length;
+    }
+    
     /*
      * Reads next exercise from exercise-file and returns the sorted components:
      * name of subAgent:game:level:RunsToOptimize:[parameters]
      * example: OLMCTSAgent:catapults:0:998/1000:MCTS_ITERATIONS=100&ROLLOUT_DEPTH=9:NUM_TURNS=1to100&REWARD_DISCOUNT=0.50to1.50
+     * TODO : delete?
      */
     public String[] readExercise(File file) {
     	Charset charset = Charset.forName("US-ASCII");
