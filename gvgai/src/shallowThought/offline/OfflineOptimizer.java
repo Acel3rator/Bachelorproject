@@ -1,6 +1,4 @@
 package shallowThought.offline;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,12 +13,6 @@ import shallowThought.cma.src.fr.inria.optimization.cmaes.CMAEvolutionStrategy;
 import shallowThought.cma.src.fr.inria.optimization.cmaes.fitness.IObjectiveFunction;
 
 public class OfflineOptimizer {
-	
-	static Secretary glados;
-	
-	public OfflineOptimizer() {
-		glados = new Secretary();
-	}
 	
 	public void main() {
 		// Step 1: Find optimal parameters for all subagents (with cma-es)
@@ -54,13 +46,13 @@ public class OfflineOptimizer {
 		optimizeCMA(games, levels, subAgent);
 	}	
 
-	public static void optimizeCMA(String[] games, String[] level, String subAgent) {
-		IObjectiveFunction fitfun = new agent(games, level, subAgent);
+	public static void optimizeCMA(String[] gamesX, String[] levelX, String subAgent) {
+		IObjectiveFunction fitfun = new agent(gamesX, levelX, subAgent);
 
 		// new a CMA-ES and set some initial values
 		CMAEvolutionStrategy cma = new CMAEvolutionStrategy();
 		cma.readProperties(); // read options, see file CMAEvolutionStrategy.properties
-		cma.setDimension(glados.getDim(subAgent)); // overwrite dimension with number of params of subagent
+		cma.setDimension(5); // overwrite some loaded properties TODO add dimension erkennungsfunction 
 		cma.setInitialX(0.05); // in each dimension, also setTypicalX can be used
 		cma.setInitialStandardDeviation(0.2); // also a mandatory setting 
 		cma.options.stopFitness = 1e-14;       // optional setting
@@ -87,7 +79,7 @@ public class OfflineOptimizer {
 				fitness[i] = fitfun.valueOf(pop[i]); // fitfun.valueOf() is to be minimized
 			}
 			cma.updateDistribution(fitness);         // pass fitness array to update search distribution
-			// --- end core iteration step ---
+            // --- end core iteration step ---
 
 			// output to files and console 
 			cma.writeToDefaultFiles();
@@ -108,35 +100,36 @@ public class OfflineOptimizer {
 			cma.println("  " + s);
 		cma.println("best function value " + cma.getBestFunctionValue() 
 				+ " at evaluation " + cma.getBestEvaluationNumber());
-			
 		// we might return cma.getBestSolution() or cma.getBestX()
+		
+		// write best parameters in a separate file, so we have them in one place
+		
 	}
 }
 
 
 class agent implements IObjectiveFunction { // meaning implements methods valueOf and isFeasible
-	Secretary glados;
-	
 	private String[] games;
 	private String[] levels;
 	private String subAgent;
 	private String[][] parameters;
 	String shallowThought = "shallowThought.Agent";
+    protected Secretary glados = new Secretary();
 	boolean visuals = true;
+	private int numRuns = 0;
 	
 	// Constructor
 	public agent(String[] gameX, String[] levelX, String subAgentX) {
-		glados = new Secretary();
 		games = gameX;
 		levels = levelX;
 		subAgent = subAgentX;
-		readConfig(subAgent);
-
+		readConfig();
 	}
 	
 	public double valueOf (double[] x) {
+		numRuns++;
 		// 1) denormalize values
-		String string = "";
+		String saveParas = "";
 		for (int i = 0; i < x.length; i++){
 			double value = (x[i] * (Double.parseDouble(parameters[i][2]) - Double.parseDouble(parameters[i][1]))) + Double.parseDouble(parameters[i][1]);
 			String val = "";
@@ -148,43 +141,71 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 					val = Double.valueOf(value).toString();
 					break;
 			}
-			string += parameters[i][0] +","+ val+":";
+			saveParas += parameters[i][0] +","+ val+":";
 		}
-		string = subAgent + ":" + string.substring(0, string.length()-1);
-		writeTemp(string);
-		// 2) Apply cmaes values to bot
+		saveParas = subAgent + ":" + saveParas.substring(0, saveParas.length()-1);
+		writeTemp(saveParas, "./src/shallowThought/offline/cma_temp.txt");
+		
+		// 2) Apply cmaes values to bot + save all stuff in log file
 		double res = 0;
         int seed = new Random().nextInt();
 		for (String game : games) {
 			for (String level : levels) {
-				// TODO already: if player wins, score is positive. todo: if player loses, score must be negative.
-				res -= ArcadeMachine.runOneGame(game, level, visuals, shallowThought, null, seed); // substracrt becuse cma minimizes
+				System.out.println(game.split("/")[2]);
+				String game1 = game.split("/")[2].split("\\.")[0];
+				String level1 = level.split("/")[2].split("\\.")[0].split("lvl")[1];
+				String actionDir = "./src/shallowThought/records/" + game1 + "/" + level1 + "/shallowThought/"
+   							 + subAgent;
+				new File(actionDir).mkdirs();
+				String actionFile = actionDir + "/" + "run_" + numRuns + ".txt";
+   				writeTemp(saveParas, actionFile);
+				res -= ArcadeMachine.runOneGame(game, level, visuals, shallowThought, actionFile, seed); // substract score becuse cma minimizes
+
+				if (!glados.didWin(actionFile)) {
+					res += 1000;		// We assume, that score never falls bellow -1000, so if game is lost we add 1000 to indicate bad result
+					System.out.println("Result:" + res);
+				}
 			}
 		}
 		res = res/(games.length * levels.length);
 		return res;
 	}
 	
+	
 	public boolean isFeasible(double[] x) {
 		for (int i = 0; i < x.length; i++ ) {
 			if (x[i] < 0 || x[i] > 1) {return false;}
 		}
-		return true; }
+		return true; } // [0,1] is feasible
 	
 	/*
 	 * Read the config for cmaes parameters and split into name, lower, upper bound, value type
-	 * and store for given subagent
+	 * and store 
 	 */
-	public void readConfig(String subAgent) {
-		parameters = glados.getParametersFromConfig(subAgent);		
+	public void readConfig() {
+		// TODO (IMPORTANT) read the correct values (we have a number of possible subagents)
+		File config = new File("./src/shallowThought/offline/config.txt");
+    	Charset charset = Charset.forName("US-ASCII");
+    	String line = null;
+    	try (BufferedReader reader = Files.newBufferedReader(config.toPath(), charset)) {
+    	    line = reader.readLine();  // TODO atm this reads only one line
+    	} catch (IOException x) {
+    	    System.err.format("IOException: %s%n", x);
+    	}
+    	// Use regex to split config in its components
+    	String[] parameters_pre = line.split(":", 0);
+    	subAgent = parameters_pre[0];
+    	parameters = new String[parameters_pre.length-1][4];
+    	for (int i = 1; i < parameters_pre.length; i++) {
+    		parameters[i-1] = parameters_pre[i].split(",", 0);
+    	}		
     }
 
 	/*
 	 * Write the temorary parameters to cma_temp.txt
-	 * TODO, secretary? outsourcing ftw
 	 */
-    private void writeTemp(String str) {
-    	File tmp = new File("./src/shallowThought/offline/cma_temp.txt");
+    private void writeTemp(String str, String file) {
+    	File tmp = new File(file);
     	Charset charset = Charset.forName("US-ASCII");
     	String line = null;
     	try (BufferedWriter writer = Files.newBufferedWriter(tmp.toPath(), charset)) {

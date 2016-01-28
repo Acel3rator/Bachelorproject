@@ -66,7 +66,6 @@ public abstract class AbstractPlayer {
         try {
             if(this.actionFile!=null && SHOULD_LOG)
             {
-            	boolean evaluate = true;
                 writer = new BufferedWriter(new FileWriter(new File(this.actionFile)));
                 writer.write(randomSeed + "\r\n");
                 

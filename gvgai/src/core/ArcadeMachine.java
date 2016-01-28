@@ -83,6 +83,9 @@ public class ArcadeMachine
         else
             score = toPlay.runGame(player, randomSeed);
 
+        // CUSTOMIZED: LOGGING WINNER
+        player.logWinner(score, toPlay);
+        
         //Finally, when the game is over, we need to tear the player down.
         ArcadeMachine.tearPlayerDown(player);
 
