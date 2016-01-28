@@ -33,7 +33,7 @@ public class OfflineOptimizer {
         String gamesPath = "examples/gridphysics/";
         //Game and level to play
         int gameIdx = 32;
-        int levelIdx = 1; //level names from 0 to 4 (game_lvlN.txt).
+        int levelIdx = 2; //level names from 0 to 4 (game_lvlN.txt).
         String game = gamesPath + allGames[gameIdx] + ".txt";
         String level = gamesPath + allGames[gameIdx] + "_lvl" + levelIdx +".txt";
 		
@@ -51,7 +51,7 @@ public class OfflineOptimizer {
 		// new a CMA-ES and set some initial values
 		CMAEvolutionStrategy cma = new CMAEvolutionStrategy();
 		cma.readProperties(); // read options, see file CMAEvolutionStrategy.properties
-		cma.setDimension(5); // overwrite some loaded properties TODO add dimension erkennungsfunction
+		cma.setDimension(5); // overwrite some loaded properties
 		cma.setInitialX(0.05); // in each dimension, also setTypicalX can be used
 		cma.setInitialStandardDeviation(0.2); // also a mandatory setting 
 		cma.options.stopFitness = 1e-14;       // optional setting
@@ -145,7 +145,6 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
         int seed = new Random().nextInt();
 		for (String game : games) {
 			for (String level : levels) {
-				// TODO already: if player wins, score is positive. todo: if player loses, score must be negative.
 				res += ArcadeMachine.runOneGame(game, level, visuals, shallowThought, null, seed);
 			}
 		}
@@ -164,12 +163,11 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 	 * and store 
 	 */
 	public void readConfig() {
-		// TODO (IMPORTANT) read the correct values (we have a number of possible subagents)
 		File config = new File("./src/shallowThought/offline/config.txt");
     	Charset charset = Charset.forName("US-ASCII");
     	String line = null;
     	try (BufferedReader reader = Files.newBufferedReader(config.toPath(), charset)) {
-    	    line = reader.readLine();  // TODO atm this reads only one line
+    	    line = reader.readLine();
     	} catch (IOException x) {
     	    System.err.format("IOException: %s%n", x);
     	}
@@ -181,7 +179,7 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
     		parameters[i-1] = parameters_pre[i].split(",", 0);
     	}		
     }
-
+    	
 	/*
 	 * Write the temorary parameters to cma_temp.txt
 	 */

@@ -2,23 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="309" key="DIALOG_WIDTH"/>
-		<item value="209" key="DIALOG_Y_ORIGIN"/>
-		<item value="469" key="DIALOG_HEIGHT"/>
-		<item value="806" key="DIALOG_X_ORIGIN"/>
+		<item value="227" key="DIALOG_Y_ORIGIN"/>
+		<item value="1486" key="DIALOG_X_ORIGIN"/>
+		<item value="462" key="DIALOG_HEIGHT"/>
 		<item value="1|Cantarell|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="chosenA" key="selection"/>
+		<item value="valueO" key="selection"/>
 		<list key="findhistory">
-			<item value="chosenA"/>
-			<item value="getN"/>
-			<item value="getC"/>
-			<item value="get"/>
+			<item value="valueo"/>
+			<item value="print"/>
+			<item value="write"/>
+			<item value="exercises"/>
+			<item value="exerci"/>
+			<item value="glados"/>
+			<item value="score"/>
+			<item value="properties"/>
 		</list>
 		<list key="replacehistory">
 		</list>

@@ -1,10 +1,10 @@
 package shallowThought;
 
 
-import shallowThought.subagents.olmcts.*;
-import shallowThought.subagents.breadthFS.BreadthFS;
-import shallowThought.subagents.ga.*;
-import shallowThought.subagents.osla.*;
+import shallowThought.olmcts.*;
+import shallowThought.breadthFS.BreadthFS;
+import shallowThought.ga.*;
+import shallowThought.osla.*;
 
 import ontology.Types;
 import tools.ElapsedCpuTimer;
@@ -128,9 +128,9 @@ public class Agent extends AbstractPlayer {
         	
         	System.out.println("chose: "+chosenAgent.getClass().getName());
 
-          //  glados.writeLevelToFile(recordFile, so);
-            //glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
-            //glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
+            glados.writeLevelToFile(recordFile, so);
+            glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
+            glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
         }
     }
 
