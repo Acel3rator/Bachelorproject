@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import core.game.Observation;
 import core.game.StateObservation;
@@ -78,6 +80,26 @@ public class Secretary {
      */
     public int getDim(String subAgent) {
     	return getParametersFromConfig(subAgent).length;
+    }
+    
+    /*
+     * Looks for "didWin: " in specified records-file and expects integer 0 or 1
+     * after that.
+     * Returns true if player won a game specified in record
+     */
+    public boolean didWin(String recordPath) {
+    	File record = new File(recordPath);
+    	String[] allLines = readAllLines(record);
+    	Pattern p = Pattern.compile("didWin: (.*)");
+    	for (String line : allLines) {
+    		Matcher m = p.matcher(line);
+    		if (m.find()) {
+    			if (Integer.parseInt(m.group(1)) == 1) return true;
+    			else return false;
+    		}
+    	}
+    	// TODO raise error, record file fucked
+    	return false
     }
     
     /*
