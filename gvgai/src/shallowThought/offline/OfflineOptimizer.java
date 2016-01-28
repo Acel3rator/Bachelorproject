@@ -164,7 +164,7 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		for (String game : games) {
 			for (String level : levels) {
 				// TODO already: if player wins, score is positive. todo: if player loses, score must be negative.
-				res += ArcadeMachine.runOneGame(game, level, visuals, shallowThought, null, seed);
+				res -= ArcadeMachine.runOneGame(game, level, visuals, shallowThought, null, seed); // substracrt becuse cma minimizes
 			}
 		}
 		res = res/(games.length * levels.length);
