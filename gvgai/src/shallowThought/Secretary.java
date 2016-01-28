@@ -99,7 +99,7 @@ public class Secretary {
     		}
     	}
     	// TODO raise error, record file fucked
-    	return false
+    	return false;
     }
     
     /*
