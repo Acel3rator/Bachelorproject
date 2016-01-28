@@ -32,19 +32,25 @@ public class OfflineOptimizer {
 		String shallowThought = "shallowThought.Agent";
 
         String gamesPath = "examples/gridphysics/";
-        //Game and level to play
-        int gameIdx = 32;
-        int levelIdx = 1; //level names from 0 to 4 (game_lvlN.txt).
-        String game = gamesPath + allGames[gameIdx] + ".txt";
-        String level = gamesPath + allGames[gameIdx] + "_lvl" + levelIdx +".txt";
-		
         
-		String[] games = new String[]{game};
-		String[] levels = new String[]{level};
-		String subAgent = null;
-		
-		optimizeCMA(games, levels, subAgent);
-	}	
+        for (int g = 0; g < 60; g++) {
+        	for (int l = 0; l < 60; l++) {
+        		for (String sA : new String[]{"olmcts", "ga"}) {
+        			//Game and level to play
+        	        int gameIdx = g;
+        	        int levelIdx = l; //level names from 0 to 4 (game_lvlN.txt).
+        	        String game = gamesPath + allGames[gameIdx] + ".txt";
+        	        String level = gamesPath + allGames[gameIdx] + "_lvl" + levelIdx +".txt";
+        			
+        			String[] games = new String[]{game};
+        			String[] levels = new String[]{level};
+        			
+        			optimizeCMA(games, levels, sA);
+
+        		}
+        	}
+        }
+  	}	
 
 	public static void optimizeCMA(String[] gamesX, String[] levelX, String subAgent) {
 		IObjectiveFunction fitfun = new agent(gamesX, levelX, subAgent);

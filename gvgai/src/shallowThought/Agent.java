@@ -45,16 +45,11 @@ public class Agent extends AbstractPlayer {
     
     // File for record
     protected File recordFile;
-    protected File learningRecordFile;
-    protected File exercises = new File("./src/shallowThought/learning/exercises.txt");;  // exercises to do
-    protected File solutions = new File("./src/shallowThought/learning/solutions.txt");;  // write solutions (= best configs) here
-    protected File learning = new File("./src/shallowThought/learning/learning.txt");;  // this is the temporary learning-file, save all necessary information for optimization here
     
     // Writer for the actions file.
     private BufferedWriter writer;
 
      // Set this variable to FALSE to avoid logging the actions to a file.
-    private static final boolean SHOULD_LOG = true;
     private static final boolean LEARNING = true;
 
 	private static final boolean DEBUG = true;
@@ -127,10 +122,6 @@ public class Agent extends AbstractPlayer {
         	}
         	
         	System.out.println("chose: "+chosenAgent.getClass().getName());
-
-          //  glados.writeLevelToFile(recordFile, so);
-            //glados.writeToFileAppend(recordFile, "Chose "+chosenAgent.getClass().getName());
-            //glados.writeToFileAppend(recordFile, "Dummy");  // because score-writing always replaces last line
         }
     }
 
