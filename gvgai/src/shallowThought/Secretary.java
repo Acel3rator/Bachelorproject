@@ -63,7 +63,7 @@ public class Secretary {
 		// search file for correct subAgent
     	for (String oneLine : allLines) {
     		String[] parameters_pre = oneLine.split(":", 0);  // splits subagentname:param1:param2:...
-    		if (subAgent == parameters_pre[0]) {  // right one found
+    		if (subAgent.equals(parameters_pre[0])) {  // right one found
     			parameters = new String[parameters_pre.length-1][4];
     	    	for (int i = 1; i < parameters_pre.length; i++) {
     	    		parameters[i-1] = parameters_pre[i].split(",", 0); // splits for param: paramName,min,max,type

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="shallowThought/neuroph-2.92/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/shuki/Desktop/Bachelorprojekt/gvgai/src/shallowThought/neuroph-2.92/neuroph-adapters-2.92.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuki/Desktop/Bachelorprojekt/gvgai/src/shallowThought/neuroph-2.92/neuroph-contrib-2.92.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuki/Desktop/Bachelorprojekt/gvgai/src/shallowThought/neuroph-2.92/neuroph-core-2.92.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuki/Desktop/Bachelorprojekt/gvgai/src/shallowThought/neuroph-2.92/neuroph-imgrec-2.92.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuki/Desktop/Bachelorprojekt/gvgai/src/shallowThought/neuroph-2.92/neuroph-ocr-2.92.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuki/Desktop/Bachelorprojekt/gvgai/src/shallowThought/neuroph-2.92/neuroph-samples-2.92.jar"/>
+	<classpathentry kind="lib" path="src/shallowThought/neuroph-2.92"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
