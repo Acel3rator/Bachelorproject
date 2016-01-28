@@ -1,4 +1,6 @@
 package shallowThought.offline;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,10 +10,17 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 
 import core.ArcadeMachine;
+import shallowThought.Secretary;
 import shallowThought.cma.src.fr.inria.optimization.cmaes.CMAEvolutionStrategy;
 import shallowThought.cma.src.fr.inria.optimization.cmaes.fitness.IObjectiveFunction;
 
 public class OfflineOptimizer {
+	
+	static Secretary glados;
+	
+	public OfflineOptimizer() {
+		glados = new Secretary();
+	}
 	
 	public void main() {
 		// Step 1: Find optimal parameters for all subagents (with cma-es)
@@ -45,13 +54,13 @@ public class OfflineOptimizer {
 		optimizeCMA(games, levels, subAgent);
 	}	
 
-	public static void optimizeCMA(String[] gamesX, String[] levelX, String subAgent) {
-		IObjectiveFunction fitfun = new agent(gamesX, levelX, subAgent);
+	public static void optimizeCMA(String[] games, String[] level, String subAgent) {
+		IObjectiveFunction fitfun = new agent(games, level, subAgent);
 
 		// new a CMA-ES and set some initial values
 		CMAEvolutionStrategy cma = new CMAEvolutionStrategy();
 		cma.readProperties(); // read options, see file CMAEvolutionStrategy.properties
-		cma.setDimension(5); // overwrite some loaded properties TODO add dimension erkennungsfunction
+		cma.setDimension(glados.getDim(subAgent)); // overwrite dimension with number of params of subagent
 		cma.setInitialX(0.05); // in each dimension, also setTypicalX can be used
 		cma.setInitialStandardDeviation(0.2); // also a mandatory setting 
 		cma.options.stopFitness = 1e-14;       // optional setting
@@ -78,7 +87,7 @@ public class OfflineOptimizer {
 				fitness[i] = fitfun.valueOf(pop[i]); // fitfun.valueOf() is to be minimized
 			}
 			cma.updateDistribution(fitness);         // pass fitness array to update search distribution
-            // --- end core iteration step ---
+			// --- end core iteration step ---
 
 			// output to files and console 
 			cma.writeToDefaultFiles();
@@ -106,6 +115,8 @@ public class OfflineOptimizer {
 
 
 class agent implements IObjectiveFunction { // meaning implements methods valueOf and isFeasible
+	Secretary glados;
+	
 	private String[] games;
 	private String[] levels;
 	private String subAgent;
@@ -115,10 +126,11 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 	
 	// Constructor
 	public agent(String[] gameX, String[] levelX, String subAgentX) {
+		glados = new Secretary();
 		games = gameX;
 		levels = levelX;
 		subAgent = subAgentX;
-		readConfig();
+		readConfig(subAgent);
 
 	}
 	
@@ -157,33 +169,19 @@ class agent implements IObjectiveFunction { // meaning implements methods valueO
 		for (int i = 0; i < x.length; i++ ) {
 			if (x[i] < 0 || x[i] > 1) {return false;}
 		}
-		return true; } // entire R^n is feasible
+		return true; }
 	
 	/*
 	 * Read the config for cmaes parameters and split into name, lower, upper bound, value type
-	 * and store 
+	 * and store for given subagent
 	 */
-	public void readConfig() {
-		// TODO (IMPORTANT) read the correct values (we have a number of possible subagents)
-		File config = new File("./src/shallowThought/offline/config.txt");
-    	Charset charset = Charset.forName("US-ASCII");
-    	String line = null;
-    	try (BufferedReader reader = Files.newBufferedReader(config.toPath(), charset)) {
-    	    line = reader.readLine();  // TODO atm this reads only one line
-    	} catch (IOException x) {
-    	    System.err.format("IOException: %s%n", x);
-    	}
-    	// Use regex to split config in its components
-    	String[] parameters_pre = line.split(":", 0);
-    	subAgent = parameters_pre[0];
-    	parameters = new String[parameters_pre.length-1][4];
-    	for (int i = 1; i < parameters_pre.length; i++) {
-    		parameters[i-1] = parameters_pre[i].split(",", 0);
-    	}		
+	public void readConfig(String subAgent) {
+		parameters = glados.getParametersFromConfig(subAgent);		
     }
 
 	/*
 	 * Write the temorary parameters to cma_temp.txt
+	 * TODO, secretary? outsourcing ftw
 	 */
     private void writeTemp(String str) {
     	File tmp = new File("./src/shallowThought/offline/cma_temp.txt");
