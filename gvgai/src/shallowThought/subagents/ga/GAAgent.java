@@ -1,4 +1,4 @@
-package shallowThought.ga;
+package shallowThought.subagents.ga;
 
 
 import shallowThought.Heuristics.StateHeuristic;

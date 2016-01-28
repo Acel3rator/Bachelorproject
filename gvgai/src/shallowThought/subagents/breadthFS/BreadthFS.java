@@ -1,4 +1,4 @@
-package shallowThought.breadthFS;
+package shallowThought.subagents.breadthFS;
 
 import shallowThought.AbstractSubAgent;
 import core.game.Observation;

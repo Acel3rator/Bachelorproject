@@ -1,4 +1,4 @@
-package shallowThought.breadthFS;
+package shallowThought.subagents.breadthFS;
 
 import core.game.StateObservation;
 import ontology.Types;

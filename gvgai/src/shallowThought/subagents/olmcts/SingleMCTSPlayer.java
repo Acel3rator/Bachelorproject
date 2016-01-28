@@ -1,4 +1,4 @@
-package shallowThought.olmcts;
+package shallowThought.subagents.olmcts;
 
 import core.game.StateObservation;
 import tools.ElapsedCpuTimer;

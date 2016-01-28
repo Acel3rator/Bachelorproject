@@ -1,4 +1,4 @@
-package shallowThought.olmcts;
+package shallowThought.subagents.olmcts;
 
 import shallowThought.AbstractSubAgent;
 import core.game.StateObservation;

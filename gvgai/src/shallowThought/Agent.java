@@ -1,10 +1,10 @@
 package shallowThought;
 
 
-import shallowThought.olmcts.*;
-import shallowThought.breadthFS.BreadthFS;
-import shallowThought.ga.*;
-import shallowThought.osla.*;
+import shallowThought.subagents.olmcts.*;
+import shallowThought.subagents.breadthFS.BreadthFS;
+import shallowThought.subagents.ga.*;
+import shallowThought.subagents.osla.*;
 
 import ontology.Types;
 import tools.ElapsedCpuTimer;
@@ -55,7 +55,7 @@ public class Agent extends AbstractPlayer {
 
      // Set this variable to FALSE to avoid logging the actions to a file.
     private static final boolean SHOULD_LOG = true;
-    private static final boolean LEARNING = false;
+    private static final boolean LEARNING = true;
 
 	private static final boolean DEBUG = true;
     

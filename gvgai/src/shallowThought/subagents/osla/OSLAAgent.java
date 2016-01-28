@@ -1,4 +1,4 @@
-package shallowThought.osla;
+package shallowThought.subagents.osla;
 
 
 import shallowThought.AbstractSubAgent;
