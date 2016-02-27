@@ -105,7 +105,7 @@ public class Test
         String readActionsFile = "actionsFile_aliens_lvl0.txt";  // Path to file to be replayed
         
         // This plays N games, in the first L levels, M times each.
-        int N = 1, L = 5, M = 1;
+        int N = 60, L = 5, M = 1;
         
         // mode 5:
         boolean saveActions = true;
@@ -113,7 +113,7 @@ public class Test
         String[] actionFiles = new String[L*M];
     	
         
-        int mode = 7;
+        int mode = 5;
         
         switch (mode) {
         case 1:
@@ -137,25 +137,47 @@ public class Test
             ArcadeMachine.runGames(game, levels, M, shallowThought, null);
     		break;
         case 5:
-        	//5. This plays all bots in N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
+        	//5. This plays all bots in N games, in the first L levels ONCE (new..). Actions to file optional (set saveActions to true).
             String[] bots = new String[]{
-            		shallowThought, YOLOBOT, YBCriber, TUDarmstadtTeam2, thorbjrn, SJA862,
-            		Return42, psuko, NovTea, MH2015, alxio};
-            for (int b = 0; b < bots.length; b++) {
+            		YOLOBOT, YBCriber, TUDarmstadtTeam2, /*thorbjrn,*/ SJA862,
+            		/*Return42, psuko,*/ NovTea, MH2015, alxio};
+            int playEachLevelMax = 1;  // 0 = 1 time, 1 = 2 times, ...
+            for (String bot : bots) {
             	for(int i = 0; i < N; ++i)
             	{
-            		int actionIdx = 0;
             		game = gamesPath + games[i] + ".txt";
+            		// first check if we can skip this bot/game combination:
+            		boolean skip = true;
+            		for(int j = 0; j < L; ++j){
+        				File save = new File("records/raw_data/" 
+								+ bot.substring(0, bot.length()-6) 
+								+ "_game_" + i + "_level_" + j + "_" + playEachLevelMax + ".txt");
+        				if (!save.exists() || save.length() == 0) {
+        					skip = false;
+        				}
+            		}
+            		if (skip) {continue;}  // skip this game since we already evaluated it
             		for(int j = 0; j < L; ++j){
             			levels[j] = gamesPath + games[i] + "_lvl" + j +".txt";
-            			if(saveActions) for(int k = 0; k < M; ++k)
-            				actionFiles[actionIdx++] = "records/raw_data/" 
-            											+ bots[b].substring(0, bots[b].length()-6) 
-            											+ "_game_" + i + "_level_" + j + "_" + k + ".txt";
+            			if(saveActions) { /*for(int k = 0; k < M; ++k)*/
+            				int k = 0;
+            				File save = new File("records/raw_data/" 
+									+ bot.substring(0, bot.length()-6) 
+									+ "_game_" + i + "_level_" + j + "_" + k + ".txt");
+            				while (save.exists() && save.length() != 0) {
+                				k++;
+            					save = new File("records/raw_data/" 
+                					+ bot.substring(0, bot.length()-6) 
+    								+ "_game_" + i + "_level_" + j + "_" + k + ".txt");
+            				}
+            				actionFiles[j] = save.toString();
+            			}
                 	}
-            		ArcadeMachine.runGames(game, levels, M, bots[b], saveActions? actionFiles:null);
+            		System.out.println("Playing Bot: " +bot);
+            		ArcadeMachine.runGames(game, levels, M, bot, saveActions? actionFiles:null);
                 }
             }
+            System.out.println("Done.");
             break;
         case 6:
         	//6. Exercise! Executes game as often as is stated in the "exercises"
@@ -182,7 +204,5 @@ public class Test
         	opti.main();
         	break;
         }
-        
-        
     }
 }
