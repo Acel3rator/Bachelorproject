@@ -68,12 +68,11 @@ public class Test
 
         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
         //games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-          //                             "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
+        //                             "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
 
         //Training Set 6 (Validation CEEC 2015)
         //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
         //        "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
-
 
         allGames = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
                 /*5*/"missilecommand", "portals", "sokoban", "survivezombies", "zelda",

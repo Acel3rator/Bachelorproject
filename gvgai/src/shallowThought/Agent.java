@@ -9,22 +9,25 @@ import shallowThought.subagents.osla.*;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
 
-
 import java.io.BufferedWriter;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-import core.ArcadeMachine;
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.events.LearningEvent;
+import org.neuroph.core.events.LearningEventListener;
+import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.nnet.learning.BackPropagation;
+
 import core.game.Observation;
 import core.game.StateObservation;
 import core.player.AbstractPlayer;
@@ -33,7 +36,7 @@ public class Agent extends AbstractPlayer {
 
     // Random generator for the agent.
     protected Random randomGenerator;
-
+    
     // Observation grid.
     protected ArrayList<Observation> grid[][];
 
@@ -55,7 +58,8 @@ public class Agent extends AbstractPlayer {
 	private static final boolean DEBUG = true;
     
     // Different agents
-    protected AbstractSubAgent[] subAgents;
+    protected String[] agents;
+	protected AbstractSubAgent[] subAgents;
     protected AbstractSubAgent chosenAgent;
     protected OLMCTSAgent olmcts;
     protected GAAgent ga;
@@ -82,6 +86,11 @@ public class Agent extends AbstractPlayer {
         subAgents = new AbstractSubAgent[] {
             olmcts, ga, osla, breadthFS
         };
+        
+        agents = new String[]{
+         		"YOLOBOT.agent", "YBCriber.agent", "TUDarmstadtTeam2.agent", "SJA862.agent",
+           		"NovTea.agent", "MH2015.agent", "alxio.agent", "olmcts", "ga", "osla", "breathFS"};
+        
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
 
@@ -125,7 +134,69 @@ public class Agent extends AbstractPlayer {
         }
     }
 
+     
+    /**
+     * This sample shows how to train MultiLayerPerceptron neural network for iris classification problem using Neuroph
+     * For more details about training process, error, iterations use NeurophStudio which provides rich environment  for
+     * training and inspecting neural networks
+     * @author Zoran Sevarac <sevarac@gmail.com>
+     */
+    static class LearningListener implements LearningEventListener {
 
+        long start = System.currentTimeMillis();
+
+        public void handleLearningEvent(LearningEvent event) {
+            BackPropagation bp = (BackPropagation) event.getSource();
+            System.out.println("Current iteration: " + bp.getCurrentIteration());
+            System.out.println("Error: " + bp.getTotalNetworkError());
+            System.out.println((System.currentTimeMillis() - start) / 1000.0);
+            start = System.currentTimeMillis();
+        }
+    }
+
+
+    // Runs the Network
+    public static void main(String[] args) {    
+        // get the path to file with data
+        String inputFileName = "data_set/agent_results.txt";
+            
+        // create MultiLayerPerceptron neural network
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
+        // create training set from file
+        DataSet agentDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
+            
+        // train the network with training set
+        neuralNet.getLearningRule().addListener(new LearningListener());
+        neuralNet.getLearningRule().setLearningRate(0.01);
+        neuralNet.getLearningRule().setMaxIterations(30000);
+
+        neuralNet.learn(agentDataSet);
+
+        neuralNet.save("agentNet.nnet");
+            
+        System.out.println("Done training.");
+        System.out.println("Testing network...");
+    }
+        
+    /**
+     * This is going to be the Method, that uses the neural network to predict which agent
+     * to choose 
+     * @param neuralNet neural network
+     * @param testSet test data set
+    */
+    public static void testNeuralNetwork(NeuralNetwork neuralNet, DataSet testSet) {
+
+        for(DataSetRow testSetRow : testSet.getRows()) {
+            neuralNet.setInput(testSetRow.getInput());
+            neuralNet.calculate();
+            double[] networkOutput = neuralNet.getOutput();
+
+            System.out.print("Input: " + Arrays.toString( testSetRow.getInput() ) );
+            System.out.println(" Output: " + Arrays.toString( networkOutput) );
+        }
+    }
+        
+    
     /**
      * Picks an action. This function is called every game step to request an
      * action from the player.

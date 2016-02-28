@@ -186,7 +186,7 @@ class AgentEval:
         """
         # Check for available files
         filenames = []
-        for  log in os.listdir(os.getcwd()+"/raw_data"):
+        for  log in os.listdir(os.getcwd()+"/raw_data_old"):
             if log.endswith(".txt"):
                 filenames.append(log)
         

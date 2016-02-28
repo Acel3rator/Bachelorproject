@@ -471,3 +471,18 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY org.eclipse.ui 4 4 2016-02-27 18:36:04.606
 !MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+!SESSION 2016-02-28 12:47:25.777 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.7.0_95
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2016-02-28 18:10:53.008
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-28 18:10:53.040
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-28 18:10:53.041
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
