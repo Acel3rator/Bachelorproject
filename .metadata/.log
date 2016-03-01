@@ -486,3 +486,78 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY org.eclipse.ui 4 4 2016-02-28 18:10:53.041
 !MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+!SESSION 2016-02-29 13:21:36.766 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.7.0_95
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 17:15:09.035
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 17:15:09.068
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 17:15:09.068
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 17:18:01.981
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 17:18:01.984
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 17:18:01.984
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 18:26:33.517
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 18:26:33.522
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 18:26:33.523
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 19:22:34.107
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 19:22:34.111
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 19:22:34.111
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:18:10.772
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:18:10.775
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:18:10.775
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:21:39.645
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:21:39.647
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:21:39.648
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined
+!SESSION 2016-02-29 20:36:27.955 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.8.0_73
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:38:35.796
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.ReplaceWithPrevious", command "org.eclipse.egit.ui.team.ReplaceWithPrevious" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:38:35.799
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithCommit", command "org.eclipse.egit.ui.team.CompareWithCommit" not defined
+
+!ENTRY org.eclipse.ui 4 4 2016-02-29 20:38:35.800
+!MESSAGE Unable to create menu item "org.eclipse.egit.ui.team.CompareWithRevision", command "org.eclipse.egit.ui.team.CompareWithRevision" not defined

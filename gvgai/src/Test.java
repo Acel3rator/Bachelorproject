@@ -112,7 +112,7 @@ public class Test
         String[] actionFiles = new String[L*M];
     	
         
-        int mode = 5;
+        int mode = 2;
         
         switch (mode) {
         case 1:
