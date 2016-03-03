@@ -27,6 +27,8 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.util.data.norm.MaxNormalizer;
+import org.neuroph.util.data.norm.Normalizer;
 
 import core.game.Observation;
 import core.game.StateObservation;
@@ -158,16 +160,28 @@ public class Agent extends AbstractPlayer {
     // Runs the Network
     public static void main(String[] args) {    
         // get the path to file with data
-        String inputFileName = "data_set/agent_results.txt";
+        String inputFileName = "./src/shallowThought/data_set/game_classification.txt";
+        int inputsCount = 4;
+        int outputsCount = 3;
             
         // create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 16, outputsCount);
         // create training set from file
-        DataSet agentDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
+        DataSet agentDataSet = DataSet.createFromFile(inputFileName, inputsCount, outputsCount, ",", false);
             
+        //Normalizing data set
+        Normalizer normalizer = new MaxNormalizer();
+        normalizer.normalize(agentDataSet);
+        
+        //Creatinig training set (70%) and test set (30%)
+        DataSet[] trainingAndTestSet = agentDataSet.createTrainingAndTestSubsets(70, 30);
+        DataSet trainingSet = trainingAndTestSet[0];
+        DataSet testSet = trainingAndTestSet[1];
+        
         // train the network with training set
         neuralNet.getLearningRule().addListener(new LearningListener());
         neuralNet.getLearningRule().setLearningRate(0.01);
+        // neuralNet.getLearningRule().setMaxError(0.001);     --- optional
         neuralNet.getLearningRule().setMaxIterations(30000);
 
         neuralNet.learn(agentDataSet);

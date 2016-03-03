@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 org.eclipse.jdt.core.classpathVariable.ECLIPSE_HOME=/usr/lib/eclipse
-org.eclipse.jdt.core.classpathVariable.JRE_LIB=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar
+org.eclipse.jdt.core.classpathVariable.JRE_LIB=/opt/Oracle_Java/jre1.8.0_73/lib/rt.jar
 org.eclipse.jdt.core.classpathVariable.JRE_SRC=
 org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=
 org.eclipse.jdt.core.classpathVariable.JUNIT_HOME=/usr/share/eclipse/dropins/jdt/plugins/org.junit_3.8.2.dist/
