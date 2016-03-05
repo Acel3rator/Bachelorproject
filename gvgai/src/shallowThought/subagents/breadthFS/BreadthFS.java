@@ -203,7 +203,7 @@ public class BreadthFS extends AbstractSubAgent {
 	 */
 	private boolean seen(StateObservation s) {
 		//  check for equality with any of the state before
-		long hash = hash(s, true);
+		long hash = hash(s, true, true);
 		if (seen.contains(hash)) {
 			return true;
 		}
@@ -218,15 +218,17 @@ public class BreadthFS extends AbstractSubAgent {
 	 * @param ignoreNPCs
 	 * @return hash value for a StateObservation
 	 */
-	private long hash(StateObservation so, boolean ignoreNPCs) {
+	private long hash(StateObservation so, boolean ignoreNPCs, boolean ignoreOrientation) {
 		long prime = 31;
 
 		long result = 17;
 		result = result * prime + Double.doubleToLongBits(so.getAvatarPosition().x);
 		result = result * prime + Double.doubleToLongBits(so.getAvatarPosition().y);
 		result = result * prime + so.getAvatarType();
-		result = result * prime + Double.doubleToLongBits(so.getAvatarOrientation().x);
-		result = result * prime + Double.doubleToLongBits(so.getAvatarOrientation().y);
+		if (!ignoreOrientation) {
+			result = result * prime + Double.doubleToLongBits(so.getAvatarOrientation().x);
+			result = result * prime + Double.doubleToLongBits(so.getAvatarOrientation().y);
+		}
 
 		for (int i = 0; i < so.getObservationGrid().length; i++) {
 			result = result * prime + i;

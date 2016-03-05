@@ -11,7 +11,10 @@ import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -208,100 +211,92 @@ public class Secretary {
         }
     }
 
-    
-    void writeLevelToFile(File file, StateObservation so) {
-    	try {
-        	if(SHOULD_LOG) {
-        		// parameters:
-        		boolean logEverything = true;
-        		if(!file.exists())
-        		{
-        			file.createNewFile();
-        		}
-        		// create an APPENDING writer
-        		writer = new BufferedWriter(new FileWriter(file, true));
-        		if (logEverything) {
-        			// write npcs:
-        		writer.write("NPC:(");
-            	if (so.getNPCPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getNPCPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write immovables
-            	writer.write("Immovable:(");
-            	if (so.getImmovablePositions() != null) {
-            	  ArrayList<Observation>[] list = so.getImmovablePositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write movables
-            	writer.write("Movable:(");
-            	if (so.getMovablePositions() != null) {
-            	  ArrayList<Observation>[] list = so.getMovablePositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write resources
-            	writer.write("Resources:(");
-            	if (so.getResourcesPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getResourcesPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write("),");
-            	// write portals
-            	writer.write("Portals:(");
-            	if (so.getPortalsPositions() != null) {
-            	  ArrayList<Observation>[] list = so.getPortalsPositions();
-            	  for (int i=0; i<list.length; i++) {
-            		  for (int j=0; j<list[i].size(); j++) {
-            			  if (list[i] != null) {
-            				  writer.write("(" + list[i].get(j).itype + ",");
-            				  writer.write(list[i].get(j).position.toString()+")");
-            			  }
-            		  }
-            	  }
-            	}
-            	writer.write(")\r\n");
-        		} else {
-        			// log only counts of thing (simple)
-        			writer.write("NPC: ");
-        		}
-            	// close writer to write from buffer to file
-            	writer.close();
+    /**
+     * ATTENTION! IF YOU CHANGE THE ORDER/AMOUNT OF INFORMATION, PLEASE ALSO CHANGE
+     * THE features.txt, SINCE THERE THE FEATURE NAMES ARE SAVED IN CORRECT ORDER
+     * 
+     * Writes a stateObservation to a file in csv-format.
+     * AvatarPosX, AvatarPosY, AvatarOriX, AvatarOriY, AvatarType, AvatarSpeed,
+     * AvatarResources, NPCs, Immovables, Movables, Resources, Portals, GridSizeX, GridSizeY,
+     * WorldDimInPixX, WorldDimInPixY, BlockSize, AvatarLastAction, EventsSoFar,
+     * SpritesByAvatar, GameScore, GameTick
+     * @param file File to write the level to.
+     * @param stateObs Observation of the current state.
+     * @return Nothing I guess
+     */
+    public void writeLevelToFile(File file, StateObservation so) {
+    	CustomState cs = new CustomState(so);
+    	cs.writeToFile(file);
+    	/*try {
+        	boolean logEverything = true;
+        	// parameters:
+        	if(!file.exists()){file.createNewFile();}
+        	writer = new BufferedWriter(new FileWriter(file, false));
+        	// Write avatar information
+        	writer.write(so.getAvatarPosition().toString());
+        	writer.write(',');
+        	writer.write(so.getAvatarOrientation().toString());
+        	writer.write(',');
+        	writer.write(String.valueOf(so.getAvatarType()));
+        	writer.write(',');
+        	writer.write(String.valueOf(so.getAvatarSpeed()));
+        	writer.write(',');
+        	if (so.getAvatarResources() != null) {
+        		Iterator it = so.getAvatarResources().entrySet().iterator();
+        	    while (it.hasNext()) {
+        	        Map.Entry pair = (Map.Entry)it.next();
+        	        writer.write(pair.getKey() + " : " + pair.getValue());
+        	        it.remove(); // avoids a ConcurrentModificationException
+        	        writer.write("|");
+        	    }
+        	} else {
+        		writer.write("None");
         	}
+        	writer.write(',');
+        	// Write other state-observations
+        	ArrayList<ArrayList<Observation>[]> observations = new ArrayList<ArrayList<Observation>[]>();
+            observations.add(so.getNPCPositions());
+        	observations.add(so.getImmovablePositions());
+        	observations.add(so.getMovablePositions());
+        	observations.add(so.getResourcesPositions());
+        	observations.add(so.getPortalsPositions());
+        	observations.add(so.getFromAvatarSpritesPositions());
+        	for (ArrayList<Observation>[] list : observations) {
+                if (list != null) {
+                    for (ArrayList<Observation> innerList : list) {
+                        writer.write("#"); //Delimiting different types of sprites of object
+                        for (int j=0; j<innerList.size(); j++) {
+                        	if (! (j==0)) {writer.write("|");}
+                        	writer.write(innerList.get(j).position.toString());                   
+                        }
+                    }
+                } else {
+            		writer.write("None");
+            	}
+            	writer.write(",");
+            }
+        	// Write general levelinformation (size, etc.)
+        	writer.write(String.valueOf(so.getWorldDimension().getWidth()));
+        	writer.write(',');
+            writer.write(String.valueOf(so.getWorldDimension().getHeight()));
+        	writer.write(',');
+            writer.write(String.valueOf(so.getBlockSize()));
+        	writer.write(',');
+            writer.write(so.getAvatarLastAction().toString());
+        	writer.write(',');
+        	writer.write("Events so far yet to be realized...");
+        	//writer.write(so.getEventsHistory());
+        	writer.write(',');
+            writer.write(String.valueOf(so.getGameScore()));
+            writer.write(',');
+            writer.write(String.valueOf(so.getGameTick()));
+        	writer.write(',');
+            writer.write(")\r\n");
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-	}
+        }*/
+    }
 
     
     /*
