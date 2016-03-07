@@ -55,6 +55,7 @@ class CreateTS:
         them and adding 10k, if won
         """
         filename = '../src/shallowThought/data_set/Best_Agent.txt'
+        f = open(filename, 'w+')
         for game in self.data:
             for level in self.data[game]:
                 scores = []
@@ -75,7 +76,6 @@ class CreateTS:
                 scores = sorted(scores, key=lambda bot: bot[1],
                                 reverse = True)
                 # print(scores)
-                f = open(filename, 'w+')
                 f.write(str(game) + ', ' + str(level) + ', ' + scores[0][0] +
                         ',\t' + str(scores[0][1]) + ',\t' +
                          str(scores[0][2]) + '\n')

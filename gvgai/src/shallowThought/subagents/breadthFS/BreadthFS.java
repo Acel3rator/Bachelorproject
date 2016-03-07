@@ -120,7 +120,7 @@ public class BreadthFS extends AbstractSubAgent {
             	
             	// TODO exception of some kind, no solution found
             }
-        	
+            //System.out.println(search);
             current = search.remove();
             
             StateObservation s = current.state();
@@ -130,20 +130,24 @@ public class BreadthFS extends AbstractSubAgent {
             }
 
             if (gameOver(s)) {  // we lost
+            	System.out.println("lost");
             	continue;
             }
 
             if (stop(s)) {  // we won
+            	System.out.println("won");
             	returnActions = true;
             	createActionList(current);  // possible timeout?
             }
 
             if (seen(s)) {  // this state has been seen earlier
+            	//System.out.println("seen");
             	continue;
             }
             
             // else: add all children
             for (SingleTreeNode child : current.expand()) {
+        //    System.out.println("new child");
             	search.add(child);
             }
             
@@ -153,7 +157,7 @@ public class BreadthFS extends AbstractSubAgent {
             avgTimeTaken  = acumTimeTaken/numIters;
             remaining = elapsedTimer.remainingTimeMillis();
         }
-        if (DEBUG) System.out.println("Remaining: "+remaining);
+     //   if (DEBUG) System.out.println("Remaining: "+remaining);
         if (DEBUG && remaining == -22) System.out.println(current.m_depth);
         return Types.ACTIONS.ACTION_NIL;
     }
@@ -224,9 +228,11 @@ public class BreadthFS extends AbstractSubAgent {
 		long result = 17;
 		result = result * prime + Double.doubleToLongBits(so.getAvatarPosition().x);
 		result = result * prime + Double.doubleToLongBits(so.getAvatarPosition().y);
-		result = result * prime + so.getAvatarType();
+		//result = result * prime + so.getAvatarType();
 		result = result * prime + Double.doubleToLongBits(so.getAvatarOrientation().x);
 		result = result * prime + Double.doubleToLongBits(so.getAvatarOrientation().y);
+		result = result * prime + Double.doubleToLongBits(so.getAvatarSpeed());
+		
 
 		for (int i = 0; i < so.getObservationGrid().length; i++) {
 			result = result * prime + i;
@@ -274,6 +280,5 @@ public class BreadthFS extends AbstractSubAgent {
     		return BALANCE_TIME_MEMORY;
 		}
     	return null;
-    }
-    
+    }   
 }

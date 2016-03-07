@@ -55,7 +55,7 @@ public class Agent extends AbstractPlayer {
     private BufferedWriter writer;
 
      // Set this variable to FALSE to avoid logging the actions to a file.
-    private static final boolean LEARNING = true;
+    private static final boolean LEARNING = false;
 
 	private static final boolean DEBUG = true;
     
@@ -96,7 +96,7 @@ public class Agent extends AbstractPlayer {
         // Record-File-Writer:
         this.recordFile = new File("./src/shallowThought/records/test.txt");
 
-        chosenAgent = olmcts;
+        chosenAgent = breadthFS;
         if (LEARNING)
         {
         	File cma_temp = new File("./src/shallowThought/offline/cma_temp.txt");
@@ -143,7 +143,7 @@ public class Agent extends AbstractPlayer {
      * training and inspecting neural networks
      * @author Zoran Sevarac <sevarac@gmail.com>
      */
-    static class LearningListener implements LearningEventListener {
+   /* static class LearningListener implements LearningEventListener {
 
         long start = System.currentTimeMillis();
 
@@ -156,9 +156,9 @@ public class Agent extends AbstractPlayer {
         }
     }
 
-
+*/
     // Runs the Network
-    public static void main(String[] args) {    
+  /*  public static void main(String[] args) {    
         // get the path to file with data
         String inputFileName = "./src/shallowThought/data_set/game_classification.txt";
         int inputsCount = 4;
@@ -191,7 +191,7 @@ public class Agent extends AbstractPlayer {
         System.out.println("Done training.");
         System.out.println("Testing network...");
     }
-        
+    */    
     /**
      * This is going to be the Method, that uses the neural network to predict which agent
      * to choose 
@@ -209,7 +209,8 @@ public class Agent extends AbstractPlayer {
             System.out.println(" Output: " + Arrays.toString( networkOutput) );
         }
     }
-        
+   
+    
     
     /**
      * Picks an action. This function is called every game step to request an
