@@ -95,8 +95,8 @@ public class Test
 
         //Game and level to play
         games = allGames;  // if you don't distinguish between sets
-        int gameIdx = 15;
-        int levelIdx = 2; //level names from 0 to 4 (game_lvlN.txt).
+        int gameIdx = 23;
+        int levelIdx = 4; //level names from 0 to 4 (game_lvlN.txt).
         String game = gamesPath + games[gameIdx] + ".txt";
         String level1 = gamesPath + games[gameIdx] + "_lvl" + levelIdx +".txt";
 		
