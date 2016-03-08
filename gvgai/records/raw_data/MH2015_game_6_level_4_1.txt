@@ -1,0 +1,5 @@
+-964768600
+0,0.0,ACTION_UP
+1,0.0,ACTION_UP
+finalScore: 0.0
+didWin: 0

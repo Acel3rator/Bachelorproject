@@ -95,8 +95,10 @@ public class Test
 
         //Game and level to play
         games = allGames;  // if you don't distinguish between sets
+
         int gameIdx = 36;
         int levelIdx = 0; //level names from 0 to 4 (game_lvlN.txt).
+
         String game = gamesPath + games[gameIdx] + ".txt";
         String level1 = gamesPath + games[gameIdx] + "_lvl" + levelIdx +".txt";
 		
@@ -112,7 +114,7 @@ public class Test
         String[] actionFiles = new String[L*M];
     	
         
-        int mode = 2;
+        int mode = 1;
         
         switch (mode) {
         case 1:
@@ -121,7 +123,7 @@ public class Test
     		break;
         case 2:
         	// 2. This plays a game in a level by the controller.
-            ArcadeMachine.runOneGame(game, level1, visuals, shallowThought, recordActionsFile, seed);
+            ArcadeMachine.runOneGame(game, level1, visuals, YBCriber, recordActionsFile, seed);
             break;
         case 3:
         	// 3. This replays a game from an action file previously recorded

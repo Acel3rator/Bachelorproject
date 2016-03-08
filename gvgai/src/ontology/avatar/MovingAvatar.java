@@ -4,12 +4,19 @@ import core.VGDLSprite;
 import core.competition.CompetitionParameters;
 import core.content.SpriteContent;
 import core.game.Game;
+import core.game.Observation;
+import core.game.StateObservation;
 import ontology.Types;
+import shallowThought.Secretary;
 import tools.ElapsedCpuTimer;
 import tools.Utils;
 import tools.Vector2d;
 
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import core.player.AbstractPlayer;
@@ -33,6 +40,8 @@ public class MovingAvatar extends VGDLSprite {
 
     public Types.MOVEMENT lastMovementType = Types.MOVEMENT.STILL;
 
+    public Secretary glados = new Secretary();
+    
     public MovingAvatar() {
     }
 
@@ -126,7 +135,7 @@ public class MovingAvatar extends VGDLSprite {
         ect.setMaxTimeMillis(CompetitionParameters.ACTION_TIME);
 
         Types.ACTIONS action = this.player.act(game.getObservation(), ect.copy());
-
+        
         if(ect.exceededMaxTime())
         {
             long exceeded =  - ect.remainingTimeMillis();
@@ -143,6 +152,8 @@ public class MovingAvatar extends VGDLSprite {
             action = Types.ACTIONS.ACTION_NIL;
         }
 
+        File file = new File("testestest.txt");
+        glados.writeLevelToFile(file, game.getObservation());
 
         if(!actions.contains(action))
             action = Types.ACTIONS.ACTION_NIL;
@@ -154,8 +165,7 @@ public class MovingAvatar extends VGDLSprite {
         game.ki.reset();
         game.ki.setAction(action);
     }
-
-
+    
     public void updateUse(Game game)
     {
         //Nothing to do by default.
