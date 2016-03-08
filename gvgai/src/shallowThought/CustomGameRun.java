@@ -1,5 +1,10 @@
 package shallowThought;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -17,84 +22,97 @@ import tools.Vector2d;
  * Either construct from recorded game or update on the run.
  */
 public class CustomGameRun {
-	// Basic features
-	private ArrayList<Vector2d> avatarPos;
-	private ArrayList<Vector2d> avatarOri;
-	private ArrayList<Integer> avatarType;
-	private ArrayList<Double> avatarSpeed;
-	private ArrayList<HashMap<Integer, Integer>> avatarRes;
-	private ArrayList<ArrayList<Observation>[]> npcPos;
-	private ArrayList<ArrayList<Observation>[]> immovPos;
-	private ArrayList<ArrayList<Observation>[]> movPos;
-	private ArrayList<ArrayList<Observation>[]> resPos;
-	private ArrayList<ArrayList<Observation>[]> portalPos;
-	private ArrayList<Double> worldDimWidth;
-	private ArrayList<Double> worldDimHeight;
-	private ArrayList<Integer> blockSize;
-	private ArrayList<ACTIONS> avatarLastAction;
-	// TODO:
-	private TreeSet<Event> eventHistory; //mmh...
-	private ArrayList<ArrayList<Observation>[]> spritesByAvatar;
-	private ArrayList<Double> gameScore;
-	private int gameTick;
-	
-	// Meta-features
-	private ArrayList<Integer> numNPCs;
-	private ArrayList<Integer> numImmov;
-	private ArrayList<Integer> numMov;
-	private ArrayList<Integer> numRes;
-	private ArrayList<Integer> numPortal;
+
+	/**
+	 * This is a list of game-state-observations. Each observation has its own tick.
+	 * For this Class to work properly, you have to guarantee to add the customStates
+	 * in the correct gameTick-order.
+	 */
+	private ArrayList<CustomState> customState;
 	
 	// constructors
 	public CustomGameRun() {
-		// Standard features (init arraylists on 2000 for speed)
-		avatarPos = new ArrayList<Vector2d>(2000);
-		avatarOri = new ArrayList<Vector2d>(2000);
-		avatarType = new ArrayList<Integer>(2000);
-		avatarSpeed = new ArrayList<Double>(2000);
-		avatarRes = new ArrayList<HashMap<Integer, Integer>>(2000);
-		npcPos = new ArrayList<ArrayList<Observation>[]>(2000);
-		immovPos = new ArrayList<ArrayList<Observation>[]>(2000);
-		movPos = new ArrayList<ArrayList<Observation>[]>(2000);
-		resPos = new ArrayList<ArrayList<Observation>[]>(2000);
-		portalPos = new ArrayList<ArrayList<Observation>[]>(2000);
-		worldDimWidth = new ArrayList<Double>(2000);
-		worldDimHeight = new ArrayList<Double>(2000);
-		blockSize = new ArrayList<Integer>(2000);
-		avatarLastAction = new ArrayList<ACTIONS>(2000);
-		// TODO
-		// eventHistory = so.getEventsHistory(); //mmh...
-		spritesByAvatar = new ArrayList<ArrayList<Observation>[]>(2000);
-		gameScore = new ArrayList<Double>(2000);
-		// Meta-features
-		numNPCs = new ArrayList<Integer>(2000);
-		numImmov = new ArrayList<Integer>(2000);
-		numMov = new ArrayList<Integer>(2000);
-		numRes = new ArrayList<Integer>(2000);
-		numPortal = new ArrayList<Integer>(2000);
+		customState = new ArrayList<CustomState>(2000);
+	}
+	
+	/**
+	 * This method updates the object.
+	 */
+	public void update(StateObservation so) {
+		update(new CustomState(so));
 	}
 	
 	/**
 	 * This method updates the object. For proper work, always update in the order
-	 * of game-ticks.
+	 * of game-ticks. 
 	 */
-	public void update(StateObservation so) {
-		avatarPos.add(so.getAvatarPosition());
-		avatarOri.add(so.getAvatarOrientation());
-		avatarType.add(so.getAvatarType());
-		avatarSpeed.add(so.getAvatarSpeed());
-		avatarRes.add(so.getAvatarResources());
-		npcPos.add(so.getNPCPositions());
-		immovPos.add(so.getImmovablePositions());
-		movPos.add(so.getMovablePositions());
-		resPos.add(so.getResourcesPositions());
-		portalPos.add(so.getPortalsPositions());
-		worldDimWidth.add(so.getWorldDimension().getWidth());
-		worldDimHeight.add(so.getWorldDimension().getHeight());
-		blockSize.add(so.getBlockSize());
-		avatarLastAction.add(so.getAvatarLastAction());
-		//eventHistory.add(so.getEventsHistory()); //mmh...
-		spritesByAvatar.add(so.getFromAvatarSpritesPositions());
-		gameScore.add(so.getGameScore());
+	public void update(CustomState cs) {
+		// If we skipped a few states during the updating
+				if (customState.size() < cs.getGameTick()) {
+					// TODO: Create and estimate states in between
+				}
+				// This should be normal case:
+				else if (customState.size() == cs.getGameTick()) {
+					customState.add(cs);
+				}
+				// This is an afterwards-modification, should be well justified
+				else if (customState.size() > cs.getGameTick()) {
+					customState.set(cs.getGameTick(), cs);
+				}
+	}
+
+	/**
+	 * Here we decide which features to give to the NN
+	 * Naive method: simply return as many basic features as possible from last observed state
+	 * @return double[] array of double-values
+	 */
+	public Double[] getNNIntput() {
+		ArrayList<Double> result = new ArrayList<Double>();
+		result.add((double) customState.get(customState.size()-1).getNumNPCs());
+		result.add((double) customState.get(customState.size()-1).getNumImmov());
+		result.add((double) customState.get(customState.size()-1).getNumMov());
+		result.add((double) customState.get(customState.size()-1).getNumRes());
+		result.add((double) customState.get(customState.size()-1).getNumPortal());
+		return result.toArray(new Double[result.size()]);
+	}
+	
+	/**
+	 * This method is supposed to write a customGameRun to a txt-file.
+	 * @param file
+	 */
+	private void writeToFile(File file) {
+		for (CustomState cs : customState) {
+			if (customState.indexOf(cs) == 0) {cs.writeToFile(file, false);}
+			else {cs.writeToFile(file, true);}
+		}
+	}
+	
+	/**
+	 * This method is supposed to read a customGameRun from a txt-file.
+	 * @param file
+	 */
+	private void readFromFile(File file) {
+    	BufferedReader reader = null;
+    	String line = "";
+    	try {
+    		reader = new BufferedReader(new FileReader(file));
+    		while ((line = reader.readLine()) != null) {
+    			CustomState cs = new CustomState(line);
+    			this.update(cs);
+       		}
+
+    	} catch (FileNotFoundException e) {
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	} finally {
+    		if (reader != null) {
+    			try {
+    				reader.close();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
 	}
 }
