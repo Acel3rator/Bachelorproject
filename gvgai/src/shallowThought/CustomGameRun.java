@@ -77,14 +77,23 @@ public class CustomGameRun {
 	}
 	
 	/**
+	 * This method is supposed to write a customGameRun to a txt-file.
+	 * @param file
+	 */
+	private void writeToFile(File file) {
+		for (CustomState cs : customState) {
+			if (customState.indexOf(cs) == 0) {cs.writeToFile(file, false);}
+			else {cs.writeToFile(file, true);}
+		}
+	}
+	
+	/**
 	 * This method is supposed to read a customGameRun from a txt-file.
-	 * Doesn't work yet...
 	 * @param file
 	 */
 	private void readFromFile(File file) {
     	BufferedReader reader = null;
     	String line = "";
-    	String cvsSplitBy = ",";
     	try {
     		reader = new BufferedReader(new FileReader(file));
     		while ((line = reader.readLine()) != null) {

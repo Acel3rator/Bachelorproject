@@ -86,15 +86,20 @@ public class CustomState {
 	 */
 	public void generateMetaFeatures() {
 		numNPCs = 0;
-		for (ArrayList<CustomObservation> obs : npcPos) { numNPCs += obs.size(); }
+		if (npcPos != null) {
+		for (ArrayList<CustomObservation> obs : npcPos) { numNPCs += obs.size(); }}
 		numImmov = 0;
-		for (ArrayList<CustomObservation> obs : immovPos) { numImmov += obs.size(); }
+		if (immovPos != null) {
+		for (ArrayList<CustomObservation> obs : immovPos) { numImmov += obs.size(); }}
 		numMov = 0;
-		for (ArrayList<CustomObservation> obs : movPos) { numMov += obs.size(); }
+		if (movPos != null) {
+		for (ArrayList<CustomObservation> obs : movPos) { numMov += obs.size(); }}
 		numRes = 0;
-		for (ArrayList<CustomObservation> obs : resPos) { numRes += obs.size(); }
+		if (resPos != null) {
+		for (ArrayList<CustomObservation> obs : resPos) { numRes += obs.size(); }}
 		numPortal = 0;
-		for (ArrayList<CustomObservation> obs : portalPos) { numPortal += obs.size(); }
+		if (portalPos != null) {
+		for (ArrayList<CustomObservation> obs : portalPos) { numPortal += obs.size(); }}
 	
 	}
 	
@@ -147,14 +152,18 @@ public class CustomState {
         	observations.add(portalPos);
         	observations.add(spritesByAvatar);
         	for (ArrayList<ArrayList<CustomObservation>> list : observations) {
-                for (ArrayList<CustomObservation> innerList : list) {
-                    writer.write("#"); //Delimiting different types of sprites of object
-                    for (int j=0; j<innerList.size(); j++) {
-                     	if (! (j==0)) {writer.write("|");}
-                        	writer.write(innerList.get(j).toString());                   
-                        }
-                    }
-            	writer.write(",");
+            	if (list != null) {
+            		for (ArrayList<CustomObservation> innerList : list) {
+	                    if (! (list.indexOf(innerList) == 0))writer.write("#"); //Delimiting different types of sprites of object
+	                    for (int j=0; j<innerList.size(); j++) {
+	                     	if (! (j==0)) {writer.write("|");}
+	                        writer.write(innerList.get(j).toString());                   
+	                    }
+            		}
+                } else {
+                	writer.write("None");
+               	}
+                writer.write(",");
             }
         	// Write general levelinformation (size, etc.)
         	writer.write(String.valueOf(worldDimWidth));
@@ -171,7 +180,6 @@ public class CustomState {
             writer.write(String.valueOf(gameScore));
             writer.write(',');
             writer.write(String.valueOf(gameTick));
-        	writer.write(',');
             writer.write("\r\n");
             writer.close();
         } catch (IOException e) {
@@ -203,56 +211,88 @@ public class CustomState {
         	String[] split = sT.split(" : ");
         	avatarRes.put(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         }
-        ArrayList<ArrayList<CustomObservation>[]> observations = new ArrayList<ArrayList<CustomObservation>[]>();
-            observations.add(npcPos);
-        	observations.add(immovPos);
-        	observations.add(movPos);
-        	observations.add(resPos);
-        	observations.add(portalPos);
-        	observations.add(spritesByAvatar);
-        	for (ArrayList<CustomObservation>[] list : observations) {
-                if (list != null) {
-                    for (ArrayList<CustomObservation> innerList : list) {
-                        writer.write("#"); //Delimiting different types of sprites of object
-                        for (int j=0; j<innerList.size(); j++) {
-                        	if (! (j==0)) {writer.write("|");}
-                        	writer.write(innerList.get(j).position.toString());                   
-                        }
-                    }
-                } else {
-            		writer.write("None");
-            	}
-            	writer.write(",");
-            }
-        	// Write general levelinformation (size, etc.)
-        	writer.write(String.valueOf(worldDimWidth));
-        	writer.write(',');
-            writer.write(String.valueOf(worldDimHeight));
-        	writer.write(',');
-            writer.write(String.valueOf(blockSize));
-        	writer.write(',');
-            writer.write(avatarLastAction.toString());
-        	writer.write(',');
-        	writer.write("Events so far yet to be realized...");
-        	//writer.write(so.getEventsHistory());
-        	writer.write(',');
-            writer.write(String.valueOf(gameScore));
-            writer.write(',');
-            writer.write(String.valueOf(gameTick));
-        	writer.write(',');
-            writer.write("\r\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }    
-	}
-    
+        // lists...
+        tmp = features[5].split("#");
+        npcPos = new ArrayList<ArrayList<CustomObservation>>();
+        for (String sT : tmp) {
+        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+        	String[] split = sT.split(" | ");
+        	for (String obser : split) {
+        		tmpList.add(new CustomObservation(obser));
+        	}
+        	npcPos.add(tmpList);
+        }
+        tmp = features[6].split("#");
+        immovPos = new ArrayList<ArrayList<CustomObservation>>();
+        for (String sT : tmp) {
+        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+        	String[] split = sT.split(" | ");
+        	for (String obser : split) {
+        		tmpList.add(new CustomObservation(obser));
+        	}
+        	immovPos.add(tmpList);
+        }
+        tmp = features[7].split("#");
+        movPos = new ArrayList<ArrayList<CustomObservation>>();
+        for (String sT : tmp) {
+        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+        	String[] split = sT.split(" | ");
+        	for (String obser : split) {
+        		tmpList.add(new CustomObservation(obser));
+        	}
+        	movPos.add(tmpList);
+        }
+        tmp = features[8].split("#");
+        resPos = new ArrayList<ArrayList<CustomObservation>>();
+        for (String sT : tmp) {
+        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+        	String[] split = sT.split(" | ");
+        	for (String obser : split) {
+        		tmpList.add(new CustomObservation(obser));
+        	}
+        	resPos.add(tmpList);
+        }
+        tmp = features[9].split("#");
+        portalPos = new ArrayList<ArrayList<CustomObservation>>();
+        for (String sT : tmp) {
+        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+        	String[] split = sT.split(" | ");
+        	for (String obser : split) {
+        		tmpList.add(new CustomObservation(obser));
+        	}
+        	portalPos.add(tmpList);
+        }
+        tmp = features[10].split("#");
+        spritesByAvatar = new ArrayList<ArrayList<CustomObservation>>();
+        for (String sT : tmp) {
+        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+        	String[] split = sT.split(" | ");
+        	for (String obser : split) {
+        		tmpList.add(new CustomObservation(obser));
+        	}
+        	spritesByAvatar.add(tmpList);
+        }
+
+        // other stuff
+        worldDimWidth = Integer.valueOf(features[11]);
+        worldDimHeight = Integer.valueOf(features[12]);
+        blockSize = Integer.valueOf(features[13]);
+        avatarLastAction = null;
+        eventHistory = null;
+        gameScore = Double.valueOf(features[16]);
+        gameTick = Integer.valueOf(features[17]);
+    }
+
 	private Vector2d stringToVector(String s) {
 		String[] splitted = s.split(" : ");
 		return new Vector2d(Double.parseDouble(splitted[0]),Double.parseDouble(splitted[1])); 
 	}
 	
 	private ArrayList<ArrayList<CustomObservation>> obsToCusObs(ArrayList<Observation>[] obs) {
+		if (obs == null) {
+			return null;
+		}
+		
 		ArrayList<ArrayList<CustomObservation>> result = new ArrayList<ArrayList<CustomObservation>>();
 		for (ArrayList<Observation> list : obs) {
 			ArrayList<CustomObservation> tmp = new ArrayList<CustomObservation>();

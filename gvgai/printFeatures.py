@@ -27,7 +27,7 @@ def printFeatures(file, part="all"):
         for feat in features:
             for val in values:
                 for f, v in zip(feat, val):    
-                    # List of list of vectors:
+                    # List of list of stuff:
                     f = f.lstrip()
                     v = processFeature(v)
                     print(f+":", end='')
@@ -53,7 +53,7 @@ def processFeature(feat):
     feat = feat.strip('#')
     feat = feat.split('#')
     feat = [f.split('|') for f in feat]
-    feat = [[f.split(' : ') for f in f2] for f2 in feat]
+    feat = [[f.split('+') for f in f2] for f2 in feat]
     return (feat)        
     
 if __name__ == "__main__":

@@ -226,76 +226,7 @@ public class Secretary {
      */
     public void writeLevelToFile(File file, StateObservation so) {
     	CustomState cs = new CustomState(so);
-    	cs.writeToFile(file, false);
-    	/*try {
-        	boolean logEverything = true;
-        	// parameters:
-        	if(!file.exists()){file.createNewFile();}
-        	writer = new BufferedWriter(new FileWriter(file, false));
-        	// Write avatar information
-        	writer.write(so.getAvatarPosition().toString());
-        	writer.write(',');
-        	writer.write(so.getAvatarOrientation().toString());
-        	writer.write(',');
-        	writer.write(String.valueOf(so.getAvatarType()));
-        	writer.write(',');
-        	writer.write(String.valueOf(so.getAvatarSpeed()));
-        	writer.write(',');
-        	if (so.getAvatarResources() != null) {
-        		Iterator it = so.getAvatarResources().entrySet().iterator();
-        	    while (it.hasNext()) {
-        	        Map.Entry pair = (Map.Entry)it.next();
-        	        writer.write(pair.getKey() + " : " + pair.getValue());
-        	        it.remove(); // avoids a ConcurrentModificationException
-        	        writer.write("|");
-        	    }
-        	} else {
-        		writer.write("None");
-        	}
-        	writer.write(',');
-        	// Write other state-observations
-        	ArrayList<ArrayList<Observation>[]> observations = new ArrayList<ArrayList<Observation>[]>();
-            observations.add(so.getNPCPositions());
-        	observations.add(so.getImmovablePositions());
-        	observations.add(so.getMovablePositions());
-        	observations.add(so.getResourcesPositions());
-        	observations.add(so.getPortalsPositions());
-        	observations.add(so.getFromAvatarSpritesPositions());
-        	for (ArrayList<Observation>[] list : observations) {
-                if (list != null) {
-                    for (ArrayList<Observation> innerList : list) {
-                        writer.write("#"); //Delimiting different types of sprites of object
-                        for (int j=0; j<innerList.size(); j++) {
-                        	if (! (j==0)) {writer.write("|");}
-                        	writer.write(innerList.get(j).position.toString());                   
-                        }
-                    }
-                } else {
-            		writer.write("None");
-            	}
-            	writer.write(",");
-            }
-        	// Write general levelinformation (size, etc.)
-        	writer.write(String.valueOf(so.getWorldDimension().getWidth()));
-        	writer.write(',');
-            writer.write(String.valueOf(so.getWorldDimension().getHeight()));
-        	writer.write(',');
-            writer.write(String.valueOf(so.getBlockSize()));
-        	writer.write(',');
-            writer.write(so.getAvatarLastAction().toString());
-        	writer.write(',');
-        	writer.write("Events so far yet to be realized...");
-        	//writer.write(so.getEventsHistory());
-        	writer.write(',');
-            writer.write(String.valueOf(so.getGameScore()));
-            writer.write(',');
-            writer.write(String.valueOf(so.getGameTick()));
-        	writer.write(',');
-            writer.write(")\r\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+    	cs.writeToFile(file, true);
     }
 
     
