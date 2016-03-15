@@ -80,7 +80,8 @@ public class CustomGameRun {
 	 * This method is supposed to write a customGameRun to a txt-file.
 	 * @param file
 	 */
-	private void writeToFile(File file) {
+	public void writeToFile(File file) {
+		System.out.println(customState.size());
 		for (CustomState cs : customState) {
 			if (customState.indexOf(cs) == 0) {cs.writeToFile(file, false);}
 			else {cs.writeToFile(file, true);}
@@ -91,7 +92,7 @@ public class CustomGameRun {
 	 * This method is supposed to read a customGameRun from a txt-file.
 	 * @param file
 	 */
-	private void readFromFile(File file) {
+	public void readFromFile(File file) {
     	BufferedReader reader = null;
     	String line = "";
     	try {

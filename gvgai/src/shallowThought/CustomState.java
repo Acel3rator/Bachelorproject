@@ -40,7 +40,7 @@ public class CustomState {
 	private double worldDimHeight;
 	private int blockSize;
 	private ACTIONS avatarLastAction;
-	private TreeSet<Event> eventHistory; //mmh...
+	private TreeSet<CustomEvent> eventHistory;
 	private ArrayList<ArrayList<CustomObservation>> spritesByAvatar;
 	private double gameScore;
 	private int gameTick;
@@ -69,13 +69,14 @@ public class CustomState {
 		worldDimHeight = so.getWorldDimension().getHeight();
 		blockSize = so.getBlockSize();
 		avatarLastAction = so.getAvatarLastAction();
-		eventHistory = so.getEventsHistory(); //mmh...
+		eventHistory = eventsToCusEvents(so.getEventsHistory()); //mmh...
 		spritesByAvatar = obsToCusObs(so.getFromAvatarSpritesPositions());
 		gameScore = so.getGameScore();
 		gameTick = so.getGameTick();
 		generateMetaFeatures();
 	}
 	
+
 	public CustomState(String line) {
 		readFromFile(line);
 	}
@@ -104,10 +105,8 @@ public class CustomState {
 	}
 	
     /**
-     * ATTENTION! IF YOU CHANGE THE ORDER/AMOUNT OF INFORMATION, PLEASE ALSO CHANGE
-     * THE features.txt, SINCE THERE THE FEATURE NAMES ARE SAVED IN CORRECT ORDER
-     * 
      * Writes a custom state to a file in csv-format.
+     * Check readme for format information
      * AvatarPosX, AvatarPosY, AvatarOriX, AvatarOriY, AvatarType, AvatarSpeed,
      * AvatarResources, NPCs, Immovables, Movables, Resources, Portals, GridSizeX, GridSizeY,
      * WorldDimInPixX, WorldDimInPixY, BlockSize, AvatarLastAction, EventsSoFar,
@@ -137,10 +136,10 @@ public class CustomState {
         	        Map.Entry pair = (Map.Entry)it.next();
         	        writer.write(pair.getKey() + " : " + pair.getValue());
         	        it.remove(); // avoids a ConcurrentModificationException
-        	        writer.write("|");
+        	        if (it.hasNext()) writer.write("|");
         	    }
         	} else {
-        		writer.write("None");
+        		//writer.write("None");
         	}
         	writer.write(',');
         	// Write other state-observations
@@ -161,7 +160,7 @@ public class CustomState {
 	                    }
             		}
                 } else {
-                	writer.write("None");
+                	//writer.write("None");
                	}
                 writer.write(",");
             }
@@ -174,8 +173,16 @@ public class CustomState {
         	writer.write(',');
             writer.write(avatarLastAction.toString());
         	writer.write(',');
-        	writer.write("Events so far yet to be realized...");
-        	//writer.write(so.getEventsHistory());
+        	if (eventHistory != null) {
+        		Iterator it = eventHistory.iterator();
+        	    while (it.hasNext()) {
+        	        writer.write(it.next().toString());
+        	        it.remove(); // avoids a ConcurrentModificationException
+        	        if (it.hasNext()) writer.write("|");  // only write | if there is something coming afterwards
+        	    }
+        	} else {
+        		//writer.write("None");
+        	}
         	writer.write(',');
             writer.write(String.valueOf(gameScore));
             writer.write(',');
@@ -206,88 +213,103 @@ public class CustomState {
         avatarType = Integer.parseInt(features[2]);
         avatarSpeed = Double.parseDouble(features[3]);
         avatarRes = new HashMap<Integer, Integer>();
-        String[] tmp = features[4].split("|");
+        String[] tmp = features[4].split("\\|");
         for (String sT : tmp) {
+        	if (sT.equals("") || sT.equals("None")) break;  // nothing to add
         	String[] split = sT.split(" : ");
         	avatarRes.put(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         }
         // lists...
-        tmp = features[5].split("#");
-        npcPos = new ArrayList<ArrayList<CustomObservation>>();
-        for (String sT : tmp) {
-        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
-        	String[] split = sT.split(" | ");
-        	for (String obser : split) {
-        		tmpList.add(new CustomObservation(obser));
-        	}
-        	npcPos.add(tmpList);
+        for (int i = 5; i < 11; i++) {
+        
+	        tmp = features[i].split("#");
+	        switch(i) {
+	        case 5:
+	        	npcPos = new ArrayList<ArrayList<CustomObservation>>();
+	        	break;
+	        case 6:
+	        	immovPos = new ArrayList<ArrayList<CustomObservation>>();
+	            break;
+	        case 7:
+	        	movPos = new ArrayList<ArrayList<CustomObservation>>();
+	            break;
+	        case 8:
+	        	resPos = new ArrayList<ArrayList<CustomObservation>>();
+	            break;
+	        case 9:
+	            portalPos = new ArrayList<ArrayList<CustomObservation>>();
+	            break;
+	        case 10:
+	        	spritesByAvatar = new ArrayList<ArrayList<CustomObservation>>();    	
+	        	break;
+	        }
+	        for (String sT : tmp) {
+	        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
+	        	String[] split = sT.split("\\|");
+	        	for (String obser : split) {
+	        		//System.out.println(obser);
+		        	if (obser.equals("") || obser.equals("None")) continue;  // nothing to add
+	        		tmpList.add(new CustomObservation(obser));
+	        	}
+	        	switch(i) {
+		        case 5:
+		        	npcPos.add(tmpList);
+		        	break;
+		        case 6:
+		        	immovPos.add(tmpList);
+		            break;
+		        case 7:
+		        	movPos.add(tmpList);
+		            break;
+		        case 8:
+		        	resPos.add(tmpList);
+		            break;
+		        case 9:
+		            portalPos.add(tmpList);
+		            break;
+		        case 10:
+		        	spritesByAvatar.add(tmpList);    	
+		        	break;
+		        }
+	        }
         }
-        tmp = features[6].split("#");
-        immovPos = new ArrayList<ArrayList<CustomObservation>>();
-        for (String sT : tmp) {
-        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
-        	String[] split = sT.split(" | ");
-        	for (String obser : split) {
-        		tmpList.add(new CustomObservation(obser));
-        	}
-        	immovPos.add(tmpList);
-        }
-        tmp = features[7].split("#");
-        movPos = new ArrayList<ArrayList<CustomObservation>>();
-        for (String sT : tmp) {
-        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
-        	String[] split = sT.split(" | ");
-        	for (String obser : split) {
-        		tmpList.add(new CustomObservation(obser));
-        	}
-        	movPos.add(tmpList);
-        }
-        tmp = features[8].split("#");
-        resPos = new ArrayList<ArrayList<CustomObservation>>();
-        for (String sT : tmp) {
-        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
-        	String[] split = sT.split(" | ");
-        	for (String obser : split) {
-        		tmpList.add(new CustomObservation(obser));
-        	}
-        	resPos.add(tmpList);
-        }
-        tmp = features[9].split("#");
-        portalPos = new ArrayList<ArrayList<CustomObservation>>();
-        for (String sT : tmp) {
-        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
-        	String[] split = sT.split(" | ");
-        	for (String obser : split) {
-        		tmpList.add(new CustomObservation(obser));
-        	}
-        	portalPos.add(tmpList);
-        }
-        tmp = features[10].split("#");
-        spritesByAvatar = new ArrayList<ArrayList<CustomObservation>>();
-        for (String sT : tmp) {
-        	ArrayList<CustomObservation> tmpList = new ArrayList<CustomObservation>();
-        	String[] split = sT.split(" | ");
-        	for (String obser : split) {
-        		tmpList.add(new CustomObservation(obser));
-        	}
-        	spritesByAvatar.add(tmpList);
-        }
+        
 
         // other stuff
-        worldDimWidth = Integer.valueOf(features[11]);
-        worldDimHeight = Integer.valueOf(features[12]);
+        worldDimWidth = Double.valueOf(features[11]);
+        worldDimHeight = Double.valueOf(features[12]);
         blockSize = Integer.valueOf(features[13]);
-        avatarLastAction = null;
-        eventHistory = null;
+        avatarLastAction = ACTIONS.fromString(features[14]);
+        eventHistory = stringToTreeSetEventHistory(features[15]);
         gameScore = Double.valueOf(features[16]);
         gameTick = Integer.valueOf(features[17]);
     }
 
-	private Vector2d stringToVector(String s) {
+
+	private TreeSet<CustomEvent> stringToTreeSetEventHistory(String string) {
+		TreeSet<CustomEvent> result = new TreeSet<CustomEvent>();
+		System.out.println(string);
+		String[] split = string.split("\\|");
+		for (String s : split) {
+			if (s.equals("") || s.equals("None")) break;
+			System.out.println(s);;
+			result.add(new CustomEvent(s));
+		}
+		return result;
+	}
+
+
+	private wVector2d stringToVector(String s) {
 		String[] splitted = s.split(" : ");
 		return new Vector2d(Double.parseDouble(splitted[0]),Double.parseDouble(splitted[1])); 
 	}
 	
+	/**
+	 * Converts an array of arrayLists of Observations (as is the format in the game) to an
+	 * ArrayList of ArrayLists of CustomObservations 
+	 * @param obs format as in so.getNPCPositions()
+	 * @return customObservations
+	 */
 	private ArrayList<ArrayList<CustomObservation>> obsToCusObs(ArrayList<Observation>[] obs) {
 		if (obs == null) {
 			return null;
@@ -300,6 +322,22 @@ public class CustomState {
 				tmp.add(new CustomObservation(o));
 			}
 			result.add(tmp);
+		}
+		return result;
+	}
+	
+	/**
+	 * Converts a TreeSet of Events (from framework) to a TreeSet of CustomEvents
+	 * @param eventsHistory
+	 * @return customEventsHistory
+	 */
+	private TreeSet<CustomEvent> eventsToCusEvents(TreeSet<Event> eventsHistory) {
+		TreeSet<CustomEvent> result = new TreeSet<CustomEvent>();
+		if (eventsHistory != null) {
+    		Iterator it = eventsHistory.iterator();
+    	    while (it.hasNext()) {
+    	        result.add(new CustomEvent((Event)it.next()));
+    	    }
 		}
 		return result;
 	}
@@ -362,7 +400,7 @@ public class CustomState {
 		return avatarLastAction;
 	}
 
-	public TreeSet<Event> getEventHistory() {
+	public TreeSet<CustomEvent> getEventHistory() {
 		return eventHistory;
 	}
 

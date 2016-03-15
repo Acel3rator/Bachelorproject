@@ -152,14 +152,17 @@ public class MovingAvatar extends VGDLSprite {
             action = Types.ACTIONS.ACTION_NIL;
         }
 
-        File file = new File("testestest.txt");
-        glados.writeLevelToFile(file, game.getObservation());
+        //File file = new File("testestest.txt");
+        //glados.writeLevelToFile(file, game.getObservation());
 
         if(!actions.contains(action))
             action = Types.ACTIONS.ACTION_NIL;
 
         if (!evaluate) this.player.logAction(action);
-        else this.player.logStuff(action, game.getObservation()); // custom for evaluation
+        else {
+        	this.player.logStuff(action, game.getObservation()); // custom for evaluation
+        	this.player.logLevel(game.getObservation());
+        }
         
         lastAction = action;
         game.ki.reset();

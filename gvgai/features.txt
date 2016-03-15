@@ -1,1 +1,0 @@
-AvatarPosXY, AvatarOriXY, AvatarType, AvatarSpeed, AvatarResources, NPCs (line per type), Immovables, Movables, Resources, Portals, SpritesByAvatar, WorldDimInPixX, WorldDimInPixY, BlockSize, AvatarLastAction, EventsSoFar, GameScore, GameTick

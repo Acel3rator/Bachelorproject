@@ -58,7 +58,7 @@ public class CustomObservation implements Comparable<CustomObservation>
     public CustomObservation(Observation o)
     {
         this.itype = o.itype;
-        this.obsID = o.itype;
+        this.obsID = o.obsID;
         this.position = o.position;
         this.reference = o.reference;
         sqDist = o.position.sqDist(o.reference);
@@ -67,7 +67,7 @@ public class CustomObservation implements Comparable<CustomObservation>
     
     public CustomObservation(String s)
     {
-    	String[] split = s.split("+");
+    	String[] split = s.split("\\+");
         this.itype = Integer.valueOf(split[0]);
         this.obsID = Integer.valueOf(split[1]);
         this.position = stringToVector(split[2]);
@@ -76,6 +76,9 @@ public class CustomObservation implements Comparable<CustomObservation>
         this.category = Integer.valueOf(split[4]);
     }
     
+    /**
+     * itype+pbsID+posX : posY+refX : refY+category
+     */
     public String toString() {
     	String result = String.valueOf(itype) + "+" +
     			 String.valueOf(obsID) + "+" +
@@ -86,7 +89,7 @@ public class CustomObservation implements Comparable<CustomObservation>
     }
     
     private Vector2d stringToVector(String s) {
-		String[] splitted = s.split(" : ");
+    	String[] splitted = s.split(" : ");
 		return new Vector2d(Double.parseDouble(splitted[0]),Double.parseDouble(splitted[1])); 
 	}
 

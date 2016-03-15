@@ -4,6 +4,7 @@ import core.game.Game;
 import core.game.Observation;
 import core.game.StateObservation;
 import ontology.Types;
+import shallowThought.CustomState;
 import tools.ElapsedCpuTimer;
 
 import java.awt.*;
@@ -151,5 +152,14 @@ public abstract class AbstractPlayer {
                 e.printStackTrace();
             }
         }
+	}
+
+
+	public void logLevel(StateObservation observation) {
+		if(writer!=null && SHOULD_LOG) {
+            CustomState cs = new CustomState(observation);
+			File f = new File(actionFile.substring(0, actionFile.length()-11) + "env.txt"); // -11 for actions.txt (replace suiffix)
+			cs.writeToFile(f, true);
+		}
 	}	
 }

@@ -1,5 +1,5 @@
 import core.ArcadeMachine;
-
+import shallowThought.CustomGameRun;
 import shallowThought.Secretary;
 import shallowThought.cma.src.fr.inria.optimization.cmaes.examples.CMAExample1;
 import shallowThought.offline.OfflineOptimizer;
@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -97,8 +98,8 @@ public class Test
         games = allGames;  // if you don't distinguish between sets
 
 
-        int gameIdx = 36;
-        int levelIdx = 0; //level names from 0 to 4 (game_lvlN.txt).
+        int gameIdx = Arrays.asList(allGames).indexOf("chipschallenge");
+        int levelIdx = 4; //level names from 0 to 4 (game_lvlN.txt).
 
         String game = gamesPath + games[gameIdx] + ".txt";
         String level1 = gamesPath + games[gameIdx] + "_lvl" + levelIdx +".txt";
@@ -115,7 +116,13 @@ public class Test
         String[] actionFiles = new String[L*M];
     	
         
-        int mode = 1;
+        int mode = 5;
+        
+/*        CustomGameRun test = new CustomGameRun();
+        File old = new File("testestest.txt");
+        File copy = new File("new.txt");
+        test.readFromFile(old);
+        test.writeToFile(copy);      */ // only for testing reading/writing
         
         switch (mode) {
         case 1:
@@ -151,9 +158,9 @@ public class Test
             		// first check if we can skip this bot/game combination:
             		boolean skip = true;
             		for(int j = 0; j < L; ++j){
-        				File save = new File("records/raw_data/" 
+        				File save = new File("src/shallowThought/RECORD/offline/" 
 								+ bot.substring(0, bot.length()-6) 
-								+ "_game_" + i + "_level_" + j + "_" + playEachLevelMax + ".txt");
+								+ "_game_" + i + "_level_" + j + "_" + playEachLevelMax + "_actions.txt");
         				if (!save.exists() || save.length() == 0) {
         					skip = false;
         				}
@@ -163,14 +170,14 @@ public class Test
             			levels[j] = gamesPath + games[i] + "_lvl" + j +".txt";
             			if(saveActions) { /*for(int k = 0; k < M; ++k)*/
             				int k = 0;
-            				File save = new File("records/raw_data/" 
+            				File save = new File("src/shallowThought/RECORD/offline/"
 									+ bot.substring(0, bot.length()-6) 
-									+ "_game_" + i + "_level_" + j + "_" + k + ".txt");
+									+ "_game_" + i + "_level_" + j + "_" + k + "_actions.txt");
             				while (save.exists() && save.length() != 0) {
                 				k++;
-            					save = new File("records/raw_data/" 
+            					save = new File("src/shallowThought/RECORD/offline/"
                 					+ bot.substring(0, bot.length()-6) 
-    								+ "_game_" + i + "_level_" + j + "_" + k + ".txt");
+    								+ "_game_" + i + "_level_" + j + "_" + k + "_actions.txt");
             				}
             				actionFiles[j] = save.toString();
             			}
