@@ -114,84 +114,77 @@ public class CustomState {
      * @param file File to write the level to.
      * @return Nothing I guess
      */
-    public void writeToFile(File file, boolean append) {
-        BufferedWriter writer;
-    	try {
-        	boolean logEverything = true;
-        	// parameters:
-        	if(!file.exists()){file.createNewFile();}
-        	writer = new BufferedWriter(new FileWriter(file, append));
-        	// Write avatar information
-        	writer.write(avatarPos.toString());
-        	writer.write(',');
-        	writer.write(avatarOri.toString());
-        	writer.write(',');
-        	writer.write(String.valueOf(avatarType));
-        	writer.write(',');
-        	writer.write(String.valueOf(avatarSpeed));
-        	writer.write(',');
-        	if (avatarRes != null) {
-        		Iterator it = avatarRes.entrySet().iterator();
-        	    while (it.hasNext()) {
-        	        Map.Entry pair = (Map.Entry)it.next();
-        	        writer.write(pair.getKey() + " : " + pair.getValue());
-        	        it.remove(); // avoids a ConcurrentModificationException
-        	        if (it.hasNext()) writer.write("|");
-        	    }
-        	} else {
-        		//writer.write("None");
-        	}
-        	writer.write(',');
-        	// Write other state-observations
-        	ArrayList<ArrayList<ArrayList<CustomObservation>>> observations = new ArrayList<ArrayList<ArrayList<CustomObservation>>>();
-            observations.add(npcPos);
-        	observations.add(immovPos);
-        	observations.add(movPos);
-        	observations.add(resPos);
-        	observations.add(portalPos);
-        	observations.add(spritesByAvatar);
-        	for (ArrayList<ArrayList<CustomObservation>> list : observations) {
-            	if (list != null) {
-            		for (ArrayList<CustomObservation> innerList : list) {
-	                    if (! (list.indexOf(innerList) == 0))writer.write("#"); //Delimiting different types of sprites of object
-	                    for (int j=0; j<innerList.size(); j++) {
-	                     	if (! (j==0)) {writer.write("|");}
-	                        writer.write(innerList.get(j).toString());                   
-	                    }
-            		}
-                } else {
-                	//writer.write("None");
-               	}
-                writer.write(",");
-            }
-        	// Write general levelinformation (size, etc.)
-        	writer.write(String.valueOf(worldDimWidth));
-        	writer.write(',');
-            writer.write(String.valueOf(worldDimHeight));
-        	writer.write(',');
-            writer.write(String.valueOf(blockSize));
-        	writer.write(',');
-            writer.write(avatarLastAction.toString());
-        	writer.write(',');
-        	if (eventHistory != null) {
-        		Iterator it = eventHistory.iterator();
-        	    while (it.hasNext()) {
-        	        writer.write(it.next().toString());
-        	        it.remove(); // avoids a ConcurrentModificationException
-        	        if (it.hasNext()) writer.write("|");  // only write | if there is something coming afterwards
-        	    }
-        	} else {
-        		//writer.write("None");
-        	}
-        	writer.write(',');
-            writer.write(String.valueOf(gameScore));
-            writer.write(',');
-            writer.write(String.valueOf(gameTick));
-            writer.write("\r\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String toString() {
+        String cs = "";
+        boolean logEverything = true;
+        // Write avatar information
+    	cs += (avatarPos.toString());
+    	cs += (',');
+    	cs += (avatarOri.toString());
+    	cs += (',');
+    	cs += (String.valueOf(avatarType));
+    	cs += (',');
+    	cs += (String.valueOf(avatarSpeed));
+    	cs += (',');
+    	if (avatarRes != null) {
+    		Iterator it = avatarRes.entrySet().iterator();
+    	    while (it.hasNext()) {
+    	        Map.Entry pair = (Map.Entry)it.next();
+    	        cs += (pair.getKey() + " : " + pair.getValue());
+    	        it.remove(); // avoids a ConcurrentModificationException
+    	        if (it.hasNext()) cs += ("|");
+    	    }
+    	} else {
+    		//cs += ("None");
+    	}
+    	cs += (',');
+    	// Write other state-observations
+    	ArrayList<ArrayList<ArrayList<CustomObservation>>> observations = new ArrayList<ArrayList<ArrayList<CustomObservation>>>();
+        observations.add(npcPos);
+    	observations.add(immovPos);
+    	observations.add(movPos);
+    	observations.add(resPos);
+    	observations.add(portalPos);
+    	observations.add(spritesByAvatar);
+    	for (ArrayList<ArrayList<CustomObservation>> list : observations) {
+        	if (list != null) {
+        		for (ArrayList<CustomObservation> innerList : list) {
+                    if (! (list.indexOf(innerList) == 0))cs += ("#"); //Delimiting different types of sprites of object
+                    for (int j=0; j<innerList.size(); j++) {
+                     	if (! (j==0)) {cs += ("|");}
+                        cs += (innerList.get(j).toString());                   
+                    }
+        		}
+            } else {
+            	//cs += ("None");
+           	}
+            cs += (",");
         }
+    	// Write general levelinformation (size, etc.)
+    	cs += (String.valueOf(worldDimWidth));
+    	cs += (',');
+        cs += (String.valueOf(worldDimHeight));
+    	cs += (',');
+        cs += (String.valueOf(blockSize));
+    	cs += (',');
+        cs += (avatarLastAction.toString());
+    	cs += (',');
+    	if (eventHistory != null) {
+    		Iterator it = eventHistory.iterator();
+    	    while (it.hasNext()) {
+    	        cs += (it.next().toString());
+    	        it.remove(); // avoids a ConcurrentModificationException
+    	        if (it.hasNext()) cs += ("|");  // only write | if there is something coming afterwards
+    	    }
+    	} else {
+    		//cs += ("None");
+    	}
+    	cs += (',');
+        cs += (String.valueOf(gameScore));
+        cs += (',');
+        cs += (String.valueOf(gameTick));
+        cs += ("\r\n");
+        return cs;
     }
 
     /**
@@ -299,7 +292,7 @@ public class CustomState {
 	}
 
 
-	private wVector2d stringToVector(String s) {
+	private Vector2d stringToVector(String s) {
 		String[] splitted = s.split(" : ");
 		return new Vector2d(Double.parseDouble(splitted[0]),Double.parseDouble(splitted[1])); 
 	}

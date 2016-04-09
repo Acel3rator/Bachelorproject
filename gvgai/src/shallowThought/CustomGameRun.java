@@ -1,9 +1,11 @@
 package shallowThought;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,10 +83,17 @@ public class CustomGameRun {
 	 * @param file
 	 */
 	public void writeToFile(File file) {
-		System.out.println(customState.size());
-		for (CustomState cs : customState) {
-			if (customState.indexOf(cs) == 0) {cs.writeToFile(file, false);}
-			else {cs.writeToFile(file, true);}
+		// System.out.println(customState.size());
+	    BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter(file));
+			for (CustomState cs : customState) {
+			writer.write(cs.toString());
+			}
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
