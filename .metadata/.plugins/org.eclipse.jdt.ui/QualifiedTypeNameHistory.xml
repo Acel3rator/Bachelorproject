@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="ontology.Types.ACTIONS"/>
+<fullyQualifiedTypeName name="shallowThought.AbstractSubAgent"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+<fullyQualifiedTypeName name="org.neuroph.core.NeuralNetwork"/>
+<fullyQualifiedTypeName name="org.neuroph.nnet.Perceptron"/>
+<fullyQualifiedTypeName name="org.neuroph.core.data.DataSet"/>
+<fullyQualifiedTypeName name="org.neuroph.nnet.MultiLayerPerceptron"/>
+<fullyQualifiedTypeName name="org.neuroph.nnet.learning.BackPropagation"/>
+<fullyQualifiedTypeName name="org.neuroph.core.events.LearningEventListener"/>
+<fullyQualifiedTypeName name="org.neuroph.core.events.LearningEvent"/>
+<fullyQualifiedTypeName name="org.neuroph.core.data.DataSetRow"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+</qualifiedTypeNameHistroy>

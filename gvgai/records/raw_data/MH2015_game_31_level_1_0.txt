@@ -1,0 +1,5 @@
+757569735
+0,0.0,ACTION_DOWN
+1,0.0,ACTION_USE
+finalScore: 1.0
+didWin: 1

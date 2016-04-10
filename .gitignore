@@ -1,7 +1,14 @@
+# standart files and cache
 *.class
+*~
+*.txt
+*.pdf
+*.dat
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+.metadata/
+.classpath
 
 # Package Files #
 *.jar
