@@ -226,7 +226,7 @@ public class Secretary {
      */
     public void writeLevelToFile(File file, StateObservation so) {
     	CustomState cs = new CustomState(so);
-    	cs.writeToFile(file, true);
+    	cs.writeToFile(file);
     }
 
     

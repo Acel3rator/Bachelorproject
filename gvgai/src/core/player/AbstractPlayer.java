@@ -4,6 +4,7 @@ import core.game.Game;
 import core.game.Observation;
 import core.game.StateObservation;
 import ontology.Types;
+import shallowThought.CustomGameRun;
 import shallowThought.CustomState;
 import tools.ElapsedCpuTimer;
 
@@ -32,6 +33,16 @@ public abstract class AbstractPlayer {
      * Writer for the actions file.
      */
     private BufferedWriter writer;
+
+    /**
+     * File for level-log
+     */
+    private File envLog;
+
+    /**
+     * CustomStateSaving (for levellogging)
+     */
+    private CustomGameRun cgr;
 
     /**
      * Set this variable to FALSE to avoid logging the actions to a file.
@@ -69,7 +80,8 @@ public abstract class AbstractPlayer {
             {
                 writer = new BufferedWriter(new FileWriter(new File(this.actionFile)));
                 writer.write(randomSeed + "\r\n");
-                
+    			envLog = new File(actionFile.substring(0, actionFile.length()-11) + "env.txt"); // -11 for actions.txt (replace suiffix)
+    			cgr = new CustomGameRun();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,6 +95,7 @@ public abstract class AbstractPlayer {
         try {
             if(writer!=null) {
                 writer.close();
+                cgr.writeToFile(envLog);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,9 +170,7 @@ public abstract class AbstractPlayer {
 
 	public void logLevel(StateObservation observation) {
 		if(writer!=null && SHOULD_LOG) {
-            CustomState cs = new CustomState(observation);
-			File f = new File(actionFile.substring(0, actionFile.length()-11) + "env.txt"); // -11 for actions.txt (replace suiffix)
-			cs.writeToFile(f, true);
+	        cgr.update(observation);
 		}
 	}	
 }

@@ -23,7 +23,7 @@ class AgentEval:
 
         gameNames = self.games[:]
 
-	    # Split into training/validation/test
+	# Split into training/validation/test
         train, validation, test = [], [], []
         while (len(train) < 40):
             level = random.choice(gameNames)
@@ -51,7 +51,7 @@ class AgentEval:
             for game in part:
                 for level in range(5):
                     try:                    
-                        # critical part (right now just use env in beginning of game):
+                        # critical part (right now just use env in beginning of game on yolobots turn):
                         #self.data[bot][game][level][run][2]
                         
                         env = self.data[self.bots[0]][self.games.index(game)][level][0][1][0][1] # i feel bad :(

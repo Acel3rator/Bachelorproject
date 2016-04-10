@@ -51,43 +51,18 @@ public class Test
         String games[] = new String[]{};
         String allGames[] = new String[]{};
 
-        //Training Set 1 (2015; CIG 2014)
-        games = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
-                "missilecommand", "portals", "sokoban", "survivezombies", "zelda"};
-
-        //Training Set 2 (2015; Validation CIG 2014)
-        //games = new String[]{"camelRace", "digdug", "firestorms", "infection", "firecaster",
-        //      "overload", "pacman", "seaquest", "whackamole", "eggomania"};
-
-        //Training Set 3 (2015)
-        //games = new String[]{"bait", "boloadventures", "brainman", "chipschallenge",  "modality",
-        //                              "painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle"};
-
-        //Training Set 4 (Validation GECCO 2015, Test CIG 2014)
-        //games = new String[]{"roguelike", "surround", "catapults", "plants", "plaqueattack",
-        //      "jaws", "labyrinth", "boulderchase", "escape", "lemmings"};
-
-        //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
-        //games = new String[]{ "solarfox", "defender", "enemycitadel", "crossfire", "lasers",
-        //                             "sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky"};
-
-        //Training Set 6 (Validation CEEC 2015)
-        //games = new String[]{"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
-        //        "intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
-
-        allGames = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",
+        allGames = new String[]{"aliens", "boulderdash", "butterflies", "chase", "frogs",    //Training Set 1 (2015; CIG 2014)
                 /*5*/"missilecommand", "portals", "sokoban", "survivezombies", "zelda",
-                /*10*/"camelRace", "digdug", "firestorms", "infection", "firecaster",
+                /*10*/"camelRace", "digdug", "firestorms", "infection", "firecaster",        //Training Set 2 (2015; Validation CIG 2014)
                 /*15*/"overload", "pacman", "seaquest", "whackamole", "eggomania",
-        		/*20*/"bait", "boloadventures", "brainman", "chipschallenge",  "modality",
+        		/*20*/"bait", "boloadventures", "brainman", "chipschallenge",  "modality",   //Training Set 3 (2015)
         		/*25*/"painter", "realportals", "realsokoban", "thecitadel", "zenpuzzle",
-        		/*30*/"roguelike", "surround", "catapults", "plants", "plaqueattack",
+        		/*30*/"roguelike", "surround", "catapults", "plants", "plaqueattack",        //Training Set 4 (Validation GECCO 2015, Test CIG 2014)
         		/*35*/"jaws", "labyrinth", "boulderchase", "escape", "lemmings",
-        		/*40*/"solarfox", "defender", "enemycitadel", "crossfire", "lasers",
+        		/*40*/"solarfox", "defender", "enemycitadel", "crossfire", "lasers",         //Training Set 5 (Validation CIG 2015, Test GECCO 2015)
         		/*45*/"sheriff", "chopper", "superman", "waitforbreakfast", "cakybaky",
-        		/*50*/"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2",
+        		/*50*/"lasers2", "hungrybirds" ,"cookmepasta", "factorymanager", "racebet2", //Training Set 6 (Validation CEEC 2015)
                 /*55*/"intersection", "blacksmoke", "iceandfire", "gymkhana", "tercio"};
-
 
         //Other settings
         boolean visuals = true;
@@ -98,8 +73,8 @@ public class Test
         games = allGames;  // if you don't distinguish between sets
 
 
-        int gameIdx = Arrays.asList(allGames).indexOf("chipschallenge");
-        int levelIdx = 4; //level names from 0 to 4 (game_lvlN.txt).
+        int gameIdx = Arrays.asList(allGames).indexOf("hungrybirds");
+        int levelIdx =4; //level names from 0 to 4 (game_lvlN.txt).
 
         String game = gamesPath + games[gameIdx] + ".txt";
         String level1 = gamesPath + games[gameIdx] + "_lvl" + levelIdx +".txt";
@@ -150,7 +125,7 @@ public class Test
             String[] bots = new String[]{
             		YOLOBOT, YBCriber, TUDarmstadtTeam2, /*thorbjrn,*/ SJA862,
             		/*Return42, psuko,*/ NovTea, MH2015, alxio};
-            int playEachLevelMax = 1;  // 0 = 1 time, 1 = 2 times, ...
+            int playEachLevelMax = 0;  // 0 = 1 time, 1 = 2 times, ...
             for (String bot : bots) {
             	for(int i = 0; i < N; ++i)
             	{
